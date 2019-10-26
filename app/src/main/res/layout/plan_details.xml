@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/plan_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/amount_background"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="@+id/plan_talktime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="149" />
+
+    <TextView
+        android:id="@+id/plan_validity"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/plan_select_button"
+        app:layout_constraintStart_toEndOf="@+id/plan_amount"
+        app:layout_constraintTop_toTopOf="@+id/plan_select_button"
+        tools:text="Validity: 28 days" />
+
+    <TextView
+        android:id="@+id/plan_talktime"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/plan_select_button"
+        app:layout_constraintEnd_toEndOf="@+id/plan_validity"
+        app:layout_constraintStart_toStartOf="@+id/plan_validity"
+        app:layout_constraintTop_toBottomOf="@+id/plan_validity"
+        tools:text="TalkTime: N/A" />
+
+    <TextView
+        android:id="@+id/plan_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plan_talktime"
+        tools:text="For Prime Customers Only: Rs 149 Plan Benefits: a. Free Jio to Jio calls Jio to Non-Jio Mobile - 6paisa\/min Unlimited Data (1.5GB High Speed Data per day there after unlimited at 64Kbps) 100SMS\/day and Complimentary Subscription to Jio Apps. Validity: 28days b. Rs.20 IUC Pack Benefits: Rs. 14.95" />
+
+    <Button
+        android:id="@+id/plan_select_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/radio_b"
+        android:text="Select"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

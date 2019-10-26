@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "101564073797",
+    "firebase_url": "https://formax-846fa.firebaseio.com",
+    "project_id": "formax-846fa",
+    "storage_bucket": "formax-846fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101564073797:android:99d92966d921422492602c",
+        "android_client_info": {
+          "package_name": "com.rechargeweb.rechargeweb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101564073797-9qd96dssqn1498j3mf2r3kcn040k2a1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqlCQ_yraN7WNRwGFOltYX0drztoJ5pxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101564073797-9qd96dssqn1498j3mf2r3kcn040k2a1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

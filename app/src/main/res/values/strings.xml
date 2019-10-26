@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Formax Pay</string>
+    <!-- -->
+    <string name="auth_key"></string>
+    <string name="token"></string>
+
+    <string name="base_url">https://www.rechargewebs.com/web/api/</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_id">Password</string>
+    <string name="enter_user_id">Enter Log in id</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="agree_to_tems_notice">By Logging in, you are agree to our Terms and Conditions and that you have read out privacy policy</string>
+    <string name="secure_login">Secure LogIn</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="retailer_access">retailer_access</string>
+    <string name="loginsuccess">Log in Successfully</string>
+    <string name="enteruserid">Enter User Id to Log In</string>
+    <string name="enterpassword">Enter Password to Log In</string>
+    <string name="enteridandpass"><![CDATA[Enter User Id & Password]]></string>
+    <string name="bank_details">Bank Details</string>
+    <string name="change_password">Change Password</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="log_out">Log Out</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="recharge_amp_bill_payments"><![CDATA[Recharge & Bill Payments]]></string>
+    <string name="sign_in">Sign In</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="prepaid">Prepaid</string>
+    <string name="postpaid">Postpaid</string>
+    <string name="recharge">Recharge</string>
+    <string name="user_id">User Id</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="amount">Amount</string>
+    <string name="browse_plans">Browse Plans</string>
+    <string name="txn_id">Txn Id:</string>
+    <string name="opt_txn_id">Opt Txn Id:</string>
+    <string name="select_operator"> --Select Operator--</string>
+    <string name="view_more">View More</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+
+    <string name="wallet_1">Wallet 1</string>
+    <string name="wallet_2">Wallet 2</string>
+    <string name="fund_submit_button">Submit</string>
+    <string name="select_board">--Select Board--</string>
+    <string name="new_user_register_here">New User? Register Here</string>
+    <string name="my_app_url">https://play.google.com/store/apps/details?id=com.rechargeweb.rechargeweb</string>
+    <string name="update_message">This version of app is out dated. New version is available on Play Store. Please Update the app to the latest version</string>
+    <string name="about_place_holder"><![CDATA[Formax IT Solutions Private Limited is India\'s most recommended Web Development & Software Development company in India
+     providing world-class software & web development solutions for its clients since 2017.
+     Formax IT Solutions Private Limited was founded in year 2017 by a team of IT Experts,]]></string>
+    <string name="select_type">--Select Type--</string>
+    <string name="select_walet">--Select Wallet--</string>
+    <string name="note_validate">Note: You will charged RS/- 4 to get name by validating your account or you can enter name manually</string>
+
+    <integer name="swing_anim_time">750</integer>
+</resources>

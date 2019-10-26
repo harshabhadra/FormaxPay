@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:padding="8dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView40"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Psa Id"
+            app:layout_constraintBottom_toBottomOf="@+id/psa_id_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/psa_id_tv" />
+
+        <TextView
+            android:id="@+id/psa_id_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView40"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView46"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            app:layout_constraintBottom_toBottomOf="@+id/name_tv"
+            app:layout_constraintEnd_toEndOf="@+id/textView59"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/name_tv" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="@+id/psa_id_tv"
+            app:layout_constraintStart_toStartOf="@+id/psa_id_tv"
+            app:layout_constraintTop_toBottomOf="@+id/psa_id_tv" />
+
+        <TextView
+            android:id="@+id/quanitity_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="@+id/name_tv"
+            app:layout_constraintStart_toStartOf="@+id/name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/name_tv" />
+
+        <TextView
+            android:id="@+id/textView52"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            app:layout_constraintBottom_toBottomOf="@+id/quanitity_tv"
+            app:layout_constraintEnd_toEndOf="@+id/textView59"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/quanitity_tv" />
+
+        <TextView
+            android:id="@+id/txn_tv_c"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/couponPrice"
+            app:layout_constraintTop_toBottomOf="@+id/couponPrice" />
+
+        <TextView
+            android:id="@+id/textView55"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Txn Id"
+            app:layout_constraintBottom_toBottomOf="@+id/txn_tv_c"
+            app:layout_constraintEnd_toEndOf="@+id/textView59"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txn_tv_c" />
+
+        <TextView
+            android:id="@+id/status_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txn_tv_c"
+            app:layout_constraintTop_toBottomOf="@+id/txn_tv_c" />
+
+        <TextView
+            android:id="@+id/textView57"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            app:layout_constraintBottom_toBottomOf="@+id/status_tv"
+            app:layout_constraintEnd_toEndOf="@+id/textView59"
+            app:layout_constraintStart_toStartOf="@+id/textView59"
+            app:layout_constraintTop_toTopOf="@+id/status_tv" />
+
+        <TextView
+            android:id="@+id/created_on_tv"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="@+id/status_tv"
+            app:layout_constraintStart_toStartOf="@+id/status_tv"
+            app:layout_constraintTop_toBottomOf="@+id/status_tv" />
+
+        <TextView
+            android:id="@+id/textView59"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Created on"
+            app:layout_constraintBottom_toBottomOf="@+id/created_on_tv"
+            app:layout_constraintEnd_toStartOf="@+id/created_on_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/created_on_tv"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView64"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            style="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@+id/couponPrice"
+            app:layout_constraintEnd_toEndOf="@+id/textView59"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/couponPrice" />
+
+        <TextView
+            android:id="@+id/couponPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="TextView"
+            style="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintEnd_toEndOf="@+id/quanitity_tv"
+            app:layout_constraintStart_toStartOf="@+id/quanitity_tv"
+            app:layout_constraintTop_toBottomOf="@+id/quanitity_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

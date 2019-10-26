@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/unable_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text=" Unable to Fetch Data "
+        android:textSize="20sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/card_back_red"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/operators_recyclerView"
+        android:layout_width="match_parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="16dp"
+        android:background="#e0e0e0"
+        android:layout_height="match_parent"/>
+</LinearLayout>
