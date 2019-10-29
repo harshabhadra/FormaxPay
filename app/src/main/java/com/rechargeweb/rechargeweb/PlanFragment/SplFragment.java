@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rechargeweb.rechargeweb.Activity.PlansActivity;
@@ -35,6 +36,7 @@ public class SplFragment extends Fragment implements PlansAdapter.OnPlanItemClic
     private RecyclerView planRecycler;
     private TextView planTextView;
     private PlansAdapter plansAdapter;
+    private ProgressBar progressBar;
 
     private MainViewModel mainViewModel;
 
@@ -67,6 +69,7 @@ public class SplFragment extends Fragment implements PlansAdapter.OnPlanItemClic
 
         planRecycler = view.findViewById(R.id.plan_recycler);
         planTextView = view.findViewById(R.id.plan_text_view);
+        progressBar = view.findViewById(R.id.browse_plan_loading);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         plansAdapter = new PlansAdapter(getContext(),SplFragment.this);
@@ -90,10 +93,12 @@ public class SplFragment extends Fragment implements PlansAdapter.OnPlanItemClic
     @Override
     public void onResume() {
         super.onResume();
+        progressBar.setVisibility(View.VISIBLE);
         mainViewModel.getRechargePlans(token,"SPL",circleId,optId).observe(this, new Observer<List<PlanDetails>>() {
             @Override
             public void onChanged(List<PlanDetails> planDetails) {
 
+                progressBar.setVisibility(View.GONE);
                 if (planDetails != null){
                         PlanDetails details = planDetails.get(0);
                         if (details.getTalkTime() == null || details.getTalkTime().isEmpty()){

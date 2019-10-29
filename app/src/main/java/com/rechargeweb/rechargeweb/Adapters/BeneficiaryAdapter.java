@@ -2,8 +2,6 @@ package com.rechargeweb.rechargeweb.Adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,13 +38,23 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
     String auth;
     String benId;
     String remId = "";
-    View view1;
 
-    public BeneficiaryAdapter(Context context,String auth) {
+    View deleteBenLayout;
+    View sendMoneyLayout;
+
+    String session_id;
+    String mobileNumebr;
+    String name;
+    String ifsc;
+    String account;
+
+    public BeneficiaryAdapter(Context context,String auth,String session_id,String mobileNumebr) {
 
         inflater = LayoutInflater.from(context);
         this.auth = auth;
         this.context = context;
+        this.session_id = session_id;
+        this.mobileNumebr = mobileNumebr;
         beneficiaryViewModel = ViewModelProviders.of((RemitterActivity)context).get(BeneficiaryViewModel.class);
     }
 
@@ -56,7 +63,8 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
     public BeneficiaryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         BeneficiaryViewHolder view =  new BeneficiaryViewHolder(inflater.inflate(R.layout.beneficiary_item,parent,false));
 
-        view1 = inflater.inflate(R.layout.delete_beneficiary_layout, null);
+        deleteBenLayout = inflater.inflate(R.layout.delete_beneficiary_layout, null);
+        sendMoneyLayout = inflater.inflate(R.layout.transfer_money,null);
         return view;
     }
 
@@ -65,9 +73,14 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
 
         if (beneficiaryList != null){
 
-            holder.sucessName.setText(beneficiaryList.get(position).getLastSuccessName());
-            holder.accountNum.setText("A/C: " + beneficiaryList.get(position).getAccount());
-            holder.ifscCode.setText("IFSC: " +beneficiaryList.get(position).getIfsc());
+
+            name = beneficiaryList.get(position).getLastSuccessName();
+            ifsc = beneficiaryList.get(position).getIfsc();
+            account = beneficiaryList.get(position).getAccount();
+            benId = beneficiaryList.get(position).getId();
+            holder.sucessName.setText(name);
+            holder.accountNum.setText("A/C: "+account);
+            holder.ifscCode.setText("IFSC: " + ifsc);
             holder.successDate.setText("Last Success: " + beneficiaryList.get(position).getLast_success_date());
         }
 
@@ -75,24 +88,57 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
             @Override
             public void onClick(View v) {
 
+                final TextInputLayout textInputLayout = sendMoneyLayout.findViewById(R.id.textInputLayout_send_money);
+                final TextInputEditText amontEd = sendMoneyLayout.findViewById(R.id.send_money_text_input);
+
+                final Button sendButton = sendMoneyLayout.findViewById(R.id.send_money_button);
+                final ProgressBar loading = sendMoneyLayout.findViewById(R.id.send_money_loading);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.AddBeneficiaryDialog);
+                builder.setView(sendMoneyLayout);
+
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+
+                sendButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String amount = amontEd.getText().toString().trim();
+                        if (amount.isEmpty()){
+                            textInputLayout.setError("Enter Amount");
+                        }else {
+                            loading.setVisibility(View.VISIBLE);
+                            sendButton.setVisibility(View.GONE);
+                            beneficiaryViewModel.transferMoney(session_id,auth,mobileNumebr,remId,name,ifsc,account,benId,amount).observe((RemitterActivity) context, new Observer<String>() {
+                                @Override
+                                public void onChanged(String s) {
+                                    loading.setVisibility(View.INVISIBLE);
+                                    sendButton.setVisibility(View.VISIBLE);
+                                    dialog.dismiss();
+                                    Toast.makeText(context,s,Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final TextView textView = view1.findViewById(R.id.delete_ben_message_tv);
-                Button confirm = view1.findViewById(R.id.confirm_delete_ben);
-                Button cancel = view1.findViewById(R.id.cancel_delete_ben);
-                final Button delete = view1.findViewById(R.id.delete_bene_button);
-                final TextInputLayout textInputLayout = view1.findViewById(R.id.enter_delete_otp_layout);
-                final TextInputEditText otpEdit = view1.findViewById(R.id.enter_delete_otp_input);
-                final Group confirmGroup = view1.findViewById(R.id.confirmation_group);
-                final Group deleteGroup = view1.findViewById(R.id.delete_group);
-                final ProgressBar loading = view1.findViewById(R.id.delete_ben_loading);
+                final TextView textView = deleteBenLayout.findViewById(R.id.delete_ben_message_tv);
+                Button confirm = deleteBenLayout.findViewById(R.id.confirm_delete_ben);
+                Button cancel = deleteBenLayout.findViewById(R.id.cancel_delete_ben);
+                final Button delete = deleteBenLayout.findViewById(R.id.delete_bene_button);
+                final TextInputLayout textInputLayout = deleteBenLayout.findViewById(R.id.enter_delete_otp_layout);
+                final TextInputEditText otpEdit = deleteBenLayout.findViewById(R.id.enter_delete_otp_input);
+                final Group confirmGroup = deleteBenLayout.findViewById(R.id.confirmation_group);
+                final Group deleteGroup = deleteBenLayout.findViewById(R.id.delete_group);
+                final ProgressBar loading = deleteBenLayout.findViewById(R.id.delete_ben_loading);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setView(view1);
+                builder.setView(deleteBenLayout);
 
                 final AlertDialog dialog = builder.create();
                 dialog.show();
@@ -109,7 +155,7 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
                     public void onClick(View v) {
                         confirmGroup.setVisibility(View.GONE);
                         loading.setVisibility(View.VISIBLE);
-                        benId = beneficiaryList.get(position).getId();
+
                         beneficiaryViewModel.deleteBeneficiary(auth,benId,remId).observe((RemitterActivity)context, new Observer<AddBeneficiary>() {
                             @Override
                             public void onChanged(AddBeneficiary addBeneficiary) {
@@ -196,7 +242,7 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
         TextView ifscCode;
         TextView successDate;
 
-        Button transferButton;
+        ImageView transferButton;
         ImageView deleteButton;
 
         public BeneficiaryViewHolder(@NonNull View itemView) {

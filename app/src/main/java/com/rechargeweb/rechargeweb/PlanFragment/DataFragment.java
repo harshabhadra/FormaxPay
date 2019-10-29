@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rechargeweb.rechargeweb.Activity.PlansActivity;
@@ -33,6 +34,7 @@ public class DataFragment extends Fragment implements PlansAdapter.OnPlanItemCli
     RecyclerView planRecycler;
     TextView planTextView;
     PlansAdapter plansAdapter;
+    ProgressBar loading;
 
     MainViewModel mainViewModel;
 
@@ -63,6 +65,7 @@ public class DataFragment extends Fragment implements PlansAdapter.OnPlanItemCli
 
         planRecycler = view.findViewById(R.id.plan_recycler);
         planTextView = view.findViewById(R.id.plan_text_view);
+        loading = view.findViewById(R.id.browse_plan_loading);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         plansAdapter = new PlansAdapter(getContext(),DataFragment.this);
@@ -86,10 +89,11 @@ public class DataFragment extends Fragment implements PlansAdapter.OnPlanItemCli
     @Override
     public void onResume() {
         super.onResume();
+        loading.setVisibility(View.VISIBLE);
         mainViewModel.getRechargePlans(token,"DATA",circleId,optId).observe(this, new Observer<List<PlanDetails>>() {
             @Override
             public void onChanged(List<PlanDetails> planDetails) {
-
+                loading.setVisibility(View.GONE);
                 if (planDetails != null){
 
                     PlanDetails details = planDetails.get(0);

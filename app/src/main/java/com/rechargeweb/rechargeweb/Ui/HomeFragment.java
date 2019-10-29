@@ -132,10 +132,14 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     @Override
     public void onResume() {
         super.onResume();
-        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.swing_up_left);
+        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.move_from_right);
+        itemRecyclerView.startAnimation(animation);
 
         Animation animation1 = AnimationUtils.loadAnimation(getContext(),R.anim.move_from_left);
         moneyRecycler.startAnimation(animation1);
+
+        Animation animation2 = AnimationUtils.loadAnimation(getContext(),R.anim.swing_up_left);
+        bankingRecyclerView.setAnimation(animation2);
     }
 
     private void sendRequest(String id, String key) {

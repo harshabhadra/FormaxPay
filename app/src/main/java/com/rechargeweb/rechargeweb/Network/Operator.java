@@ -151,4 +151,21 @@ public interface Operator {
                                   @Field("remitter_id")String remitter_id,
                                   @Field("otp")String otp);
 
+    @POST("send_money")
+    @FormUrlEncoded
+    Call<String>transferMoney(@Field("user_id")String session_id,
+                              @Field("auth_key")String auth_key,
+                              @Field("mobile")String mobile,
+                              @Field("remitter_id")String remitter_id,
+                              @Field("name")String name,
+                              @Field("ifsc")String ifsc,
+                              @Field("account")String account,
+                              @Field("beneficiary_id")String bennificiaqry_id,
+                              @Field("amount")String amount);
+
+    @POST("aeps_login")
+    @FormUrlEncoded
+    Call<String>aepsLogIn(@Field("user_id")String session_id,
+                          @Field("service_type")String service_type,
+                          @Field("auth_key")String auth_key);
 }

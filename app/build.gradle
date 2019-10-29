@@ -6,8 +6,8 @@ android {
         applicationId 'com.rechargeweb.rechargeweb'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 6
-        versionName "3.0.2"
+        versionCode 7
+        versionName "3.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -75,5 +75,16 @@ dependencies {
     implementation 'com.google.firebase:firebase-config:19.0.3'
 
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation(name:'aepslib', ext:'aar')
+
+    def room_version = "2.2.1"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 }
 apply plugin: 'com.google.gms.google-services'

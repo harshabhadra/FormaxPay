@@ -16,68 +16,69 @@
         <TextView
             android:id="@+id/textView40"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Psa Id"
-            app:layout_constraintBottom_toBottomOf="@+id/psa_id_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/psa_id_tv" />
+            android:layout_marginTop="8dp"
+            android:paddingEnd="8dp"
+            android:text="PSA Id"
+            app:layout_constraintEnd_toEndOf="@+id/textView59"
+            app:layout_constraintStart_toStartOf="@+id/textView59"
+            app:layout_constraintTop_toBottomOf="@+id/textView59" />
 
         <TextView
             android:id="@+id/psa_id_tv"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView40"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView40"
+            app:layout_constraintEnd_toEndOf="@+id/created_on_tv"
+            app:layout_constraintStart_toStartOf="@+id/created_on_tv"
+            app:layout_constraintTop_toTopOf="@+id/textView40" />
 
         <TextView
             android:id="@+id/textView46"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Name"
             app:layout_constraintBottom_toBottomOf="@+id/name_tv"
-            app:layout_constraintEnd_toEndOf="@+id/textView59"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/name_tv" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name_tv"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/psa_id_tv"
-            app:layout_constraintStart_toStartOf="@+id/psa_id_tv"
-            app:layout_constraintTop_toBottomOf="@+id/psa_id_tv" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView59"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/quanitity_tv"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="@+id/name_tv"
-            app:layout_constraintStart_toStartOf="@+id/name_tv"
+            app:layout_constraintStart_toEndOf="@+id/textView59"
             app:layout_constraintTop_toBottomOf="@+id/name_tv" />
 
         <TextView
             android:id="@+id/textView52"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Quantity"
             app:layout_constraintBottom_toBottomOf="@+id/quanitity_tv"
             app:layout_constraintEnd_toEndOf="@+id/textView59"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView46"
             app:layout_constraintTop_toTopOf="@+id/quanitity_tv" />
 
         <TextView
@@ -94,13 +95,12 @@
         <TextView
             android:id="@+id/textView55"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="Txn Id"
             app:layout_constraintBottom_toBottomOf="@+id/txn_tv_c"
             app:layout_constraintEnd_toEndOf="@+id/textView59"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView59"
             app:layout_constraintTop_toTopOf="@+id/txn_tv_c" />
 
         <TextView
@@ -117,7 +117,7 @@
         <TextView
             android:id="@+id/textView57"
             style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Status"
             app:layout_constraintBottom_toBottomOf="@+id/status_tv"
@@ -141,24 +141,21 @@
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
             android:text="Created on"
             app:layout_constraintBottom_toBottomOf="@+id/created_on_tv"
-            app:layout_constraintEnd_toStartOf="@+id/created_on_tv"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView46"
             app:layout_constraintTop_toTopOf="@+id/created_on_tv"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView64"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Price"
-            style="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="@+id/couponPrice"
             app:layout_constraintEnd_toEndOf="@+id/textView59"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView52"
             app:layout_constraintTop_toTopOf="@+id/couponPrice" />
 
         <TextView

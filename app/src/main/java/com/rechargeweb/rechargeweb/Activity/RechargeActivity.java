@@ -237,6 +237,8 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                     providerText.setText(null);
                     providerText.setHint(getResources().getString(R.string.select_operator));
                     Picasso.get().load(R.mipmap.formax_icon).into(providerImage);
+                }else {
+                    mobileNumber = s.toString().trim();
                 }
 
             }

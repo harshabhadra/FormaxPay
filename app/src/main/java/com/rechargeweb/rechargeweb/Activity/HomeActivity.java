@@ -20,9 +20,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,23 +32,34 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.aeps.aepslib.AepsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Profile;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.Ui.HomeFragment;
 import com.rechargeweb.rechargeweb.Ui.ProfileFragment;
 import com.rechargeweb.rechargeweb.Ui.ReportFragment;
+import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
@@ -59,11 +72,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     private static final String APPLY_FORCE_UPDATE_KEY = "apply_force_update";
     private static final String SHOW_UPDATE_DIALOG_KEY = "show_update_dialog";
 
-
+    String bank,banReferenceNo, service,stanNo,transactionAmount,transtionId,transactionNo,uidNo;
     private boolean showUpdateDialog;
 
     //App url
     private String MY_APP_URL = "https://play.google.com/store/apps/details?id=com.rechargeweb.rechargeweb";
+
+    String auth;
 
     //version name variable
     private String version;
@@ -87,7 +102,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     String session_id, user_id;
 
+    String agentCode;
+
     Fragment active = homeFragment;
+
+    AllReportViewModel allReportViewModel;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -126,6 +145,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
         //Checking the location permission
         checkLocationPermission();
+
+
+        allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);
+
+        //Initialzing auth key
+        auth = getResources().getString(R.string.auth_key);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -297,11 +322,113 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 intent.putExtra(Constants.SESSION_ID,session_id);
                 startActivity(intent);
                 break;
+            case "AEPS":
+
+                View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setView(layout);
+                builder.setCancelable(false);
+
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+
+                allReportViewModel.aepsLogIn(session_id,"FI_AEPS",auth).observe(this, new Observer<AepsLogIn>() {
+                    @Override
+                    public void onChanged(AepsLogIn aepsLogIn) {
+                        dialog.dismiss();
+                        if (aepsLogIn != null){
+
+                            if (aepsLogIn.getMessage() == null){
+                                Toast.makeText(getApplicationContext(),aepsLogIn.getAgentId(),Toast.LENGTH_LONG).show();
+                            }else {
+                                agentCode = aepsLogIn.getAgentId();
+                                if (!agentCode.isEmpty()) {
+                                    Intent i = new Intent(HomeActivity.this, AepsActivity.class);
+                                    i.putExtra("agent_id", agentCode);
+                                    i.putExtra("developer_id", "Formax It Solutions Private Limited-ALI164557");
+                                    i.putExtra("password", "86sxv296zy");
+                                    i.putExtra("primary_color", R.color.colorPrimary);
+                                    i.putExtra("accent_color", R.color.colorAccent);
+                                    i.putExtra("primary_dark_color", R.color.colorPrimaryDark);
+                                    i.putExtra("clientTransactionId", createMultipleTransactionID());
+                                    startActivityForResult(i, 300);
+                                }else {
+                                    Toast.makeText(getApplicationContext(),"Please upload KYC Details to Our Website to enable AePS Services",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+                break;
             default:
                 Toast.makeText(getApplicationContext(), "Coming Soon", Toast.LENGTH_LONG).show();
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 300 && resultCode == RESULT_OK){
+            if (data != null) {
+                Log.e(TAG,"Data is full: " + data.toString());
+                String message = data.getStringExtra("message");
+
+                String status = data.getStringExtra("statusCode");
+
+                Log.e(TAG,"message: " + message + ", Status: " + status);
+                try {
+                    JSONObject jsonTransactionJsonObject = new JSONObject(data.getStringExtra("data"));
+                    bank = message+jsonTransactionJsonObject.getString("bankName");
+                    banReferenceNo = jsonTransactionJsonObject.getString("bankrefrenceNo");
+                    service = jsonTransactionJsonObject.getString("service");
+                    stanNo = jsonTransactionJsonObject.getString("stanNo");
+                    transactionAmount = jsonTransactionJsonObject.getString("transactionAmount");
+                    transtionId = jsonTransactionJsonObject.getString("transactionId");
+                    transactionNo = jsonTransactionJsonObject.getString("transactionNO");
+                    uidNo = jsonTransactionJsonObject.getString("uidNo");
+
+                    if (!bank.isEmpty() && !banReferenceNo.isEmpty() && !service.isEmpty() && !transactionAmount.isEmpty()) {
+                        showAepsDialog();
+                    }else {
+                        Toast.makeText(getApplicationContext(),"Empty Response",Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                Log.e(TAG,"Data is null");
+            }
+        }else {
+            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void showAepsDialog() {
+
+        View layout = getLayoutInflater().inflate(R.layout.aeps_dialog,null);
+
+        Button closeButton = layout.findViewById(R.id.aeps_close_button);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AddBeneficiaryDialog);
+        builder.setView(layout);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+    }
+
 
     @Override
     public void onReportClick(Items items) {
@@ -607,5 +734,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             e.printStackTrace();
         }
         return pInfo.versionName;
+    }
+
+    //Generate Checksum for aeps
+    public final String createMultipleTransactionID() {
+        String AgentTranID = "";
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSS");
+            Date date = new Date();
+            String tranID = sdf.format(date);
+            int n = 6;
+            Random randGen = new Random();
+            int startNum = (int) Math.pow(10, n - 1);
+            int range = (int) (Math.pow(10, n) - startNum);
+            int randomNum = randGen.nextInt(range) + startNum;
+            String ran = String.valueOf(randomNum);
+            AgentTranID = tranID + ran;
+        } catch (Throwable e) {
+
+            Log.e(TAG,e.getMessage());
+        }
+        return AgentTranID;
     }
 }

@@ -23,6 +23,10 @@ public class Remitter {
         this.per_txn_limit = per_txn_limit;
     }
 
+    public Remitter(String beneficiary_id) {
+        this.beneficiary_id = beneficiary_id;
+    }
+
     public String getBeneficiary_id() {
         return beneficiary_id;
     }

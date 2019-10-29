@@ -35,4 +35,9 @@ public class BeneficiaryViewModel extends ViewModel {
     public LiveData<AddBeneficiary>deleteBenValidation(String auth, String benId, String remId, String otp){
         return repository.deleteBenValidate(auth,benId,remId,otp);
     }
+
+    public LiveData<String>transferMoney(String session_id, String auth, String mobile, String remitter_id,String name, String ifsc, String account,String ben_id, String amount){
+
+        return repository.transferMoney(session_id,auth,mobile,remitter_id,name,ifsc,account,ben_id,amount);
+    }
 }

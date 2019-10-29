@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rechargeweb.rechargeweb.Activity.PlansActivity;
@@ -34,6 +35,7 @@ public class RmgFragment extends Fragment implements PlansAdapter.OnPlanItemClic
     RecyclerView planRecycler;
     TextView planTextView;
     PlansAdapter plansAdapter;
+    ProgressBar progressBar;
 
     MainViewModel mainViewModel;
 
@@ -62,6 +64,7 @@ public class RmgFragment extends Fragment implements PlansAdapter.OnPlanItemClic
 
         planRecycler = view.findViewById(R.id.plan_recycler);
         planTextView = view.findViewById(R.id.plan_text_view);
+        progressBar = view.findViewById(R.id.browse_plan_loading);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
@@ -87,10 +90,12 @@ public class RmgFragment extends Fragment implements PlansAdapter.OnPlanItemClic
     public void onResume() {
         super.onResume();
 
+        progressBar.setVisibility(View.VISIBLE);
         mainViewModel.getRechargePlans(token,"RMG",circleId,optId).observe(this, new Observer<List<PlanDetails>>() {
             @Override
             public void onChanged(List<PlanDetails> planDetails) {
 
+                progressBar.setVisibility(View.GONE);
                 if (planDetails != null){
 
                     PlanDetails details = planDetails.get(0);

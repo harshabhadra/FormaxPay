@@ -22,6 +22,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name="com.aeps.aepslib.AepsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".Activity.ValidateActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".Activity.HomeActivity">

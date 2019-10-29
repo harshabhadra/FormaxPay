@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.rechargeweb.rechargeweb.Model.AddBeneficiary;
+import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.Model.Beneficiary;
 import com.rechargeweb.rechargeweb.Model.BillPay;
@@ -156,8 +157,28 @@ public class Repository {
     //Store delete beneficiary validation message
     private MutableLiveData<AddBeneficiary> deleteBenValidationMutableLiveData = new MutableLiveData<>();
 
+    //Store transfer money message
+    private MutableLiveData<String>transferMutableLiveData = new MutableLiveData<>();
+
+    //Store aeps log in details
+    private MutableLiveData<AepsLogIn>aepsLogInMutableLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    //Aeps Log in
+    public LiveData<AepsLogIn>aepsLogIn(String session_id, String serviceType, String auth){
+
+        logInAeps(session_id,serviceType,auth);
+        return aepsLogInMutableLiveData;
+    }
+
+    //Transfer money to bank
+    public LiveData<String>transferMoney(String session_id, String auth, String mobile, String remitter_id,String name, String ifsc, String account,String ben_id, String amount){
+
+        sendMoney(session_id,auth,mobile,remitter_id,name,ifsc,account,ben_id,amount);
+       return transferMutableLiveData;
     }
 
     //delete beneficiary
@@ -1026,7 +1047,7 @@ public class Repository {
             public void onResponse(Call<ElectricStatus> call, Response<ElectricStatus> response) {
 
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "Electric response success: " + response.body());
+                    Log.e(TAG, "Electric response success: " + response.body().toString());
                     ElectricStatus electricStatus = new ElectricStatus(response.body().getStatus(), response.body().getCustomerId(),
                             response.body().getCustomerName(), response.body().getBillNumber(), response.body().getBillDate(), response.body().getBillDueDate(),
                             response.body().getBillPeriod(), response.body().getBillAmount(), response.body().getRefId(), response.body().getMessage());
@@ -1692,6 +1713,7 @@ public class Repository {
             public void onFailure(Call<String> call, Throwable t) {
 
                 Log.e(TAG, "Remitter response failure: " + t.getMessage());
+                remitterMutableLiveData.setValue(new Remitter(t.getMessage()));
             }
         });
     }
@@ -1719,25 +1741,34 @@ public class Repository {
                         JSONObject dataObject = jsonObject.optJSONObject("data");
                         JSONArray beneficiaryArray = dataObject.getJSONArray("beneficiary");
 
+                        if (!beneficiaryArray.isNull(0)){
+                            Log.e(TAG,"beneficiary array is not empty");
                         for (int i = 0; i < beneficiaryArray.length(); i++) {
 
-                            JSONObject object = beneficiaryArray.getJSONObject(i);
-                            String id = object.getString("id");
-                            String name = object.getString("name");
-                            String mobile = object.getString("mobile");
-                            String account = object.getString("account");
-                            String bank = object.getString("bank");
-                            String stat = object.getString("status");
-                            String last_suc_date = object.getString("last_success_date");
-                            String last_suc_name = object.getString("last_success_name");
-                            String last_suc_imps = object.getString("last_success_imps");
-                            String ifsc = object.getString("ifsc");
-                            String imps = object.getString("imps");
+                            JSONObject object = beneficiaryArray.optJSONObject(i);
+                                String id = object.optString("id");
+                                String name = object.optString("name");
+                                String mobile = object.optString("mobile");
+                                String account = object.optString("account");
+                                String bank = object.optString("bank");
+                                String stat = object.getString("status");
+                                String last_suc_date = object.optString("last_success_date");
+                                String last_suc_name = object.optString("last_success_name");
+                                String last_suc_imps = object.optString("last_success_imps");
+                                String ifsc = object.getString("ifsc");
+                                String imps = object.getString("imps");
 
-                            Beneficiary beneficiary = new Beneficiary(id, name, mobile, account, bank, stat, last_suc_date, last_suc_name, last_suc_imps, ifsc, imps);
-                            beneficiaryList.add(beneficiary);
-                            beneficiaryListMutableLiveData.setValue(beneficiaryList);
+                                Beneficiary beneficiary = new Beneficiary(id, name, mobile, account, bank, stat, last_suc_date, last_suc_name, last_suc_imps, ifsc, imps);
+                                beneficiaryList.add(beneficiary);
+                                beneficiaryListMutableLiveData.setValue(beneficiaryList);
+
                         }
+                        }else {
+                            Log.e(TAG,"beneficiary array is empty");
+                                String message ="Add Beneficiary";
+                                beneficiaryList.add(new Beneficiary(message));
+                                beneficiaryListMutableLiveData.setValue(beneficiaryList);
+                            }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1748,6 +1779,8 @@ public class Repository {
             public void onFailure(Call<String> call, Throwable t) {
 
                 Log.e(TAG, "Beneficiary response failed: " + t.getMessage());
+                beneficiaryList.add(new Beneficiary(t.getMessage()));
+                beneficiaryListMutableLiveData.setValue(beneficiaryList);
             }
         });
     }
@@ -1996,6 +2029,82 @@ public class Repository {
 
                 Log.e(TAG,"Delete validation response failure: " + t.getMessage());
                 deleteBenValidationMutableLiveData.setValue(new AddBeneficiary(t.getMessage()));
+            }
+        });
+    }
+
+    // Network call to send money to beneficiary
+    private void sendMoney(String session_id, String auth, String mobile, String remitter_id, String name,
+                           String ifsc, String account, String ben_id, String amount) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        Operator operator = retrofit.create(Operator.class);
+        Call<String>call = operator.transferMoney(session_id,auth,mobile,remitter_id,name,ifsc,account,ben_id,amount);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Transfer money response Successful" + response.body());
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        String message = jsonObject.getString("message");
+                        transferMutableLiveData.setValue(message);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Transfer money response Failure: " + t.getMessage());
+                transferMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network call to aeps log in
+    private void logInAeps(String session_id, String serviceType, String auth) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        Operator operator = retrofit.create(Operator.class);
+        Call<String>call = operator.aepsLogIn(session_id,serviceType,auth);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+
+                    Log.e(TAG,"Aeps login response Successful: "  + response.body());
+                    try {
+                        JSONArray jsonArray = new JSONArray(response.body());
+                        for (int i =0; i<jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            String agent_id = object.optString("agent_id");
+                            String message = object.optString("Success");
+
+                            AepsLogIn logIn = new AepsLogIn(agent_id,message);
+                            aepsLogInMutableLiveData.setValue(logIn);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Aeps log in failed: " + t.getMessage());
+                aepsLogInMutableLiveData.setValue(new AepsLogIn(t.getMessage()));
             }
         });
     }

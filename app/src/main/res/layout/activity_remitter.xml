@@ -122,6 +122,7 @@
                 android:fontFamily="@font/acme"
                 android:gravity="center"
                 android:text="Beneficiary"
+                android:padding="8dp"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,4 +153,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/beneficiary_error_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Add Beneficiary"
+        android:visibility="gone"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorPrimary"/>
+    <ProgressBar
+        android:id="@+id/beneficiary_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
