@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
+import com.rechargeweb.rechargeweb.AepsReport;
 import com.rechargeweb.rechargeweb.Model.CouponReport;
 import com.rechargeweb.rechargeweb.Model.Passbook;
 import com.rechargeweb.rechargeweb.Model.RechargeDetails;
@@ -68,5 +69,15 @@ public class AllReportViewModel extends ViewModel {
     public LiveData<AepsLogIn>aepsLogIn(String session_id, String serviceType, String auth){
 
         return repository.aepsLogIn(session_id,serviceType,auth);
+    }
+
+    //Get list of aeps report
+    public LiveData<List<AepsReport>>getAepsReport(String session_id, String auth){
+        return repository.getAepsReportList(session_id,auth);
+    }
+
+    //Get list of aeps report by date
+    public LiveData<List<AepsReport>>getAepsReportByDate(String session_id, String auth, String from, String to){
+        return repository.getAepsReportListByDate(session_id,auth,from,to);
     }
 }

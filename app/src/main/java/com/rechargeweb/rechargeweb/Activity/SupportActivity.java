@@ -227,7 +227,6 @@ public class SupportActivity extends AppCompatActivity {
 
                     if (support.getEmail() == null){
                         Log.e(TAG, "Error getting response");
-                        layoutSupportBinding.aboutCompany.setText(support.getCompany());
                     }else {
                         Log.e(TAG, "Support list is full");
                         saleCall = support.getMobileOne();
@@ -251,7 +250,6 @@ public class SupportActivity extends AppCompatActivity {
                         layoutSupportBinding.billCallTv.setText(billCall);
                         layoutSupportBinding.billMailTv.setText(billMail);
 
-                        layoutSupportBinding.aboutCompany.setText(about);
                         layoutSupportBinding.supportAddTv.setText(address);
                     }
                 }else {

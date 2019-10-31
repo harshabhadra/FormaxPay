@@ -5,263 +5,311 @@
     xmlns:tools="http://schemas.android.com/tools">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="#CFD8DC">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        <TextView
-            android:id="@+id/textView50"
-            style="@style/TextAppearance.AppCompat.Display2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:fontFamily="@font/audiowide"
-            android:text="Formax"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="8dp"
+            >
+            <androidx.cardview.widget.CardView
+                android:id="@+id/tech_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5">
 
-        <TextView
-            android:id="@+id/textView58"
-            style="@style/TextAppearance.AppCompat.Display2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/audiowide"
-            android:text="Pay"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="@+id/textView50"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView50"
-            app:layout_constraintTop_toTopOf="@+id/textView50" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
-        <TextView
-            android:id="@+id/about_company"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            tools:text="@string/about_place_holder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView50"
-            app:layout_constraintTop_toBottomOf="@+id/textView50" />
+                    <TextView
+                        android:id="@+id/textView62"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/amaranth"
+                        android:text="Technical Help"
+                        android:textColor="#000000"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView62"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/amaranth"
-            android:text="Technical Help"
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="@+id/about_company"
-            app:layout_constraintTop_toBottomOf="@+id/about_company" />
+                    <TextView
+                        android:id="@+id/technical_call_now_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:drawableStart="@drawable/ic_call_black_24dp"
+                        android:drawableEnd="@drawable/ic_pick_operator"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView62"
+                        app:layout_constraintTop_toBottomOf="@+id/textView62"
+                        tools:text="+91 9474931174" />
 
-        <TextView
-            android:id="@+id/technical_call_now_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:drawableStart="@drawable/ic_call_black_24dp"
-            android:drawableEnd="@drawable/ic_pick_operator"
-            android:drawablePadding="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView62"
-            app:layout_constraintTop_toBottomOf="@+id/textView62"
-            tools:text="+91 9474931174" />
+                    <Button
+                        android:id="@+id/tech_call_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/support_btn_back"
+                        android:text="Call Now"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/technical_call_now_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/technical_call_now_tv" />
 
-        <Button
-            android:id="@+id/tech_call_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/support_btn_back"
-            android:text="Call Now"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/technical_call_now_tv"
-            app:layout_constraintTop_toBottomOf="@+id/technical_call_now_tv" />
+                    <TextView
+                        android:id="@+id/technical_mail_now_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:drawableStart="@drawable/ic_mail_blue_32dp"
+                        android:drawableEnd="@drawable/ic_pick_operator"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tech_call_button"
+                        app:layout_constraintTop_toBottomOf="@+id/tech_call_button"
+                        tools:text="formaxit@gmail.com" />
 
-        <TextView
-            android:id="@+id/technical_mail_now_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:drawableStart="@drawable/ic_mail_blue_32dp"
-            android:drawableEnd="@drawable/ic_pick_operator"
-            android:drawablePadding="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tech_call_button"
-            app:layout_constraintTop_toBottomOf="@+id/tech_call_button"
-            tools:text="formaxit@gmail.com" />
+                    <Button
+                        android:id="@+id/tech_mail_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/support_btn_back"
+                        android:text="Mail Now"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/technical_mail_now_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/technical_mail_now_tv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/tech_mail_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/support_btn_back"
-            android:text="Mail Now"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/technical_mail_now_tv"
-            app:layout_constraintTop_toBottomOf="@+id/technical_mail_now_tv" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/sales_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/tech_card"
+                app:layout_constraintStart_toStartOf="@+id/tech_card"
+                app:layout_constraintTop_toBottomOf="@+id/tech_card">
 
-        <TextView
-            android:id="@+id/textView66"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/amaranth"
-            android:text="Sales Help"
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="@+id/tech_mail_button"
-            app:layout_constraintTop_toBottomOf="@+id/tech_mail_button" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
-        <TextView
-            android:id="@+id/sales_call_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:drawableStart="@drawable/ic_call_black_24dp"
-            android:drawableEnd="@drawable/ic_pick_operator"
-            android:drawablePadding="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView66"
-            app:layout_constraintTop_toBottomOf="@+id/textView66"
-            tools:text="+91 9474931174" />
+                    <TextView
+                        android:id="@+id/textView66"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/amaranth"
+                        android:text="Sales Help"
+                        android:textColor="#000000"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/sales_email_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:drawableStart="@drawable/ic_mail_blue_32dp"
-            android:drawableEnd="@drawable/ic_pick_operator"
-            android:drawablePadding="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="@+id/sales_call_tv"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/sales_call_tv"
-            app:layout_constraintTop_toBottomOf="@+id/sales_call_button"
-            tools:text="formaxit@gmail.com" />
+                    <TextView
+                        android:id="@+id/sales_call_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:drawableStart="@drawable/ic_call_black_24dp"
+                        android:drawableEnd="@drawable/ic_pick_operator"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView66"
+                        app:layout_constraintTop_toBottomOf="@+id/textView66"
+                        tools:text="+91 9474931174" />
 
-        <Button
-            android:id="@+id/sales_call_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/support_btn_back"
-            android:text="Call Now"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/sales_call_tv"
-            app:layout_constraintTop_toBottomOf="@+id/sales_call_tv" />
+                    <TextView
+                        android:id="@+id/sales_email_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@drawable/ic_mail_blue_32dp"
+                        android:drawableEnd="@drawable/ic_pick_operator"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="@+id/sales_call_tv"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/sales_call_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/sales_call_button"
+                        tools:text="formaxit@gmail.com" />
 
-        <Button
-            android:id="@+id/sales_mail_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/support_btn_back"
-            android:text="Mail Now"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/sales_email_tv"
-            app:layout_constraintTop_toBottomOf="@+id/sales_email_tv" />
+                    <Button
+                        android:id="@+id/sales_call_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/support_btn_back"
+                        android:text="Call Now"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/sales_call_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/sales_call_tv" />
 
-        <TextView
-            android:id="@+id/textView60"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/amaranth"
-            android:text="Billing Help"
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="@+id/sales_email_tv"
-            app:layout_constraintTop_toBottomOf="@+id/sales_mail_button" />
+                    <Button
+                        android:id="@+id/sales_mail_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/support_btn_back"
+                        android:text="Mail Now"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/sales_email_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/sales_email_tv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/bill_call_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:drawableStart="@drawable/ic_call_black_24dp"
-            android:drawableEnd="@drawable/ic_pick_operator"
-            android:drawablePadding="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView60"
-            app:layout_constraintTop_toBottomOf="@+id/textView60"
-            tools:text="TextView" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/billing_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/sales_card"
+                app:layout_constraintStart_toStartOf="@+id/sales_card"
+                app:layout_constraintTop_toBottomOf="@+id/sales_card">
 
-        <Button
-            android:id="@+id/bill_call_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:text="Call now"
-            android:visibility="gone"
-            android:background="@drawable/support_btn_back"
-            app:layout_constraintStart_toStartOf="@+id/bill_call_tv"
-            app:layout_constraintTop_toBottomOf="@+id/bill_call_tv" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
-        <TextView
-            android:id="@+id/bill_mail_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            tools:text="TextView"
-            android:gravity="center_vertical"
-            android:drawableStart="@drawable/ic_mail_blue_32dp"
-            android:drawableEnd="@drawable/ic_pick_operator"
-            android:drawablePadding="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/bill_call_button"
-            app:layout_constraintTop_toBottomOf="@+id/bill_call_button" />
+                    <TextView
+                        android:id="@+id/textView60"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/amaranth"
+                        android:text="Billing Help"
+                        android:textColor="#000000"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/bill_mail_button"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:text="Mail now"
-            android:visibility="gone"
-            android:background="@drawable/support_btn_back"
-            app:layout_constraintStart_toStartOf="@+id/bill_mail_tv"
-            app:layout_constraintTop_toBottomOf="@+id/bill_mail_tv" />
+                    <TextView
+                        android:id="@+id/bill_call_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:drawableStart="@drawable/ic_call_black_24dp"
+                        android:drawableEnd="@drawable/ic_pick_operator"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView60"
+                        app:layout_constraintTop_toBottomOf="@+id/textView60"
+                        tools:text="TextView" />
 
-        <TextView
-            android:id="@+id/textView63"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="@font/amaranth"
-            android:text="Address"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/bill_mail_button"
-            app:layout_constraintTop_toBottomOf="@+id/bill_mail_button" />
+                    <Button
+                        android:id="@+id/bill_call_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/support_btn_back"
+                        android:text="Call now"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/bill_call_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/bill_call_tv" />
 
-        <TextView
-            android:id="@+id/support_add_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView63"
-            app:layout_constraintTop_toBottomOf="@+id/textView63" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/bill_mail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:drawableStart="@drawable/ic_mail_blue_32dp"
+                        android:drawableEnd="@drawable/ic_pick_operator"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/bill_call_button"
+                        app:layout_constraintTop_toBottomOf="@+id/bill_call_button"
+                        tools:text="TextView" />
+
+                    <Button
+                        android:id="@+id/bill_mail_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/support_btn_back"
+                        android:text="Mail now"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="@+id/bill_mail_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/bill_mail_tv" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/billing_card"
+                app:layout_constraintStart_toStartOf="@+id/billing_card"
+                app:layout_constraintTop_toBottomOf="@+id/billing_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/textView63"
+                        style="@style/TextAppearance.AppCompat.Medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/amaranth"
+                        android:text="Address"
+                        android:textColor="#000000"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/support_add_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="TextView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView63"
+                        app:layout_constraintTop_toBottomOf="@+id/textView63" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/formax_round_icon" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

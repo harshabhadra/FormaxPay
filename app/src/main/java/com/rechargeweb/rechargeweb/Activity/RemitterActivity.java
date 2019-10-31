@@ -315,7 +315,6 @@ public class RemitterActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                    dialog.dismiss();
                                 }
                             } else {
                                 Log.e(TAG, "Beneficiary not added");

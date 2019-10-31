@@ -1,5 +1,6 @@
 package com.rechargeweb.rechargeweb.Network;
 
+import com.rechargeweb.rechargeweb.AepsReport;
 import com.rechargeweb.rechargeweb.Model.Coupon;
 import com.rechargeweb.rechargeweb.Model.Credential;
 import com.rechargeweb.rechargeweb.Model.Details;
@@ -7,6 +8,8 @@ import com.rechargeweb.rechargeweb.Model.FundResponse;
 import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Model.Post;
 import com.rechargeweb.rechargeweb.Model.Profile;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -75,4 +78,14 @@ public interface ApiService {
                                  @Query("current_password")String cPassword,
                                  @Query("new_password")String nPassword,
                                  @Query("confrim_new_password")String conNewPassword);
+    @POST("aeps_report")
+    @FormUrlEncoded
+    Call<List<AepsReport>>getAepsReport(@Field("user_id")String session_id,
+                                        @Field("auth_key")String auth_key);
+    @POST("aeps_report")
+    @FormUrlEncoded
+    Call<List<AepsReport>>getAepsReportByDate(@Field("user_id")String session_id,
+                                              @Field("auth_key")String auth_key,
+                                              @Field("from_date")String from_date,
+                                              @Field("to_date")String to_date);
 }

@@ -163,8 +163,29 @@ public class Repository {
     //Store aeps log in details
     private MutableLiveData<AepsLogIn>aepsLogInMutableLiveData = new MutableLiveData<>();
 
+    //Store list of aeps report data
+    private MutableLiveData<List<AepsReport>>aepsReportListMutableLiveData = new MutableLiveData<>();
+
+    //Store list of aeps report by date
+    private MutableLiveData<List<AepsReport>>aepsReportListMutableLiveDataByDate = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+
+    //Get Aeps report by date
+    public LiveData<List<AepsReport>>getAepsReportListByDate(String session_id, String auth, String from, String to){
+
+        getAepsReportByDate(session_id,auth,from,to);
+        return aepsReportListMutableLiveDataByDate;
+    }
+
+    //Get Aeps report
+    public LiveData<List<AepsReport>>getAepsReportList(String session_id, String auth){
+
+        getAepsReport(session_id,auth);
+        return aepsReportListMutableLiveData;
     }
 
     //Aeps Log in
@@ -2105,6 +2126,52 @@ public class Repository {
 
                 Log.e(TAG,"Aeps log in failed: " + t.getMessage());
                 aepsLogInMutableLiveData.setValue(new AepsLogIn(t.getMessage()));
+            }
+        });
+    }
+
+    //Network request to get aeps report
+    private void getAepsReport(String session_id, String auth) {
+
+        Call<List<AepsReport>>listCall = apiService.getAepsReport(session_id,auth);
+        listCall.enqueue(new Callback<List<AepsReport>>() {
+            @Override
+            public void onResponse(Call<List<AepsReport>> call, Response<List<AepsReport>> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Aeps report response successful");
+                    aepsReportListMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AepsReport>> call, Throwable t) {
+
+                Log.e(TAG,"Aeps report response failure:  " + t.getMessage());
+            }
+        });
+    }
+
+
+    //Network call to get aeps report list by date
+    private void getAepsReportByDate(String session_id, String auth, String from, String to) {
+
+        Call<List<AepsReport>>listCall = apiService.getAepsReportByDate(session_id,auth,from,to);
+        listCall.enqueue(new Callback<List<AepsReport>>() {
+            @Override
+            public void onResponse(Call<List<AepsReport>> call, Response<List<AepsReport>> response) {
+
+                if (response.isSuccessful() && response.body()!= null){
+
+                    Log.e(TAG,"Aeps report by date response is successful");
+                    aepsReportListMutableLiveDataByDate.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AepsReport>> call, Throwable t) {
+
+                Log.e(TAG,"Aeps report by date response is failure: " + t.getMessage());
             }
         });
     }

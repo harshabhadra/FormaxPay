@@ -2,6 +2,7 @@ package com.rechargeweb.rechargeweb.Adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rechargeweb.rechargeweb.Activity.RemitterActivity;
+import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Model.AddBeneficiary;
 import com.rechargeweb.rechargeweb.Model.Beneficiary;
 import com.rechargeweb.rechargeweb.R;
@@ -182,7 +184,7 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
                     @Override
                     public void onClick(View v) {
 
-                        delete.setVisibility(View.GONE);
+                        deleteGroup.setVisibility(View.GONE);
                         loading.setVisibility(View.VISIBLE);
                         String otp = otpEdit.getText().toString().trim();
                         if (otp.isEmpty()){
@@ -192,11 +194,18 @@ public class BeneficiaryAdapter extends RecyclerView.Adapter<BeneficiaryAdapter.
                                 @Override
                                 public void onChanged(AddBeneficiary addBeneficiary) {
                                     if (addBeneficiary != null){
-                                        dialog.dismiss();
+
                                         String data = addBeneficiary.getStatus();
                                         if (data.equals("SUCCESS")){
+                                            dialog.dismiss();
                                             Toast.makeText(context,data,Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(context,RemitterActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                            intent.putExtra(Constants.SESSION_ID,session_id);
+                                            intent.putExtra(Constants.REMITTER_MOBILE,mobileNumebr);
+                                            context.startActivity(intent);
                                         }else {
+                                          dialog.dismiss();
                                             Toast.makeText(context,addBeneficiary.getMessage(),Toast.LENGTH_SHORT).show();
                                         }
                                     }else {Log.e(

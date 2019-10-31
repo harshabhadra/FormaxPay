@@ -34,6 +34,7 @@ public class DummyData {
         itemsList.add(new Items(R.drawable.credit, "Credit"));
         itemsList.add(new Items(R.drawable.debit, "Debit"));
         itemsList.add(new Items(R.drawable.coupon, "Coupon"));
+        itemsList.add(new Items(R.drawable.aeps_icon,"AEPS"));
 //        itemsList.add(new Items(R.mipmap.money_transfer_report, "Money Transfer"));
 //        itemsList.add(new Items(R.mipmap.fund_request_report, "Fund Request"));
 

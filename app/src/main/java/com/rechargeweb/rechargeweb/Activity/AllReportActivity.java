@@ -24,12 +24,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.rechargeweb.rechargeweb.Adapters.AepsReportAdapter;
 import com.rechargeweb.rechargeweb.Adapters.CouponReportAdapter;
 import com.rechargeweb.rechargeweb.Adapters.DetailsAdapter;
 import com.rechargeweb.rechargeweb.Adapters.PassbookAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.AepsReport;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
-import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.Model.CouponReport;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Passbook;
@@ -76,10 +77,12 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
     //Adapters
     PassbookAdapter passbookAdapter;
     CouponReportAdapter couponReportAdapter;
+    AepsReportAdapter aepsReportAdapter;
+    DetailsAdapter detailsAdapter;
 
     private static final String TAG = AllReportActivity.class.getSimpleName();
 
-    DetailsAdapter detailsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +132,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
 
             //Getting the session id from intent
             id = intent.getStringExtra(Constants.SESSION_ID);
-
+            Toast.makeText(getApplicationContext(),"User Id: " + id,Toast.LENGTH_SHORT).show();
             Items items = intent.getParcelableExtra(Constants.REPORT);
             if (items != null) {
                 itemName = items.getName();
@@ -163,6 +166,12 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                         recyclerView.setVisibility(View.VISIBLE);
                         getCouponTransferReport();
                         break;
+                    case "AEPS":
+                        recyclerView.setVisibility(View.VISIBLE);
+                        aepsReportAdapter = new AepsReportAdapter(this);
+                        recyclerView.setAdapter(aepsReportAdapter);
+                        getAepsReportList();
+                        break;
                     default:
                         Log.e(TAG, "Not recharge report");
                         loading.setVisibility(View.GONE);
@@ -170,6 +179,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                         toDate.setVisibility(View.GONE);
                         fromToIv.setVisibility(View.GONE);
                         break;
+
                 }
             }
         }
@@ -216,6 +226,9 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                                 case "Coupon Transfer":
                                     getCouponTransferReport();
                                     break;
+                                case "AEPS":
+                                    getAepsReportList();
+                                    break;
                             }
                         } else {
                             switch (itemName) {
@@ -230,6 +243,9 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                                     break;
                                 case "Coupon":
                                     getCouponTransferReportByDate(fromString, toString);
+                                    break;
+                                case "AEPS":
+                                    getAepsReportByDate(fromString,toString);
                                     break;
                             }
 
@@ -276,6 +292,36 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                 .build()
                 .show();
     }
+
+    //Get aeps report list
+    private void getAepsReportList() {
+        fromDate.setEnabled(false);
+        toDate.setEnabled(false);
+        allReportViewModel.getAepsReport(id,auth).observe(this, new Observer<List<AepsReport>>() {
+            @Override
+            public void onChanged(List<AepsReport> aepsReports) {
+                fromDate.setEnabled(true);
+                toDate.setEnabled(true);
+                loading.setVisibility(View.GONE);
+                if (aepsReports != null){
+                    String s = aepsReports.get(0).getCreatedOn();
+                    Log.e(TAG,"Aeps Report is full: " + s);
+
+                    if (s != null) {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        aepsReportAdapter.setAepsReportList(aepsReports);
+                    }else {
+                        recyclerView.setVisibility(View.GONE);
+                        noRecordText.setVisibility(View.VISIBLE);
+                        noRecordText.setText(aepsReports.get(0).getStatus());
+                    }
+                }else {
+                    Log.e(TAG,"Aeps report is null");
+                }
+            }
+        });
+    }
+
 
     //Get recharge list
     private void getMobileRechargeReport() {
@@ -351,6 +397,32 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                 }
             }
         });
+    }
+    //Get aeps report by date
+    private void getAepsReportByDate(String fromString, String toString){
+
+        noRecordText.setVisibility(View.GONE);
+        fromDate.setEnabled(false);
+        toDate.setEnabled(false);
+        allReportViewModel.getAepsReportByDate(id,auth,fromString,toString).observe(this, new Observer<List<AepsReport>>() {
+            @Override
+            public void onChanged(List<AepsReport> aepsReports) {
+                fromDate.setEnabled(true);
+                toDate.setEnabled(true);
+                loading.setVisibility(View.GONE);
+                if (aepsReports != null){
+                    String s = aepsReports.get(0).getCreatedOn();
+                    if (s != null){
+                        recyclerView.setVisibility(View.VISIBLE);
+                        aepsReportAdapter.setAepsReportList(aepsReports);
+                    }else {
+                        noRecordText.setVisibility(View.VISIBLE);
+                        noRecordText.setText(aepsReports.get(0).getStatus());
+                    }
+                }
+            }
+        });
+
     }
 
     //Get credit list
@@ -586,6 +658,8 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                     getDebitSummaryByDate(fromString, toString);
                 } else if (itemName.equals("Coupon")) {
                     getCouponTransferReportByDate(fromString, toString);
+                }else if (itemName.equals("AEPS")){
+                    getAepsReportByDate(fromString,toString);
                 }
             }
         } else {
@@ -600,6 +674,8 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                 getDebitSummaryByDate(fromString, toString);
             } else if (itemName.equals("Coupon")) {
                 getCouponTransferReportByDate(fromString, toString);
+            }else if (itemName.equals("AEPS")){
+                getAepsReportByDate(fromString,toString);
             }
 
         }
