@@ -1937,7 +1937,7 @@ public class Repository {
                         String message = jsonObject.getString("message");
                         Log.e(TAG, "Message: " + message);
                         JSONObject dataObject = jsonObject.getJSONObject("data");
-                        String name = dataObject.getString("benename");
+                        String name = dataObject.optString("benename");
 
                         validateAccountMutableLiveData.setValue(new AddBeneficiary(name, message));
 

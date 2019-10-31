@@ -31,6 +31,8 @@ import com.rechargeweb.rechargeweb.ViewModels.BeneficiaryViewModel;
 import com.rechargeweb.rechargeweb.ViewModels.DmtViewModel;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RemitterActivity extends AppCompatActivity {
 
@@ -46,7 +48,7 @@ public class RemitterActivity extends AppCompatActivity {
     String userName;
     String remitter_id;
 
-    private boolean isGetName;
+    private boolean isValidIfsc;
 
     boolean getName;
 
@@ -216,6 +218,7 @@ public class RemitterActivity extends AppCompatActivity {
                 String ifscS = ifsc.getText().toString().toUpperCase();
                 String accountS = account.getText().toString();
                 String conAccount = confirmAccont.getText().toString();
+                isValidIfsc = validateIfsc(ifscS);
 
                 if (ifscS.isEmpty()) {
                     ifscLayout.setError("Enter IFSC code");
@@ -226,7 +229,9 @@ public class RemitterActivity extends AppCompatActivity {
                 } else if (!accountS.equals(conAccount)) {
                     accountLayout.setError("Account Number doesn't match");
                     confirmAccountLayout.setError("Account Number doesn't match");
-                } else {
+                } else if (!isValidIfsc){
+                    Toast.makeText(getApplicationContext(),"Enter Valid IFSC code",Toast.LENGTH_LONG).show();
+                }else {
                     getNameTv.setEnabled(false);
                     submitBeneficiaryButton.setVisibility(View.GONE);
                     progressBar.setVisibility(View.VISIBLE);
@@ -270,6 +275,7 @@ public class RemitterActivity extends AppCompatActivity {
                 String ifscS = ifsc.getText().toString().toUpperCase();
                 String accountS = account.getText().toString();
                 String conAccount = confirmAccont.getText().toString();
+                isValidIfsc = validateIfsc(ifscS);
 
                 if (ifscS.isEmpty()) {
                     ifscLayout.setError("Enter IFSC code");
@@ -282,7 +288,9 @@ public class RemitterActivity extends AppCompatActivity {
                 } else if (!accountS.equals(conAccount)) {
                     accountLayout.setError("Account Number doesn't match");
                     confirmAccountLayout.setError("Account Number doesn't match");
-                } else {
+                } else if (!isValidIfsc){
+                    Toast.makeText(getApplicationContext(),"Enter valid IFSC code",Toast.LENGTH_LONG).show();
+                }else {
                     InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(submitBeneficiaryButton.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                     progressBar.setVisibility(View.VISIBLE);
@@ -317,6 +325,13 @@ public class RemitterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //Check if IFSC code is valid
+    private boolean validateIfsc(String s){
+        Pattern pattern=Pattern.compile("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$");
+        Matcher matcher=pattern.matcher(s);
+        return matcher.matches();
     }
 
 }
