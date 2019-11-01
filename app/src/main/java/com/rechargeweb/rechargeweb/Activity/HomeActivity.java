@@ -338,8 +338,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                         dialog.dismiss();
                         if (aepsLogIn != null){
 
-                            if (aepsLogIn.getMessage() == null){
+                            if (aepsLogIn.getMessage() != null){
                                 Toast.makeText(getApplicationContext(),aepsLogIn.getAgentId(),Toast.LENGTH_LONG).show();
+                                Intent uploadKycIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
+                                uploadKycIntent.putExtra(Constants.SESSION_ID,session_id);
+                                startActivity(uploadKycIntent);
                             }else {
                                 agentCode = aepsLogIn.getAgentId();
                                 if (!agentCode.isEmpty()) {

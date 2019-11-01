@@ -2,11 +2,16 @@ package com.rechargeweb.rechargeweb.Network;
 
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 
+import java.io.File;
+
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface Operator {
@@ -168,4 +173,24 @@ public interface Operator {
     Call<String>aepsLogIn(@Field("user_id")String session_id,
                           @Field("service_type")String service_type,
                           @Field("auth_key")String auth_key);
+
+    @POST("aeps_kyc")
+    @FormUrlEncoded
+    Call<String>submitKyc(@Field("session_id")String session_id,
+                          @Field("auth_key")String auth,
+                          @Field("name")String name,
+                          @Field("shop_name")String shop_name,
+                          @Field("dob")String dob,
+                          @Field("email")String email,
+                          @Field("address")String address,
+                          @Field("pincode")String pincode,
+                          @Field("state")String state,
+                          @Field("mobile")String mobile,
+                          @Field("city")String city,
+                          @Field("aadhaar_no")String adhar,
+                          @Field("pan_no")String panNo);
+
+    @POST("aeps_kyc")
+    @Multipart
+    Call<String>uploadKyc(@Part MultipartBody.Part aadharFile, @Part MultipartBody.Part panfile);
 }

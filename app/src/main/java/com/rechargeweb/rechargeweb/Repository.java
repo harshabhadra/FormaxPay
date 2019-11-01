@@ -37,9 +37,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -169,10 +172,31 @@ public class Repository {
     //Store list of aeps report by date
     private MutableLiveData<List<AepsReport>>aepsReportListMutableLiveDataByDate = new MutableLiveData<>();
 
+    //Store kyc submit response
+    private MutableLiveData<String>kycresponseMutableLiveData = new MutableLiveData<>();
+
+    //Store image upload response
+    private MutableLiveData<String>imageresponseMutableLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
     }
 
+    //get image upload response
+    public LiveData<String>getImageUploadResponse(MultipartBody.Part adharPart, MultipartBody.Part panPart){
+        uploadImage(adharPart,panPart);
+
+        return imageresponseMutableLiveData;
+    }
+
+
+    //Submit Kyc
+    public LiveData<String>submitKyc(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
+                                     String state, String mobile, String city, String aadhaarNo, String panNo, File adharFile, File panFile){
+
+        submitKycDetails(session_id,auth,name,shopName,dob,email,address,pincode,state,mobile,city,aadhaarNo,panNo,adharFile,panFile);
+        return kycresponseMutableLiveData;
+    }
 
     //Get Aeps report by date
     public LiveData<List<AepsReport>>getAepsReportListByDate(String session_id, String auth, String from, String to){
@@ -2172,6 +2196,74 @@ public class Repository {
             public void onFailure(Call<List<AepsReport>> call, Throwable t) {
 
                 Log.e(TAG,"Aeps report by date response is failure: " + t.getMessage());
+            }
+        });
+    }
+
+    //Network request to get kyc submit response
+    private void submitKycDetails(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
+                                  String state, String mobile, String city, String aadhaarNo, String panNo, File adharFile,
+                                  File panFile) {
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+
+        Call<String>call = operator.submitKyc(session_id,auth,name,shopName,dob,email,address,pincode, state,mobile,city,aadhaarNo,panNo);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null){
+
+                    Log.e(TAG,"Submit kyc response successful: " + response.body());
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        String message = jsonObject.optString("message");
+                        kycresponseMutableLiveData.setValue(message);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Submit Kyc response is failure : "+ t.getMessage());
+                kycresponseMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network request to upload image
+    private void uploadImage(MultipartBody.Part adharPart, MultipartBody.Part panPart) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+        Call<String>call = operator.uploadKyc(adharPart,panPart);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG, "Upload response successful: " + response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Upload response failure: " + t.getMessage());
             }
         });
     }
