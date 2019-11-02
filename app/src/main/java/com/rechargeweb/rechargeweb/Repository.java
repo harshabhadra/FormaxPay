@@ -43,6 +43,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -182,19 +183,12 @@ public class Repository {
         return new Repository();
     }
 
-    //get image upload response
-    public LiveData<String>getImageUploadResponse(MultipartBody.Part adharPart, MultipartBody.Part panPart){
-        uploadImage(adharPart,panPart);
-
-        return imageresponseMutableLiveData;
-    }
-
 
     //Submit Kyc
     public LiveData<String>submitKyc(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
-                                     String state, String mobile, String city, String aadhaarNo, String panNo, File adharFile, File panFile){
+                                     String state, String mobile, String city, String aadhaarNo, String panNo, String aadharImageUrl, String panImageUrl){
 
-        submitKycDetails(session_id,auth,name,shopName,dob,email,address,pincode,state,mobile,city,aadhaarNo,panNo,adharFile,panFile);
+        submitKycDetails(session_id,auth,name,shopName,dob,email,address,pincode,state,mobile,city,aadhaarNo,panNo,aadharImageUrl,panImageUrl);
         return kycresponseMutableLiveData;
     }
 
@@ -2135,8 +2129,10 @@ public class Repository {
                             JSONObject object = jsonArray.getJSONObject(i);
                             String agent_id = object.optString("agent_id");
                             String message = object.optString("Success");
+                            String status = object.optString("status");
+                            String remark = object.optString("remark");
 
-                            AepsLogIn logIn = new AepsLogIn(agent_id,message);
+                            AepsLogIn logIn = new AepsLogIn(agent_id,message,status,remark);
                             aepsLogInMutableLiveData.setValue(logIn);
                         }
                     } catch (JSONException e) {
@@ -2202,22 +2198,22 @@ public class Repository {
 
     //Network request to get kyc submit response
     private void submitKycDetails(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
-                                  String state, String mobile, String city, String aadhaarNo, String panNo, File adharFile,
-                                  File panFile) {
+                                  String state, String mobile, String city, String aadhaarNo, String panNo, String adharImageUrl,
+                                  String panImageUrl) {
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Operator.BASE_URL)
-                .client(okHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
         Operator operator = retrofit.create(Operator.class);
 
-        Call<String>call = operator.submitKyc(session_id,auth,name,shopName,dob,email,address,pincode, state,mobile,city,aadhaarNo,panNo);
+        Call<String>call = operator.submitKyc(session_id,auth,name,shopName,dob,email,address,pincode, state,mobile,city,aadhaarNo,panNo,adharImageUrl,panImageUrl,"FI_AEPS");
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+
+                Log.e(TAG,"Submit kyc Response is: " + response.body());
                 if (response.isSuccessful() && response.body() != null){
 
                     Log.e(TAG,"Submit kyc response successful: " + response.body());
@@ -2229,6 +2225,8 @@ public class Repository {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else if (response.body() == null){
+                    kycresponseMutableLiveData.setValue("No response");
                 }
             }
 
@@ -2237,33 +2235,6 @@ public class Repository {
 
                 Log.e(TAG,"Submit Kyc response is failure : "+ t.getMessage());
                 kycresponseMutableLiveData.setValue(t.getMessage());
-            }
-        });
-    }
-
-    //Network request to upload image
-    private void uploadImage(MultipartBody.Part adharPart, MultipartBody.Part panPart) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Operator.BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
-
-        Operator operator = retrofit.create(Operator.class);
-        Call<String>call = operator.uploadKyc(adharPart,panPart);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-                if (response.isSuccessful() && response.body() != null){
-                    Log.e(TAG, "Upload response successful: " + response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-                Log.e(TAG,"Upload response failure: " + t.getMessage());
             }
         });
     }

@@ -24,7 +24,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.UploadKycActivity"></activity>
+        <activity android:name=".Activity.UploadKycActivity"
+            android:screenOrientation="portrait"
+            android:label="KYC Details">
+        </activity>
         <activity
             android:name="com.aeps.aepslib.AepsActivity"
             android:screenOrientation="portrait"></activity>

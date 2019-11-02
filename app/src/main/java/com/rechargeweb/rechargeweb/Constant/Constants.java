@@ -36,4 +36,6 @@ public class Constants {
 
     public static final String REMITTER_MOBILE = "remitter_mobile";
     public static final String MESSAGE = "message";
+
+    public static final String AEPS_STATUS = "status";
 }

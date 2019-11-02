@@ -26,18 +26,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.FileUtils;
+import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.UploadKycViewModel;
 import com.rechargeweb.rechargeweb.databinding.ActivityUploadKycBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class UploadKycActivity extends AppCompatActivity {
 
@@ -45,14 +56,16 @@ public class UploadKycActivity extends AppCompatActivity {
     private static final int RC_ADHAR_IMAGE = 1;
     private static final int RC_PAN_IMAGE = 2;
     Uri adharUri,panUri;
-    RequestBody adharFileBody, panFileBody;
-    MultipartBody.Part adharPart, panPart;
+    String aadharImageUrl, panImageUrl;
 
     String name,shopName,dob,email,address,pincode,state,mobile,city,adharNo,panNo;
     UploadKycViewModel uploadKycViewModel;
     String session_id;
     String auth_key;
     File adharFile, panFile;
+
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
 
     private static final String TAG = UploadKycActivity.class.getSimpleName();
 
@@ -80,10 +93,12 @@ public class UploadKycActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_kyc);
 
+        //Getting fireabse storage instance
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference().child("kyc_photo");
+
         verifyStoragePermissions(this);
-        //Getting Intent
-        Intent intent = getIntent();
-        session_id = intent.getStringExtra(Constants.SESSION_ID);
+
 
         auth_key = getResources().getString(R.string.auth_key);
 
@@ -100,6 +115,15 @@ public class UploadKycActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_ADHAR_IMAGE);
             }
         });
+        //Getting Intent
+        Intent intent = getIntent();
+        session_id = intent.getStringExtra(Constants.SESSION_ID);
+        AepsLogIn aepsLogIn = intent.getParcelableExtra(Constants.AEPS_STATUS);
+        if (aepsLogIn.getStatus().equals("Rejected")){
+
+            String reject = "Application Rejected : " + aepsLogIn.getRemark();
+            uploadKycBinding.remarkTv.setText(reject);
+        }
 
         //Upload pan image
         uploadKycBinding.kycPanImageView.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +192,13 @@ public class UploadKycActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Upload Pan Image", Toast.LENGTH_SHORT).show();
                 }else {
 
+                    View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(UploadKycActivity.this);
+                    builder.setCancelable(false);
+                    builder.setView(layout);
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+
                     name = uploadKycBinding.kycNameTextInput.getText().toString();
                     shopName = uploadKycBinding.kycShopNameTextInput.getText().toString();
                     dob = uploadKycBinding.kycDobTextInput.getText().toString();
@@ -180,12 +211,27 @@ public class UploadKycActivity extends AppCompatActivity {
                     adharNo = uploadKycBinding.kycAadhaarInputText.getText().toString();
                     panNo = uploadKycBinding.kycPanNumberInputText.getText().toString();
 
-                    uploadKycViewModel.submitKyc(session_id,auth_key,name,shopName,dob,email,address,pincode,state,mobile,city,adharNo,panNo,adharFile,panFile).observe(UploadKycActivity.this, new Observer<String>() {
+                    uploadKycViewModel.submitKyc(session_id,auth_key,name,shopName,dob,email,address,pincode,state,mobile,city,adharNo,panNo,aadharImageUrl,panImageUrl)
+                            .observe(UploadKycActivity.this, new Observer<String>() {
                         @Override
                         public void onChanged(String s) {
 
+                            dialog.dismiss();
                             if (!s.isEmpty()){
                                 Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder aepsBuilder = new AlertDialog.Builder(UploadKycActivity.this);
+                                builder.setCancelable(false);
+
+                                builder.setMessage(s);
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                });
+                                AlertDialog dialog1 = aepsBuilder.create();
+                                dialog1.show();
                             }else {
                                 Toast.makeText(getApplicationContext(),"No response",Toast.LENGTH_LONG).show();
                             }
@@ -203,71 +249,93 @@ public class UploadKycActivity extends AppCompatActivity {
         //Get Aadhaar Image
         if (requestCode == RC_ADHAR_IMAGE && resultCode == RESULT_OK){
             adharUri = data.getData();
-            String adharFilePath = FileUtils.getPath(adharUri,this);
-                adharFile = new File(adharFilePath);
-            Toast.makeText(getApplicationContext(),adharFilePath,Toast.LENGTH_LONG).show();
 
-            adharFileBody = RequestBody.create(MediaType.parse("image/*"),adharFile);
-            adharPart = MultipartBody.Part.createFormData("aadhar image",adharFile.getName(),adharFileBody);
+            if (adharUri != null) {
+                View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setView(layout);
 
-            String file_extn = adharFilePath.substring(adharFilePath.lastIndexOf(".") + 1);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                final StorageReference imgaeRef = storageReference.child(adharUri.getLastPathSegment());
+                imgaeRef.putFile(adharUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return imgaeRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
 
-            if (file_extn.equals("jpg") ||  file_extn.equals("png")) {
-                //FINE
-                Picasso.get().load(adharUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycAadhaarImageView);
-            } else {
-                //NOT IN REQUIRED FORMAT
-                Toast.makeText(getApplicationContext(),"Image format must be JPG or PNG",Toast.LENGTH_LONG).show();
-                Picasso.get().load(adharUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycAadhaarImageView);
+                        aadharImageUrl = task.getResult().toString();
+                        Picasso.get().load(adharUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycAadhaarImageView);
+                        Log.e(TAG,"Aadhaar Uri: " + aadharImageUrl);
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Failed to Upload: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG,"Upload Failure: " + e.getMessage());
+                    }
+                });
             }
 
             //Get Pan Image
         }else if (requestCode == RC_PAN_IMAGE && resultCode == RESULT_OK){
             panUri = data.getData();
-            String panFilePath = FileUtils.getPath(panUri,this);
 
-            Toast.makeText(getApplicationContext(),panFilePath,Toast.LENGTH_LONG).show();
+            if (panUri!= null) {
 
-            panFile = new File(panFilePath);
-            panFileBody = RequestBody.create(MediaType.parse("image/*"),panFile);
-            panPart = MultipartBody.Part.createFormData("aadhar image",panFile.getName(),adharFileBody);
-            String file_extn = panFilePath.substring(panFilePath.lastIndexOf(".") + 1);
+                View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setView(view);
+                builder.setCancelable(false);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
 
-            if (file_extn.equals("jpg") ||  file_extn.equals("png") || file_extn.equals("jpeg")) {
-                //FINE
-                Picasso.get().load(panUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycPanImageView);
-                uploadKycViewModel.getImageUploadResponse(adharPart,panPart).observe(UploadKycActivity.this, new Observer<String>() {
+                final StorageReference panref = storageReference.child(panUri.getLastPathSegment());
+                panref.putFile(panUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
-                    public void onChanged(String s) {
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
 
+                        return panref.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+
+                        panImageUrl = task.getResult().toString();
+                        Picasso.get().load(panUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycPanImageView);
+                        Log.e(TAG, "Pan url: " + panImageUrl);
+                        if (panImageUrl != null){
+                            uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
+                        }
+                        dialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"Upload Failure: " + e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Upload failure " + e.getMessage());
                     }
                 });
-            } else {
-                //NOT IN REQUIRED FORMAT
-                Toast.makeText(getApplicationContext(),"Image format must be JPG or PNG",Toast.LENGTH_LONG).show();
-                Picasso.get().load(panUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycPanImageView);
-                uploadKycViewModel.getImageUploadResponse(adharPart,panPart).observe(UploadKycActivity.this, new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
 
-                    }
-                });
             }
-        }else{
-            Toast.makeText(getApplicationContext(),resultCode,Toast.LENGTH_SHORT).show();
+        }else if (resultCode == RESULT_CANCELED){
+            Log.e(TAG,"No image selected");
         }
-    }
-
-    public String getPath(Uri uri)
-    {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor == null) return null;
-        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String s=cursor.getString(column_index);
-        cursor.close();
-        return s;
     }
 
 

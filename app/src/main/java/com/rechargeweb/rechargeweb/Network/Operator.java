@@ -5,6 +5,7 @@ import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 import java.io.File;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -176,7 +177,7 @@ public interface Operator {
 
     @POST("aeps_kyc")
     @FormUrlEncoded
-    Call<String>submitKyc(@Field("session_id")String session_id,
+    Call<String>submitKyc(@Field("user_id")String session_id,
                           @Field("auth_key")String auth,
                           @Field("name")String name,
                           @Field("shop_name")String shop_name,
@@ -188,9 +189,9 @@ public interface Operator {
                           @Field("mobile")String mobile,
                           @Field("city")String city,
                           @Field("aadhaar_no")String adhar,
-                          @Field("pan_no")String panNo);
+                          @Field("pan_no")String panNo,
+                          @Field("aadhaar_img")String aadharImageUrl,
+                          @Field("pan_img")String panImageUrl,
+                          @Field("service_type")String service);
 
-    @POST("aeps_kyc")
-    @Multipart
-    Call<String>uploadKyc(@Part MultipartBody.Part aadharFile, @Part MultipartBody.Part panfile);
 }

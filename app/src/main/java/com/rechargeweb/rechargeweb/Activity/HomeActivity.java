@@ -337,13 +337,28 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     public void onChanged(AepsLogIn aepsLogIn) {
                         dialog.dismiss();
                         if (aepsLogIn != null){
-
-                            if (aepsLogIn.getMessage() != null){
-                                Toast.makeText(getApplicationContext(),aepsLogIn.getAgentId(),Toast.LENGTH_LONG).show();
+                            String status = aepsLogIn.getStatus();
+                            if (aepsLogIn.getStatus().isEmpty() || aepsLogIn.getStatus().equals("Rejected")){
                                 Intent uploadKycIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
                                 uploadKycIntent.putExtra(Constants.SESSION_ID,session_id);
+                                uploadKycIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
                                 startActivity(uploadKycIntent);
-                            }else {
+                            }else if (aepsLogIn.getStatus().equals("Processing")){
+
+                                AlertDialog.Builder successBuilder = new AlertDialog.Builder(HomeActivity.this);
+                                successBuilder.setMessage("You've successfully submitted your KYC details, Please wait for approval.");
+                                successBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alertDialog = successBuilder.create();
+                                alertDialog.show();
+
+                                }else {
                                 agentCode = aepsLogIn.getAgentId();
                                 if (!agentCode.isEmpty()) {
                                     Intent i = new Intent(HomeActivity.this, AepsActivity.class);
@@ -355,8 +370,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                                     i.putExtra("primary_dark_color", R.color.colorPrimaryDark);
                                     i.putExtra("clientTransactionId", createMultipleTransactionID());
                                     startActivityForResult(i, 300);
-                                }else {
-                                    Toast.makeText(getApplicationContext(),"Please upload KYC Details to Our Website to enable AePS Services",Toast.LENGTH_LONG).show();
                                 }
                             }
                         }

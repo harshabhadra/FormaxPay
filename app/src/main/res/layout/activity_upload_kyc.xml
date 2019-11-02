@@ -196,21 +196,22 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/kyc_input_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout,kyc_email_layout,kyc_address_layout
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/kyc_input_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout,kyc_email_layout,kyc_address_layout
                                         ,kyc_pincode_layout,kyc_state_layout,kyc_mobile_number_layout
-                                        ,kyc_city_layout,kyc_adharnumber_layout,kyc_pan_number_layout"
-        android:visibility="visible" />
+                                        ,kyc_city_layout,kyc_adharnumber_layout,kyc_pan_number_layout,submit_kyc_button" />
+
         <androidx.constraintlayout.widget.Group
             android:id="@+id/kyc_image_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:constraint_referenced_ids="kyc_aadhaar_image_view,kyc_pan_image_view
-            ,submit_kyc_button,upload_kyc_text,aadhar_image_tv,pan_image_tv"
-            android:visibility="visible" />
+            ,upload_kyc_text,aadhar_image_tv,pan_image_tv" />
 
 
         <ImageView
@@ -252,14 +253,14 @@
 
         <TextView
             android:id="@+id/upload_kyc_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Upload photos of Aadhaar and Pan Card (Both Side) "
             app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/pan_image_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/remark_tv" />
 
         <TextView
             android:id="@+id/aadhar_image_tv"
@@ -280,6 +281,20 @@
             app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
             app:layout_constraintStart_toStartOf="@+id/kyc_pan_image_view"
             app:layout_constraintTop_toBottomOf="@+id/kyc_pan_image_view" />
+
+        <TextView
+            android:id="@+id/remark_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            tools:text="TextView"
+            android:textColor="@color/snackBarRed"
+            app:layout_constraintBottom_toTopOf="@+id/upload_kyc_text"
+            app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
+            app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/aadhar_image_tv" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
