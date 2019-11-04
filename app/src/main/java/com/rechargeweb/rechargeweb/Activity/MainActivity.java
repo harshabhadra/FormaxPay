@@ -332,8 +332,8 @@ public class MainActivity extends AppCompatActivity {
                             view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarGreen));
                             snackbar.show();
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                            intent.putExtra("id", session_id);
-                            intent.putExtra("user", userId);
+                            intent.putExtra(Constants.SESSION_ID, session_id);
+                            intent.putExtra(Constants.USER_ID, userId);
                             startActivity(intent);
                             finish();
 

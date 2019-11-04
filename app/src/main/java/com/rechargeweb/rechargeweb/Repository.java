@@ -1,5 +1,6 @@
 package com.rechargeweb.rechargeweb;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -186,7 +187,7 @@ public class Repository {
 
     //Submit Kyc
     public LiveData<String>submitKyc(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
-                                     String state, String mobile, String city, String aadhaarNo, String panNo, String aadharImageUrl, String panImageUrl){
+                                     String state, String mobile, String city, String aadhaarNo, String panNo, RequestBody aadharImageUrl, RequestBody panImageUrl){
 
         submitKycDetails(session_id,auth,name,shopName,dob,email,address,pincode,state,mobile,city,aadhaarNo,panNo,aadharImageUrl,panImageUrl);
         return kycresponseMutableLiveData;
@@ -2198,8 +2199,8 @@ public class Repository {
 
     //Network request to get kyc submit response
     private void submitKycDetails(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
-                                  String state, String mobile, String city, String aadhaarNo, String panNo, String adharImageUrl,
-                                  String panImageUrl) {
+                                  String state, String mobile, String city, String aadhaarNo, String panNo, RequestBody adharImageUrl,
+                                  RequestBody panImageUrl) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Operator.BASE_URL)

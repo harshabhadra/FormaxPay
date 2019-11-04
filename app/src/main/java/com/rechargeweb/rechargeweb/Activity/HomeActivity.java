@@ -159,9 +159,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         }
 
         Intent intent = getIntent();
-        if (intent.hasExtra("id")) {
-            session_id = intent.getStringExtra("id");
-            user_id = intent.getStringExtra("user");
+        if (intent.hasExtra(Constants.SESSION_ID)) {
+            session_id = intent.getStringExtra(Constants.SESSION_ID);
+            user_id = intent.getStringExtra(Constants.USER_ID);
         }
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
@@ -337,26 +337,19 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     public void onChanged(AepsLogIn aepsLogIn) {
                         dialog.dismiss();
                         if (aepsLogIn != null){
-                            String status = aepsLogIn.getStatus();
                             if (aepsLogIn.getStatus().isEmpty() || aepsLogIn.getStatus().equals("Rejected")){
                                 Intent uploadKycIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
                                 uploadKycIntent.putExtra(Constants.SESSION_ID,session_id);
+                                uploadKycIntent.putExtra(Constants.USER_ID,user_id);
                                 uploadKycIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
                                 startActivity(uploadKycIntent);
                             }else if (aepsLogIn.getStatus().equals("Processing")){
 
-                                AlertDialog.Builder successBuilder = new AlertDialog.Builder(HomeActivity.this);
-                                successBuilder.setMessage("You've successfully submitted your KYC details, Please wait for approval.");
-                                successBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        dialog.dismiss();
-                                    }
-                                });
-
-                                AlertDialog alertDialog = successBuilder.create();
-                                alertDialog.show();
+                                Intent uploadIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
+                                uploadIntent.putExtra(Constants.SESSION_ID,session_id);
+                                uploadIntent.putExtra(Constants.USER_ID,user_id);
+                                uploadIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
+                                startActivity(uploadIntent);
 
                                 }else {
                                 agentCode = aepsLogIn.getAgentId();

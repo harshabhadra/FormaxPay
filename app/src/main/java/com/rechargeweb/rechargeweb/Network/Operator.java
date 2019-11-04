@@ -1,5 +1,7 @@
 package com.rechargeweb.rechargeweb.Network;
 
+import android.net.Uri;
+
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 
 import java.io.File;
@@ -176,22 +178,22 @@ public interface Operator {
                           @Field("auth_key")String auth_key);
 
     @POST("aeps_kyc")
-    @FormUrlEncoded
-    Call<String>submitKyc(@Field("user_id")String session_id,
-                          @Field("auth_key")String auth,
-                          @Field("name")String name,
-                          @Field("shop_name")String shop_name,
-                          @Field("dob")String dob,
-                          @Field("email")String email,
-                          @Field("address")String address,
-                          @Field("pincode")String pincode,
-                          @Field("state")String state,
-                          @Field("mobile")String mobile,
-                          @Field("city")String city,
-                          @Field("aadhaar_no")String adhar,
-                          @Field("pan_no")String panNo,
-                          @Field("aadhaar_img")String aadharImageUrl,
-                          @Field("pan_img")String panImageUrl,
-                          @Field("service_type")String service);
+    @Multipart
+    Call<String>submitKyc(@Part("user_id")String session_id,
+                          @Part("auth_key")String auth,
+                          @Part("name")String name,
+                          @Part("shop_name")String shop_name,
+                          @Part("dob")String dob,
+                          @Part("email")String email,
+                          @Part("address")String address,
+                          @Part("pincode")String pincode,
+                          @Part("state")String state,
+                          @Part("mobile")String mobile,
+                          @Part("city")String city,
+                          @Part("aadhaar_no")String adhar,
+                          @Part("pan_no")String panNo,
+                          @Part("aadhaar_img\";filename=\"myaadhar.jpg\"")RequestBody aadharImageUrl,
+                          @Part("pan_img\";filename=\"myPan.jpg\"") RequestBody panImageUrl,
+                          @Part("service_type")String service);
 
 }

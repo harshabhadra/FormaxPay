@@ -6,8 +6,8 @@ android {
         applicationId 'com.rechargeweb.rechargeweb'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 7
-        versionName "3.0.3"
+        versionCode 8
+        versionName "3.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -73,9 +73,6 @@ dependencies {
 
     //Firebase Remote config
     implementation 'com.google.firebase:firebase-config:19.0.3'
-
-    //Firebase storage
-    implementation 'com.google.firebase:firebase-storage:19.1.0'
 
     implementation 'com.android.support:multidex:1.0.3'
 
