@@ -177,13 +177,10 @@ public class Repository {
     //Store kyc submit response
     private MutableLiveData<String>kycresponseMutableLiveData = new MutableLiveData<>();
 
-    //Store image upload response
-    private MutableLiveData<String>imageresponseMutableLiveData = new MutableLiveData<>();
 
     public static Repository getInstance() {
         return new Repository();
     }
-
 
     //Submit Kyc
     public LiveData<String>submitKyc(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
@@ -2120,10 +2117,9 @@ public class Repository {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-
+                Log.e(TAG,"Aeps login response Successful: "  + response.body());
                 if (response.isSuccessful() && response.body() != null){
 
-                    Log.e(TAG,"Aeps login response Successful: "  + response.body());
                     try {
                         JSONArray jsonArray = new JSONArray(response.body());
                         for (int i =0; i<jsonArray.length(); i++){

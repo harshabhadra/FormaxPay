@@ -322,6 +322,33 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
         });
     }
 
+    //Get aeps report by date
+    private void getAepsReportByDate(String fromString, String toString){
+
+        noRecordText.setVisibility(View.GONE);
+        fromDate.setEnabled(false);
+        toDate.setEnabled(false);
+        allReportViewModel.getAepsReportByDate(id,auth,fromString,toString).observe(this, new Observer<List<AepsReport>>() {
+            @Override
+            public void onChanged(List<AepsReport> aepsReports) {
+                fromDate.setEnabled(true);
+                toDate.setEnabled(true);
+                loading.setVisibility(View.GONE);
+                if (aepsReports != null){
+                    String s = aepsReports.get(0).getCreatedOn();
+                    if (s != null){
+                        recyclerView.setVisibility(View.VISIBLE);
+                        aepsReportAdapter.setAepsReportList(aepsReports);
+                    }else {
+                        noRecordText.setVisibility(View.VISIBLE);
+                        noRecordText.setText(aepsReports.get(0).getStatus());
+                    }
+                }
+            }
+        });
+
+    }
+
 
     //Get recharge list
     private void getMobileRechargeReport() {
@@ -397,32 +424,6 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                 }
             }
         });
-    }
-    //Get aeps report by date
-    private void getAepsReportByDate(String fromString, String toString){
-
-        noRecordText.setVisibility(View.GONE);
-        fromDate.setEnabled(false);
-        toDate.setEnabled(false);
-        allReportViewModel.getAepsReportByDate(id,auth,fromString,toString).observe(this, new Observer<List<AepsReport>>() {
-            @Override
-            public void onChanged(List<AepsReport> aepsReports) {
-                fromDate.setEnabled(true);
-                toDate.setEnabled(true);
-                loading.setVisibility(View.GONE);
-                if (aepsReports != null){
-                    String s = aepsReports.get(0).getCreatedOn();
-                    if (s != null){
-                        recyclerView.setVisibility(View.VISIBLE);
-                        aepsReportAdapter.setAepsReportList(aepsReports);
-                    }else {
-                        noRecordText.setVisibility(View.VISIBLE);
-                        noRecordText.setText(aepsReports.get(0).getStatus());
-                    }
-                }
-            }
-        });
-
     }
 
     //Get credit list

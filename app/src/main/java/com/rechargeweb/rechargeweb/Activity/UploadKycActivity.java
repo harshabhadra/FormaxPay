@@ -261,6 +261,14 @@ public class UploadKycActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent homeIntent = new Intent(UploadKycActivity.this,HomeActivity.class);
+        homeIntent.putExtra(Constants.SESSION_ID,session_id);
+        homeIntent.putExtra(Constants.USER_ID,user_id);
+        startActivity(homeIntent);
+        finish();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

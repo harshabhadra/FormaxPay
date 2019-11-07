@@ -47,13 +47,17 @@ import rx.schedulers.Schedulers;
  */
 public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener, OnMoneyItemClickListener, BankingAdapter.OnBankingItemClickListener {
 
+
+    private StatefulRecyclerView itemRecyclerView;
+    private ItemAdapter itemAdapter;
+
     ApiService apiService;
     String id;
     String authKey;
 
-    private StatefulRecyclerView itemRecyclerView;
+
     private RecyclerView moneyRecycler;
-    private ItemAdapter itemAdapter;
+
     private MoneyAdapter moneyAdapter;
 
     private StatefulRecyclerView bankingRecyclerView;

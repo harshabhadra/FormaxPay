@@ -353,6 +353,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
                                 }else {
                                 agentCode = aepsLogIn.getAgentId();
+                                Log.e(TAG,"agernt Id: " + agentCode);
                                 if (!agentCode.isEmpty()) {
                                     Intent i = new Intent(HomeActivity.this, AepsActivity.class);
                                     i.putExtra("agent_id", agentCode);

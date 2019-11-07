@@ -28,8 +28,9 @@ public class ReportFragment extends Fragment implements AllReportAdapter.OnRepor
 
     RecyclerView reportRecycler;
     AllReportAdapter reportAdapter;
-    String id;
+
     DummyData dummyData = new DummyData();
+    String id;
     private static final String TAG = ReportFragment.class.getSimpleName();
     OnReportclickListener reportclickListener;
 

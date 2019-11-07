@@ -121,7 +121,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         providerText = findViewById(R.id.provider_name);
         providerImage = findViewById(R.id.provider_logo);
         selectTypeImage = findViewById(R.id.select_type_image);
-        ;
 
         contactImage = findViewById(R.id.contact_image);
         browseTextView = findViewById(R.id.browse_plans_text);
@@ -284,7 +283,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 final String amount = amountEditText.getText().toString().trim();
-                if (!TextUtils.isEmpty(mobileNumber) && !TextUtils.isEmpty(amount)) {
+                if (!TextUtils.isEmpty(mobileNumber) && !TextUtils.isEmpty(amount) && !providerId.isEmpty()) {
 
                     LayoutInflater inflater = getLayoutInflater();
                     final View confirmLayout = inflater.inflate(R.layout.confirmation_layout, null);
@@ -301,7 +300,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                     builder.setCancelable(false);
                     final AlertDialog dialog = builder.create();
                     dialog.show();
-
 
                     numTextView.setText(mobileNumber.trim());
                     amountTextView.setText(amount.trim());
@@ -382,6 +380,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
 
                     Log.e(TAG, "Number is detected");
                     serviceOperator = numberDetect.getService();
+                    providerName = serviceOperator;
                     circleId = numberDetect.getCircleId();
                     optId = numberDetect.getOpId();
 
@@ -431,11 +430,11 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                             Picasso.get().load(R.drawable.tatadocomo).placeholder(R.mipmap.formax_icon).into(providerImage);
                             break;
                         case "10":
-                            providerId = "2";
+                            providerId = "18";
                             providerText.setText(serviceOperator);
                             Picasso.get().load(R.drawable.vodafone).placeholder(R.mipmap.formax_icon).into(providerImage);
                         case "30":
-                            providerId = "18";
+                            providerId = "2";
                             providerText.setText(serviceOperator);
                             Picasso.get().load(R.drawable.vodafone).placeholder(R.mipmap.formax_icon).into(providerImage);
                             break;
