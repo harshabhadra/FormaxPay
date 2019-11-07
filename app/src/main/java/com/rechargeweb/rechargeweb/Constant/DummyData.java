@@ -66,6 +66,7 @@ public class DummyData {
         List<Items>bankingItems = new ArrayList<>();
         bankingItems.add(new Items((R.drawable.dmt),"DMT"));
         bankingItems.add(new Items(R.drawable.aeps_icon,"AEPS"));
+        bankingItems.add(new Items(R.drawable.fino_aeps,"Fino AEPS"));
         return bankingItems;
     }
 }
