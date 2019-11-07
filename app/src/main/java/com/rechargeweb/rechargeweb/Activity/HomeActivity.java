@@ -42,6 +42,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Profile;
@@ -372,6 +373,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
 
                 break;
+            case "Fino AEPS":
+                Intent finoIntent = new Intent(HomeActivity.this, FinoAepsActivity.class);
+                startActivity(finoIntent);
             default:
                 Toast.makeText(getApplicationContext(), "Coming Soon", Toast.LENGTH_LONG).show();
                 break;

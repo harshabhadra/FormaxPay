@@ -23,12 +23,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".FinoAepsActivity"></activity>
+        android:name=".ApplicationTest"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:theme,android:allowBackup,android:icon,android:name">
+        <activity android:name=".FinoAepsActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Activity.UploadKycActivity"
             android:label="KYC Details"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name="com.aeps.aepslib.AepsActivity"
             android:screenOrientation="portrait" />

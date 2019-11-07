@@ -94,7 +94,7 @@ public class UploadKycActivity extends AppCompatActivity {
         AepsLogIn aepsLogIn = intent.getParcelableExtra(Constants.AEPS_STATUS);
         if (aepsLogIn.getStatus().equals("Rejected")){
 
-            String reject = "Application Rejected : " + aepsLogIn.getRemark();
+            String reject = "ApplicationTest Rejected : " + aepsLogIn.getRemark();
             uploadKycBinding.remarkTv.setText(reject);
 
         }else if (aepsLogIn.getStatus().equals("Processing")){
