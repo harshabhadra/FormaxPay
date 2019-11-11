@@ -31,13 +31,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.rechargeweb.rechargeweb.BillPaymentViewModel;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.OperatorByStateSheet;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Model.BillPay;
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 import com.rechargeweb.rechargeweb.Model.Prepaid;
 import com.rechargeweb.rechargeweb.R;
-import com.rechargeweb.rechargeweb.ViewModels.BillPaymentViewModel;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -157,7 +158,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                                 Log.e(TAG, "electric status is not null");
                                 if (electricStatus.getBillAmount() == null) {
                                     Log.e(TAG, "Bill amount is null");
-                                    Toast.makeText(getApplicationContext(), "No Due payments", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), electricStatus.getStatus(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.putExtra(Constants.SESSION_ID, session_id);

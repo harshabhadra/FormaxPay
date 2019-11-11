@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb.ViewModels;
+package com.rechargeweb.rechargeweb;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
