@@ -112,6 +112,8 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradientbakcthree));
 
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         auth = getResources().getString(R.string.auth_key);
         token = getResources().getString(R.string.token);
 

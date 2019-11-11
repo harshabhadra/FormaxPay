@@ -1115,8 +1115,9 @@ public class Repository {
         call.enqueue(new Callback<ElectricStatus>() {
             @Override
             public void onResponse(Call<ElectricStatus> call, Response<ElectricStatus> response) {
+                Log.e(TAG, "Electric response success");
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "Electric response success");
+
                     ElectricStatus electricStatus = new ElectricStatus(response.body().getStatus(), response.body().getCustomerId(),
                             response.body().getCustomerName(), response.body().getBillNumber(), response.body().getBillDate(), response.body().getBillDueDate(),
                             response.body().getBillPeriod(), response.body().getBillAmount(), response.body().getRefId(), response.body().getMessage());

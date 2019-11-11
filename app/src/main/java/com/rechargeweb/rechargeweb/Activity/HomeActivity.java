@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -338,7 +340,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     public void onChanged(AepsLogIn aepsLogIn) {
                         dialog.dismiss();
                         if (aepsLogIn != null){
-                            if (aepsLogIn.getStatus().isEmpty() || aepsLogIn.getStatus().equals("Rejected")){
+                            if (aepsLogIn.getStatus() == null || aepsLogIn.getStatus().equals("Rejected")){
                                 Intent uploadKycIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
                                 uploadKycIntent.putExtra(Constants.SESSION_ID,session_id);
                                 uploadKycIntent.putExtra(Constants.USER_ID,user_id);
@@ -356,22 +358,25 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                                 agentCode = aepsLogIn.getAgentId();
                                 Log.e(TAG,"agernt Id: " + agentCode);
                                 if (!agentCode.isEmpty()) {
-                                    Intent i = new Intent(HomeActivity.this, AepsActivity.class);
-                                    i.putExtra("agent_id", agentCode);
-                                    i.putExtra("developer_id", "Formax It Solutions Private Limited-ALI164557");
-                                    i.putExtra("password", "86sxv296zy");
-                                    i.putExtra("primary_color", R.color.colorPrimary);
-                                    i.putExtra("accent_color", R.color.colorAccent);
-                                    i.putExtra("primary_dark_color", R.color.colorPrimaryDark);
-                                    i.putExtra("clientTransactionId", createMultipleTransactionID());
-                                    startActivityForResult(i, 300);
+
+                                    boolean isPakage = isPackageExisted("com.formax.aeps");
+
+                                    if (isPakage) {
+                                        Intent aepsIntent = new Intent();
+                                        aepsIntent.setAction(Intent.ACTION_SEND);
+                                        aepsIntent.putExtra(Intent.EXTRA_TEXT, agentCode);
+                                        aepsIntent.setType("text/plain");
+                                        aepsIntent.setPackage("com.formax.aeps");
+                                        startActivity(aepsIntent);
+                                    }else {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(MY_APP_URL));
+                                        startActivity(intent);
+                                    }
+                                }
                                 }
                             }
-                        }
                     }
                 });
-
-
                 break;
             case "Fino AEPS":
                 Intent finoIntent = new Intent(HomeActivity.this, FinoAepsActivity.class);
@@ -409,6 +414,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                         showAepsDialog();
                     }else {
                         Toast.makeText(getApplicationContext(),"Empty Response",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                        intent.putExtra(Constants.USER_ID,user_id);
+                        intent.putExtra(Constants.SESSION_ID,session_id);
+                        startActivity(intent);
+                        finish();
                     }
 
                 } catch (JSONException e) {
@@ -418,7 +429,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 Log.e(TAG,"Data is null");
             }
         }else {
-            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            intent.putExtra(Constants.USER_ID,user_id);
+            intent.putExtra(Constants.SESSION_ID,session_id);
+            startActivity(intent);
         }
     }
 
@@ -438,7 +453,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             @Override
             public void onClick(View v) {
 
-                dialog.dismiss();
+                Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                intent.putExtra(Constants.USER_ID,user_id);
+                intent.putExtra(Constants.SESSION_ID,session_id);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -771,5 +791,15 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             Log.e(TAG,e.getMessage());
         }
         return AgentTranID;
+    }
+
+    public boolean isPackageExisted(String targetPackage){
+        PackageManager pm=getPackageManager();
+        try {
+            PackageInfo info=pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }

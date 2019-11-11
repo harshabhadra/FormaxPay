@@ -33,13 +33,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.snackbar.Snackbar;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.OperatorByStateSheet;
 import com.rechargeweb.rechargeweb.Constant.Constants;
-import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
-import com.rechargeweb.rechargeweb.ViewModels.BillPaymentViewModel;
-import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.Model.BillPay;
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 import com.rechargeweb.rechargeweb.Model.Prepaid;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.ViewModels.BillPaymentViewModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -95,13 +93,13 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradientbakcthree));
 
         Intent intent = getIntent();
-        if (intent.hasExtra(Constants.SESSION_ID)){
+        if (intent.hasExtra(Constants.SESSION_ID)) {
             session_id = intent.getStringExtra(Constants.SESSION_ID);
             name = intent.getStringExtra(Constants.STATE);
             if (name != null) {
                 Log.e(TAG, name);
-            }else {
-                Log.e(TAG,"null");
+            } else {
+                Log.e(TAG, "null");
             }
         }
         auth_key = getResources().getString(R.string.auth_key);
@@ -156,18 +154,18 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                             mDialog.dismiss();
                             if (electricStatus != null) {
 
-                                Log.e(TAG,"electric status is not null");
-                                if (electricStatus.getBillAmount() == null){
-                                    Log.e(TAG,"Bill amount is null");
-                                    Toast.makeText(getApplicationContext(),electricStatus.getStatus(),Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(BillPaymentActivity.this,BillPaymentActivity.class);
+                                Log.e(TAG, "electric status is not null");
+                                if (electricStatus.getBillAmount() == null) {
+                                    Log.e(TAG, "Bill amount is null");
+                                    Toast.makeText(getApplicationContext(), "No Due payments", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.putExtra(Constants.SESSION_ID,session_id);
-                                    intent.putExtra(Constants.STATE,name);
+                                    intent.putExtra(Constants.SESSION_ID, session_id);
+                                    intent.putExtra(Constants.STATE, name);
                                     startActivity(intent);
                                     finish();
-                                }else {
-                                    Log.e(TAG,"Bill amount is not null");
+                                } else {
+                                    Log.e(TAG, "Bill amount is not null");
                                     currentBoard.setText("");
                                     currentBoard.setHint("Select Board");
                                     codeEditText.setText("");
@@ -183,7 +181,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                             }
                         }
                     });
-                }else if (!customer_id.isEmpty() && !parameter1.isEmpty() && board != null){
+                } else if (!customer_id.isEmpty() && !parameter1.isEmpty() && board != null) {
                     View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentActivity.this);
                     builder.setView(layout);
@@ -191,20 +189,20 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                     final AlertDialog mDialog = builder.create();
                     mDialog.show();
 
-                    billPaymentViewModel.getElectricBillStatusTWo(auth_key,customer_id,code,parameter1).observe(BillPaymentActivity.this, new Observer<ElectricStatus>() {
+                    billPaymentViewModel.getElectricBillStatusTWo(auth_key, customer_id, code, parameter1).observe(BillPaymentActivity.this, new Observer<ElectricStatus>() {
                         @Override
                         public void onChanged(ElectricStatus electricStatus) {
-                           mDialog.dismiss();
+                            mDialog.dismiss();
                             if (electricStatus != null) {
-                                if (electricStatus.getCustomerId() == null){
-                                    Toast.makeText(getApplicationContext(),electricStatus.getStatus(),Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(BillPaymentActivity.this,BillPaymentActivity.class);
+                                if (electricStatus.getCustomerId() == null) {
+                                    Toast.makeText(getApplicationContext(), electricStatus.getStatus(), Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.putExtra(Constants.SESSION_ID,session_id);
-                                    intent.putExtra(Constants.STATE,name);
+                                    intent.putExtra(Constants.SESSION_ID, session_id);
+                                    intent.putExtra(Constants.STATE, name);
                                     startActivity(intent);
                                     finish();
-                                }else {
+                                } else {
                                     currentBoard.setText("");
                                     currentBoard.setHint("Select Board");
                                     codeEditText.setText("");
@@ -219,13 +217,12 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                             }
                         }
                     });
-                }
-                else if (board == null){
+                } else if (board == null) {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Select a Board", Snackbar.LENGTH_LONG);
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
                     snackbar.show();
-                }else {
+                } else {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Consumer Id", Snackbar.LENGTH_LONG);
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
@@ -246,8 +243,8 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
 
                 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 if (locationManager != null) {
-                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        gps = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    gps = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
                     if (location != null) {
                         if (gps) {
@@ -261,20 +258,20 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                     }
                 }
             }
-        }else {
+        } else {
             currentState.setText(name);
         }
     }
 
     //Get the state name from location
-    private String getStateNme(Location location){
+    private String getStateNme(Location location) {
         lon = location.getLongitude();
         lat = location.getLatitude();
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
             List<Address> list = geocoder.getFromLocation(lat, lon, 1);
-           name = list.get(0).getAdminArea();
+            name = list.get(0).getAdminArea();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -327,7 +324,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
     }
 
     //Check if the device is connected to wifi or mobile network
-    private boolean whichConnected (){
+    private boolean whichConnected() {
 
         ConnectivityManager connMgr =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -340,10 +337,10 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                     isWifiConn |= networkInfo.isConnected();
                 }
             }
-        }else {
+        } else {
             NetworkInfo mWifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-           isWifiConn |= mWifi.isConnected();
+            isWifiConn |= mWifi.isConnected();
         }
         Log.e(DEBUG_TAG, "Wifi connected: " + isWifiConn);
         return isWifiConn;
@@ -388,63 +385,63 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
     }
 
     //Create Bill fetch Dialog
-    private void createBillFetchDialog(ElectricStatus electricStatus){
+    private void createBillFetchDialog(ElectricStatus electricStatus) {
 
 
-            View layout = getLayoutInflater().inflate(R.layout.electric_bill_details_dialog, null);
+        View layout = getLayoutInflater().inflate(R.layout.electric_bill_details_dialog, null);
 
-            final TextView customerId = layout.findViewById(R.id.customer_id);
-            TextView customerName = layout.findViewById(R.id.customer_name);
-            TextView billNumber = layout.findViewById(R.id.bill_number);
-            TextView billDate = layout.findViewById(R.id.bill_date);
-            TextView billDueDate = layout.findViewById(R.id.bill_due_date);
-            TextView billPeriod = layout.findViewById(R.id.bill_period);
-            TextView billAmount = layout.findViewById(R.id.billamount);
-            FancyButton button = layout.findViewById(R.id.cancel_button);
-            FancyButton payButton = layout.findViewById(R.id.close);
-            AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentActivity.this, R.style.CustomDialog);
-            builder.setView(layout);
+        final TextView customerId = layout.findViewById(R.id.customer_id);
+        TextView customerName = layout.findViewById(R.id.customer_name);
+        TextView billNumber = layout.findViewById(R.id.bill_number);
+        TextView billDate = layout.findViewById(R.id.bill_date);
+        TextView billDueDate = layout.findViewById(R.id.bill_due_date);
+        TextView billPeriod = layout.findViewById(R.id.bill_period);
+        TextView billAmount = layout.findViewById(R.id.billamount);
+        FancyButton button = layout.findViewById(R.id.cancel_button);
+        FancyButton payButton = layout.findViewById(R.id.close);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentActivity.this, R.style.CustomDialog);
+        builder.setView(layout);
 
-            final AlertDialog dialog = builder.create();
-            dialog.show();
-            if (electricStatus != null) {
-                customerId.setText(electricStatus.getCustomerId());
-                customer_name = electricStatus.getCustomerName();
-                customerName.setText(customer_name);
-                billNumber.setText(electricStatus.getBillNumber());
-                billDate.setText(electricStatus.getBillDate());
-                billDueDate.setText(electricStatus.getBillDueDate());
-                billPeriod.setText(electricStatus.getBillPeriod());
-                if (electricStatus.getBillAmount() != null) {
-                    amount = electricStatus.getBillAmount();
-                    billAmount.setText(String.valueOf(amount));
-                    Log.e(TAG, "Pay amount: " + amount);
-                }else {
-                    billAmount.setText("N/A");
-                }
-                ref_id = electricStatus.getRefId();
-            }else {
-                Toast.makeText(getApplicationContext(),"Failed to get bill ", Toast.LENGTH_SHORT).show();
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        if (electricStatus != null) {
+            customerId.setText(electricStatus.getCustomerId());
+            customer_name = electricStatus.getCustomerName();
+            customerName.setText(customer_name);
+            billNumber.setText(electricStatus.getBillNumber());
+            billDate.setText(electricStatus.getBillDate());
+            billDueDate.setText(electricStatus.getBillDueDate());
+            billPeriod.setText(electricStatus.getBillPeriod());
+            if (electricStatus.getBillAmount() != null) {
+                amount = electricStatus.getBillAmount();
+                billAmount.setText(String.valueOf(amount));
+                Log.e(TAG, "Pay amount: " + amount);
+            } else {
+                billAmount.setText("N/A");
             }
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            ref_id = electricStatus.getRefId();
+        } else {
+            Toast.makeText(getApplicationContext(), "Failed to get bill ", Toast.LENGTH_SHORT).show();
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    Intent intent = new Intent(BillPaymentActivity.this,BillPaymentActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra(Constants.SESSION_ID,session_id);
-                    intent.putExtra(Constants.STATE,name);
-                    startActivity(intent);
-                    finish();
-                }
-            });
+                Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra(Constants.SESSION_ID, session_id);
+                intent.putExtra(Constants.STATE, name);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                if (customer_id!= null && code!=null && amount!= 0 && ref_id != null ) {
+                if (customer_id != null && code != null && amount != 0 && ref_id != null) {
                     dialog.dismiss();
                     View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentActivity.this);
@@ -473,12 +470,12 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                         }
                     });
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Please provide needed information to Pay bill",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(BillPaymentActivity.this,BillPaymentActivity.class);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please provide needed information to Pay bill", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra(Constants.SESSION_ID,session_id);
-                    intent.putExtra(Constants.STATE,name);
+                    intent.putExtra(Constants.SESSION_ID, session_id);
+                    intent.putExtra(Constants.STATE, name);
                     startActivity(intent);
                     finish();
                 }
@@ -487,7 +484,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
     }
 
     //Show bill payment confirm dialog
-    private void createConfrimPayDialog(BillPay billPay, String customer){
+    private void createConfrimPayDialog(BillPay billPay, String customer) {
 
         View layout = getLayoutInflater().inflate(R.layout.confirm_bill_payment, null);
 
@@ -503,13 +500,13 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
 
         FancyButton closeButton = layout.findViewById(R.id.close);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentActivity.this,R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BillPaymentActivity.this, R.style.CustomDialog);
         builder.setView(layout);
 
         final AlertDialog dialog = builder.create();
         dialog.show();
 
-        if (billPay != null){
+        if (billPay != null) {
 
             operatorName.setText(billPay.getOperatorName());
             customerName.setText(customer);
@@ -517,16 +514,16 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
             amount.setText(billPay.getAmount());
             String stat = billPay.getStatus();
             status.setText(stat);
-            if (stat.equals("SUCCESS")){
+            if (stat.equals("SUCCESS")) {
                 status.setTextColor(Color.GREEN);
-            }else if (stat.equals("PENDING")){
+            } else if (stat.equals("PENDING")) {
                 status.setTextColor(getResources().getColor(R.color.processing));
-            }else {
+            } else {
                 status.setTextColor(Color.RED);
             }
             txbId.setText(billPay.getTxnId());
             String opt = billPay.getOptTxnId();
-                opt_txn_id.setText(billPay.getOptTxnId());
+            opt_txn_id.setText(billPay.getOptTxnId());
             date.setText(billPay.getCreatedOn());
             response.setText(billPay.getResponse());
         }
@@ -535,24 +532,24 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(BillPaymentActivity.this,BillPaymentActivity.class);
+                Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra(Constants.SESSION_ID, session_id);
-                intent.putExtra(Constants.STATE,name);
+                intent.putExtra(Constants.STATE, name);
                 startActivity(intent);
             }
         });
     }
 
     //Show BottomSheet of Electricity operators by state
-    public void showOperatorByState(){
+    public void showOperatorByState() {
         String state = currentState.getText().toString();
         OperatorByStateSheet operatorByStateSheet = new OperatorByStateSheet(state);
-        operatorByStateSheet.show(getSupportFragmentManager(),operatorByStateSheet.getTag());
+        operatorByStateSheet.show(getSupportFragmentManager(), operatorByStateSheet.getTag());
     }
 
     //Set Code EditText according to code
-    private void setCodeEditText(String code){
+    private void setCodeEditText(String code) {
 
         String CONSUMER_ID = "Consumer Id";
         String K_NUMBER = "K Number";
@@ -685,6 +682,6 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
         setCodeEditText(code);
         codeEditText.setVisibility(View.VISIBLE);
 
-        Log.e(TAG,"Code is : " + code);
+        Log.e(TAG, "Code is : " + code);
     }
 }

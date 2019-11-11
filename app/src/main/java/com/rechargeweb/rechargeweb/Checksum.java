@@ -26,7 +26,7 @@ public class Checksum {
         randomNumber = Utility.Companion.generateToken(15);
         System.out.println(currentTime);
         String data = agentCode.concat("|").concat(currentTime.toString()).concat("|").concat(randomNumber);
-        String secretKey = "aefc05467d";
+        String secretKey = "f85acd0c3c";//aefc05467d
         byte[] decodedKey = Hex.decodeHex(secretKey.toCharArray());
         SecretKeySpec keySpec = new SecretKeySpec(decodedKey, "HmacSHA512");
         Mac mac = Mac.getInstance("HmacSHA512");

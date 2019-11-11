@@ -32,7 +32,8 @@
         <activity
             android:name=".Activity.UploadKycActivity"
             android:label="KYC Details"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Activity.HomeActivity">
         </activity>
         <activity
             android:name="com.aeps.aepslib.AepsActivity"
@@ -95,7 +96,11 @@
         <activity
             android:name=".Activity.RechargeActivity"
             android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.HomeActivity" />
+        </activity>
         <activity
             android:name=".Activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -105,19 +110,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity android:name=".Activity.SignUpActivity" />
         <activity
             android:name=".Activity.HomeActivity"
-            android:launchMode="singleTop"
             android:logo="@mipmap/formax_round_icon"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

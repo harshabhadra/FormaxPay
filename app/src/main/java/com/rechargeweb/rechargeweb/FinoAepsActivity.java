@@ -27,8 +27,8 @@ import java.security.NoSuchAlgorithmException;
 public class FinoAepsActivity extends AppCompatActivity {
 
     private static final String TAG = FinoAepsActivity.class.getSimpleName();
-    private final static String CONFIG_ENVIRONMENT = PaisaNikalConfig.Config.ENVIRONMENT_SAND_BOX;
-    private String CONFIG_AGENT_ID_CODE = "RS00789";
+    private final static String CONFIG_ENVIRONMENT = PaisaNikalConfig.Config.ENVIRONMENT_PRODUCTION;
+    private String CONFIG_AGENT_ID_CODE = "FORMAX01";//RS00789
     private String CONFIG_AGENT_NMAE = "Agent name"; //Agent name
     private PaisaNikalConfiguration config = null;
     private PaisaNikalRequest apiRequest = null;
@@ -132,7 +132,7 @@ public class FinoAepsActivity extends AppCompatActivity {
         sb.append(PaisaNikalConfig.ApiTransactionId.YBL_AEPS__BALANCE_INQUIRY);
         sb.append(System.currentTimeMillis());
 
-        apiRequest.setMobileNumber("6131321321");
+        apiRequest.setMobileNumber(mobileNumber);
         apiRequest.setOrderId(sb.toString());
         apiRequest.setTimeStemp(Checksum.currentTime.toString());
         apiRequest.setToken(Checksum.randomNumber);
