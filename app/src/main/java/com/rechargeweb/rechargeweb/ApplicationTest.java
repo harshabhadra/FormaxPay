@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb;
 
-import com.easypay.epmoney.epmoneylib.application.PaisaNikalApp;
+
+import com.easypay.epmoney.epmoneyaeps.application.PaisaNikalApp;
 
 public class ApplicationTest extends PaisaNikalApp {
 

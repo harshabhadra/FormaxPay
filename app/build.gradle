@@ -84,9 +84,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
 
-    implementation project(path: ':epmoneylib-paisanikal')
-
-
     //Paisanikal
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50'
 
@@ -108,13 +105,8 @@ dependencies {
     //ImageCircleIamge
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
-    debugApi files('libs/finosdk_new_uat.aar')
-    releaseApi files('libs/finosdk_live.aar')
-
-    implementation 'de.greenrobot:greendao:2.1.0'
-    implementation 'com.karumi:dexter:5.0.0'
-
     implementation 'com.datatheorem.android.trustkit:trustkit:1.0.2'
+    implementation project(path: ':epmoneyaeps-paisanikal')
 
 }
 apply plugin: 'com.google.gms.google-services'

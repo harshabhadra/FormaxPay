@@ -1,2 +1,2 @@
-include ':app', ':epmoneylib-paisanikal'
+include ':app', ':epmoneyaeps-paisanikal'
 rootProject.name='RechargeWeb'

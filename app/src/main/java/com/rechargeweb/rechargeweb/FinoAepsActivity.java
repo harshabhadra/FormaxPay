@@ -17,11 +17,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.easypay.epmoney.epmoneylib.baseframework.model.PaisaNikalConfiguration;
-import com.easypay.epmoney.epmoneylib.baseframework.model.PaisaNikalRequest;
-import com.easypay.epmoney.epmoneylib.response_model.PaisaNikalTransactionResponse;
-import com.easypay.epmoney.epmoneylib.ui.activity.IntermidiateActivity;
-import com.easypay.epmoney.epmoneylib.utils.PaisaNikalConfig;
+import com.easypay.epmoney.epmoneyaeps.baseframework.model.PaisaNikalConfiguration;
+import com.easypay.epmoney.epmoneyaeps.baseframework.model.PaisaNikalRequest;
+import com.easypay.epmoney.epmoneyaeps.response_model.PaisaNikalTransactionResponse;
+import com.easypay.epmoney.epmoneyaeps.ui.activity.IntermidiateActivity;
+import com.easypay.epmoney.epmoneyaeps.utils.PaisaNikalConfig;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
