@@ -1,113 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".FinoAepsActivity">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/balance_inquiry_layout"
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/profile_icon_back"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fino_amount_layout"
+            app:layout_constraintStart_toStartOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/fino_amount_layout"
+            app:srcCompat="@drawable/ic_account_balance_wallet_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imageView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:orientation="vertical"
+            android:background="@drawable/profile_icon_back"
+            android:padding="8dp"
+            android:src="@drawable/ic_account_balance_black_24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:src="@drawable/fino_balance_inquery" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Balance Inquiry" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/cash_withdrawal_layout"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:orientation="vertical"
+            android:layout_marginTop="7dp"
+            app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:src="@drawable/fino_withdrawl" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Cash Withdrawal" />
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/yes_bank_logo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fino_mobile_number_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/balance_inquiry_layout">
+            app:layout_constraintStart_toStartOf="@+id/balance_info_tv"
+            app:layout_constraintTop_toBottomOf="@+id/balance_info_tv">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fino_mobile_number_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mobile Number"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="10"
+                android:hint="Mobile Number" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/profile_icon_back"
+            android:padding="8dp"
+            android:src="@drawable/ic_phone_iphone_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/fino_mobile_number_layout"
+            app:layout_constraintStart_toStartOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="@+id/fino_mobile_number_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fino_amount_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fino_mobile_number_layout"
+            app:layout_constraintStart_toStartOf="@+id/fino_mobile_number_layout"
             app:layout_constraintTop_toBottomOf="@+id/fino_mobile_number_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fino_amount_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Amount"
-                android:inputType="number" />
+                android:enabled="false"
+                android:inputType="number"
+                android:maxLength="5"
+                android:hint="@string/HINT_STR_AMOUNT" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/fino_submit_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:visibility="gone"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/button"
-            android:text="Submit"
-            android:textColor="@color/white"
+            android:text="Button"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/background_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fino_amount_layout" />
 
+        <TextView
+            android:id="@+id/balance_info_tv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="8dp"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:text="@string/balance_enquiry"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:drawableEnd="@drawable/ic_pick_operator"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

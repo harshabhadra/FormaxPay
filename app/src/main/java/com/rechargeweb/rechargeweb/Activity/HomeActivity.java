@@ -36,8 +36,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
-import com.aeps.aepslib.AepsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -325,26 +323,27 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 intent.putExtra(Constants.SESSION_ID,session_id);
                 startActivity(intent);
                 break;
-            case "AEPS":
+            case "YBL AEPS":
+                View layout1 = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setView(layout1);
+                builder1.setCancelable(false);
 
-                View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setView(layout);
-                builder.setCancelable(false);
+                final AlertDialog dialog1 = builder1.create();
+                dialog1.show();
 
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-
-                allReportViewModel.aepsLogIn(session_id,"FI_AEPS",auth).observe(this, new Observer<AepsLogIn>() {
+                String service_type2 = "YBL_AEPS";
+                allReportViewModel.aepsLogIn(session_id,service_type2,auth).observe(this, new Observer<AepsLogIn>() {
                     @Override
                     public void onChanged(AepsLogIn aepsLogIn) {
-                        dialog.dismiss();
+                        dialog1.dismiss();
                         if (aepsLogIn != null){
-                            if (aepsLogIn.getStatus() == null || aepsLogIn.getStatus().equals("Rejected")){
+                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")){
                                 Intent uploadKycIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
                                 uploadKycIntent.putExtra(Constants.SESSION_ID,session_id);
                                 uploadKycIntent.putExtra(Constants.USER_ID,user_id);
                                 uploadKycIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
+                                uploadKycIntent.putExtra(Constants.AEPS_TYPE,service_type2);
                                 startActivity(uploadKycIntent);
                             }else if (aepsLogIn.getStatus().equals("Processing")){
 
@@ -352,35 +351,25 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                                 uploadIntent.putExtra(Constants.SESSION_ID,session_id);
                                 uploadIntent.putExtra(Constants.USER_ID,user_id);
                                 uploadIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
+                                uploadIntent.putExtra(Constants.AEPS_TYPE,service_type2);
                                 startActivity(uploadIntent);
 
-                                }else {
+                            }else {
                                 agentCode = aepsLogIn.getAgentId();
                                 Log.e(TAG,"agernt Id: " + agentCode);
                                 if (!agentCode.isEmpty()) {
 
-                                    boolean isPakage = isPackageExisted("com.formax.aeps");
-
-                                    if (isPakage) {
-                                        Intent aepsIntent = new Intent();
-                                        aepsIntent.setAction(Intent.ACTION_SEND);
-                                        aepsIntent.putExtra(Intent.EXTRA_TEXT, agentCode);
-                                        aepsIntent.setType("text/plain");
-                                        aepsIntent.setPackage("com.formax.aeps");
-                                        startActivity(aepsIntent);
-                                    }else {
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(MY_APP_URL));
-                                        startActivity(intent);
-                                    }
-                                }
+                                    Intent finoIntent = new Intent(HomeActivity.this, FinoAepsActivity.class);
+                                    finoIntent.putExtra(Constants.SESSION_ID, session_id);
+                                    finoIntent.putExtra(Constants.USER_ID, user_id);
+                                    startActivity(finoIntent);
                                 }
                             }
+                        }
                     }
                 });
+
                 break;
-            case "Fino AEPS":
-                Intent finoIntent = new Intent(HomeActivity.this, FinoAepsActivity.class);
-                startActivity(finoIntent);
             default:
                 Toast.makeText(getApplicationContext(), "Coming Soon", Toast.LENGTH_LONG).show();
                 break;

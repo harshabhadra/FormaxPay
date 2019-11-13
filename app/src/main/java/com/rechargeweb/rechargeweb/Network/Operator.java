@@ -194,4 +194,38 @@ public interface Operator {
                            @Part("pan_img\";filename=\"myPan.jpg\"") RequestBody panImageUrl,
                            @Part("service_type") String service);
 
+    @POST("aeps_login")
+    @FormUrlEncoded
+    Call<String>paisanikalaepslogin(@Field("user_id") String session_id,
+                                    @Field("service_type") String service_type,
+                                    @Field("auth_key") String auth_key);
+
+
+    @POST("aeps_kyc")
+    @Multipart
+    Call<String> submitPaisanikalKyc(@Part("user_id") String session_id,
+                           @Part("auth_key") String auth,
+                           @Part("name") String name,
+                           @Part("shop_name") String shop_name,
+                           @Part("dob") String dob,
+                           @Part("email") String email,
+                           @Part("address") String address,
+                           @Part("pincode") String pincode,
+                           @Part("state") String state,
+                           @Part("mobile") String mobile,
+                           @Part("city") String city,
+                           @Part("aadhaar_no") String adhar,
+                           @Part("pan_no") String panNo,
+                           @Part("aadhaar_img\";filename=\"myaadhar.jpg\"") RequestBody aadharImageUrl,
+                           @Part("pan_img\";filename=\"myPan.jpg\"") RequestBody panImageUrl,
+                           @Part("service_type") String service);
+
+    @POST("insert_aeps_log")
+    @FormUrlEncoded
+    Call<String>sendAepsDetails(@Field("user_id")String session_id,
+                                @Field("auth_key")String auth,
+                                @Field("service_type")String service,
+                                @Field("amount")String amount,
+                                @Field("order_id")String orderId,
+                                @Field("mobile")String mobile);
 }

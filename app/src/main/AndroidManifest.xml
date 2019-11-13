@@ -27,7 +27,8 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name">
         <activity android:name=".FinoAepsActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+           android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".Activity.UploadKycActivity"
@@ -35,9 +36,6 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".Activity.HomeActivity">
         </activity>
-        <activity
-            android:name="com.aeps.aepslib.AepsActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.ValidateActivity"
             android:parentActivityName=".Activity.HomeActivity"

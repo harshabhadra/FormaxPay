@@ -38,4 +38,5 @@ public class Constants {
     public static final String MESSAGE = "message";
 
     public static final String AEPS_STATUS = "status";
+    public static final String AEPS_TYPE =  "aeps_type";
 }

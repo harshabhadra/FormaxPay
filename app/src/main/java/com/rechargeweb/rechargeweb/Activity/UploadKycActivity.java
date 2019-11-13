@@ -52,6 +52,7 @@ public class UploadKycActivity extends AppCompatActivity {
     String session_id;
     String auth_key;
     String user_id;
+    String service_type;
 
     private static final String TAG = UploadKycActivity.class.getSimpleName();
 
@@ -91,6 +92,8 @@ public class UploadKycActivity extends AppCompatActivity {
         Intent intent = getIntent();
         session_id = intent.getStringExtra(Constants.SESSION_ID);
         user_id = intent.getStringExtra(Constants.USER_ID);
+        service_type = intent.getStringExtra(Constants.AEPS_TYPE);
+
         AepsLogIn aepsLogIn = intent.getParcelableExtra(Constants.AEPS_STATUS);
         if (aepsLogIn.getStatus().equals("Rejected")){
 
@@ -215,7 +218,7 @@ public class UploadKycActivity extends AppCompatActivity {
                     adharNo = uploadKycBinding.kycAadhaarInputText.getText().toString();
                     panNo = uploadKycBinding.kycPanNumberInputText.getText().toString();
 
-                    uploadKycViewModel.submitKyc(session_id,auth_key,name,shopName,dob,email,address,pincode,state,mobile,city,adharNo,panNo, aadharImageBody, panImageBody)
+                    uploadKycViewModel.submitKyc(session_id,auth_key,name,shopName,dob,email,address,pincode,state,mobile,city,adharNo,panNo, aadharImageBody, panImageBody,service_type)
                             .observe(UploadKycActivity.this, new Observer<String>() {
                         @Override
                         public void onChanged(String s) {

@@ -22,9 +22,12 @@ import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import org.reactivestreams.Subscriber;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,23 +107,15 @@ public class ProfileFragment extends Fragment {
 
     private void getProfileDetails(String id, String key) {
 
-        apiService.getProfileDetails(id, key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Profile>() {
+        apiService.getProfileDetails(id,key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Profile>() {
                     @Override
-                    public void onCompleted() {
+                    public void onSubscribe(Disposable d) {
 
-                        Log.e(TAG, "Profile Completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e(TAG, "Profile error: " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(Profile profile) {
-
                         mProfile = profile;
                         if (profile != null) {
                             businessNameTv.setText(mProfile.getBusinessName());
@@ -142,6 +137,16 @@ public class ProfileFragment extends Fragment {
                                 passChangeLayoutClick.onChangePassClick();
                             }
                         });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "Profile error: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e(TAG, "Profile Completed");
                     }
                 });
     }

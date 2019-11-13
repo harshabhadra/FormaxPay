@@ -24,9 +24,10 @@ import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class ChangePassActivity extends AppCompatActivity {
 
@@ -171,19 +172,10 @@ public class ChangePassActivity extends AppCompatActivity {
     private void changeCurrentPassword(String session_id,String auth, String cPass,String nPass){
 
         apiService.changePassword(session_id,auth,cPass,nPass,nPass).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Password>() {
+                .subscribe(new Observer<Password>() {
                     @Override
-                    public void onCompleted() {
-                        Log.e(TAG,"Password Change completed");
-                    }
+                    public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e(TAG,"Password Change error: " + e.getMessage());
-                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                        changePasswordButton.setVisibility(View.VISIBLE);
-                        loading.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -202,6 +194,19 @@ public class ChangePassActivity extends AppCompatActivity {
                         }else {
                             Toast.makeText(getApplicationContext(),"Password is null", Toast.LENGTH_SHORT).show();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG,"Password Change error: " + e.getMessage());
+                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                        changePasswordButton.setVisibility(View.VISIBLE);
+                        loading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

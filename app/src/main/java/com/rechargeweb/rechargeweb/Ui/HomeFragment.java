@@ -37,10 +37,12 @@ import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import mehdi.sakout.fancybuttons.FancyButton;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,7 +108,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         itemRecyclerView = view.findViewById(R.id.item_recycler);
         itemRecyclerView.setHasFixedSize(true);
         int noOfc = Utility.calculateNoOfColumns(getContext(), 110);
-        itemRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        itemRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),noOfc));
         itemAdapter = new ItemAdapter(getContext(), HomeFragment.this, dummyData.getItemsList());
         itemRecyclerView.setAdapter(itemAdapter);
 
@@ -147,21 +149,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     }
 
     private void sendRequest(String id, String key) {
-        apiService.setDetailsPost(id, key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Details>() {
+        apiService.setDetailsPost(id,authKey).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Details>() {
                     @Override
-                    public void onCompleted() {
+                    public void onSubscribe(Disposable d) {
 
-                        Log.e(TAG, "completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        Log.e(TAG, "error");
-                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-                        balanceLoading.setVisibility(View.GONE);
-                        isLoading = false;
                     }
 
                     @Override
@@ -169,6 +161,19 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
                         Log.e(TAG, "success: " + details.toString());
                         balanceLoading.setVisibility(View.GONE);
                         createBalanceDialog(details);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "error");
+                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        balanceLoading.setVisibility(View.GONE);
+                        isLoading = false;
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

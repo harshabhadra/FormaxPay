@@ -1,6 +1,5 @@
 package com.rechargeweb.rechargeweb;
 
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -38,12 +37,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -163,59 +159,69 @@ public class Repository {
     private MutableLiveData<AddBeneficiary> deleteBenValidationMutableLiveData = new MutableLiveData<>();
 
     //Store transfer money message
-    private MutableLiveData<String>transferMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> transferMutableLiveData = new MutableLiveData<>();
 
     //Store aeps log in details
-    private MutableLiveData<AepsLogIn>aepsLogInMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<AepsLogIn> aepsLogInMutableLiveData = new MutableLiveData<>();
 
     //Store list of aeps report data
-    private MutableLiveData<List<AepsReport>>aepsReportListMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<AepsReport>> aepsReportListMutableLiveData = new MutableLiveData<>();
 
     //Store list of aeps report by date
-    private MutableLiveData<List<AepsReport>>aepsReportListMutableLiveDataByDate = new MutableLiveData<>();
+    private MutableLiveData<List<AepsReport>> aepsReportListMutableLiveDataByDate = new MutableLiveData<>();
 
     //Store kyc submit response
-    private MutableLiveData<String>kycresponseMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> kycresponseMutableLiveData = new MutableLiveData<>();
+
+    //Store response after sending aeps details
+    private MutableLiveData<String> aepssendResponseMutableLiveData = new MutableLiveData<>();
 
 
     public static Repository getInstance() {
         return new Repository();
     }
 
-    //Submit Kyc
-    public LiveData<String>submitKyc(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
-                                     String state, String mobile, String city, String aadhaarNo, String panNo, RequestBody aadharImageUrl, RequestBody panImageUrl){
+    //Send aeps transaction details
+    public LiveData<String> sendAepsDetails(String session_id, String auth, String service, String amount, String order_id, String mobile) {
+        sendAepsTrans(session_id, auth, service, amount, order_id, mobile);
+        return aepssendResponseMutableLiveData;
+    }
 
-        submitKycDetails(session_id,auth,name,shopName,dob,email,address,pincode,state,mobile,city,aadhaarNo,panNo,aadharImageUrl,panImageUrl);
+    //Submit Kyc
+    public LiveData<String> submitKyc(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
+                                      String state, String mobile, String city, String aadhaarNo, String panNo, RequestBody aadharImageUrl, RequestBody panImageUrl, String service) {
+
+        submitKycDetails(session_id, auth, name, shopName, dob, email, address, pincode, state, mobile, city, aadhaarNo, panNo, aadharImageUrl, panImageUrl, service);
         return kycresponseMutableLiveData;
     }
 
     //Get Aeps report by date
-    public LiveData<List<AepsReport>>getAepsReportListByDate(String session_id, String auth, String from, String to){
+    public LiveData<List<AepsReport>> getAepsReportListByDate(String session_id, String auth, String from, String to) {
 
-        getAepsReportByDate(session_id,auth,from,to);
+        getAepsReportByDate(session_id, auth, from, to);
         return aepsReportListMutableLiveDataByDate;
     }
 
     //Get Aeps report
-    public LiveData<List<AepsReport>>getAepsReportList(String session_id, String auth){
+    public LiveData<List<AepsReport>> getAepsReportList(String session_id, String auth) {
 
-        getAepsReport(session_id,auth);
+        getAepsReport(session_id, auth);
         return aepsReportListMutableLiveData;
     }
 
     //Aeps Log in
-    public LiveData<AepsLogIn>aepsLogIn(String session_id, String serviceType, String auth){
+    public LiveData<AepsLogIn> aepsLogIn(String session_id, String serviceType, String auth) {
 
-        logInAeps(session_id,serviceType,auth);
+        logInAeps(session_id, serviceType, auth);
         return aepsLogInMutableLiveData;
     }
 
-    //Transfer money to bank
-    public LiveData<String>transferMoney(String session_id, String auth, String mobile, String remitter_id,String name, String ifsc, String account,String ben_id, String amount){
 
-        sendMoney(session_id,auth,mobile,remitter_id,name,ifsc,account,ben_id,amount);
-       return transferMutableLiveData;
+    //Transfer money to bank
+    public LiveData<String> transferMoney(String session_id, String auth, String mobile, String remitter_id, String name, String ifsc, String account, String ben_id, String amount) {
+
+        sendMoney(session_id, auth, mobile, remitter_id, name, ifsc, account, ben_id, amount);
+        return transferMutableLiveData;
     }
 
     //delete beneficiary
@@ -1779,11 +1785,11 @@ public class Repository {
                         JSONObject dataObject = jsonObject.optJSONObject("data");
                         JSONArray beneficiaryArray = dataObject.getJSONArray("beneficiary");
 
-                        if (!beneficiaryArray.isNull(0)){
-                            Log.e(TAG,"beneficiary array is not empty");
-                        for (int i = 0; i < beneficiaryArray.length(); i++) {
+                        if (!beneficiaryArray.isNull(0)) {
+                            Log.e(TAG, "beneficiary array is not empty");
+                            for (int i = 0; i < beneficiaryArray.length(); i++) {
 
-                            JSONObject object = beneficiaryArray.optJSONObject(i);
+                                JSONObject object = beneficiaryArray.optJSONObject(i);
                                 String id = object.optString("id");
                                 String name = object.optString("name");
                                 String mobile = object.optString("mobile");
@@ -1800,13 +1806,13 @@ public class Repository {
                                 beneficiaryList.add(beneficiary);
                                 beneficiaryListMutableLiveData.setValue(beneficiaryList);
 
-                        }
-                        }else {
-                            Log.e(TAG,"beneficiary array is empty");
-                                String message ="Add Beneficiary";
-                                beneficiaryList.add(new Beneficiary(message));
-                                beneficiaryListMutableLiveData.setValue(beneficiaryList);
                             }
+                        } else {
+                            Log.e(TAG, "beneficiary array is empty");
+                            String message = "Add Beneficiary";
+                            beneficiaryList.add(new Beneficiary(message));
+                            beneficiaryListMutableLiveData.setValue(beneficiaryList);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -2041,21 +2047,21 @@ public class Repository {
                 .build();
 
         Operator operator = retrofit.create(Operator.class);
-        Call<String>call = operator.deleteBenValidate(auth,benId,remId,otp);
+        Call<String> call = operator.deleteBenValidate(auth, benId, remId, otp);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                if (response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
 
-                    Log.e(TAG,"Delete validation response successful: " + response.body());
+                    Log.e(TAG, "Delete validation response successful: " + response.body());
                     try {
                         JSONObject jsonObject = new JSONObject(response.body());
 
                         String data = jsonObject.getString("data");
                         String message = jsonObject.getString("message");
 
-                        deleteBenValidationMutableLiveData.setValue(new AddBeneficiary(data,message));
+                        deleteBenValidationMutableLiveData.setValue(new AddBeneficiary(data, message));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -2065,7 +2071,7 @@ public class Repository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
-                Log.e(TAG,"Delete validation response failure: " + t.getMessage());
+                Log.e(TAG, "Delete validation response failure: " + t.getMessage());
                 deleteBenValidationMutableLiveData.setValue(new AddBeneficiary(t.getMessage()));
             }
         });
@@ -2080,13 +2086,13 @@ public class Repository {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         Operator operator = retrofit.create(Operator.class);
-        Call<String>call = operator.transferMoney(session_id,auth,mobile,remitter_id,name,ifsc,account,ben_id,amount);
+        Call<String> call = operator.transferMoney(session_id, auth, mobile, remitter_id, name, ifsc, account, ben_id, amount);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                if (response.isSuccessful() && response.body() != null){
-                    Log.e(TAG,"Transfer money response Successful" + response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.e(TAG, "Transfer money response Successful" + response.body());
                     try {
                         JSONObject jsonObject = new JSONObject(response.body());
                         String message = jsonObject.getString("message");
@@ -2100,7 +2106,7 @@ public class Repository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
-                Log.e(TAG,"Transfer money response Failure: " + t.getMessage());
+                Log.e(TAG, "Transfer money response Failure: " + t.getMessage());
                 transferMutableLiveData.setValue(t.getMessage());
             }
         });
@@ -2114,23 +2120,23 @@ public class Repository {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         Operator operator = retrofit.create(Operator.class);
-        Call<String>call = operator.aepsLogIn(session_id,serviceType,auth);
+        Call<String> call = operator.aepsLogIn(session_id, serviceType, auth);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.e(TAG,"Aeps login response Successful: "  + response.body());
-                if (response.isSuccessful() && response.body() != null){
+                Log.e(TAG, "Aeps login response Successful: " + response.body());
+                if (response.isSuccessful() && response.body() != null) {
 
                     try {
                         JSONArray jsonArray = new JSONArray(response.body());
-                        for (int i =0; i<jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
                             String agent_id = object.optString("agent_id");
                             String message = object.optString("Success");
                             String status = object.optString("status");
                             String remark = object.optString("remark");
 
-                            AepsLogIn logIn = new AepsLogIn(agent_id,message,status,remark);
+                            AepsLogIn logIn = new AepsLogIn(agent_id, message, status, remark);
                             aepsLogInMutableLiveData.setValue(logIn);
                         }
                     } catch (JSONException e) {
@@ -2142,7 +2148,7 @@ public class Repository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
-                Log.e(TAG,"Aeps log in failed: " + t.getMessage());
+                Log.e(TAG, "Aeps log in failed: " + t.getMessage());
                 aepsLogInMutableLiveData.setValue(new AepsLogIn(t.getMessage()));
             }
         });
@@ -2151,13 +2157,13 @@ public class Repository {
     //Network request to get aeps report
     private void getAepsReport(String session_id, String auth) {
 
-        Call<List<AepsReport>>listCall = apiService.getAepsReport(session_id,auth);
+        Call<List<AepsReport>> listCall = apiService.getAepsReport(session_id, auth);
         listCall.enqueue(new Callback<List<AepsReport>>() {
             @Override
             public void onResponse(Call<List<AepsReport>> call, Response<List<AepsReport>> response) {
 
-                if (response.isSuccessful() && response.body() != null){
-                    Log.e(TAG,"Aeps report response successful");
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.e(TAG, "Aeps report response successful");
                     aepsReportListMutableLiveData.setValue(response.body());
                 }
             }
@@ -2165,7 +2171,7 @@ public class Repository {
             @Override
             public void onFailure(Call<List<AepsReport>> call, Throwable t) {
 
-                Log.e(TAG,"Aeps report response failure:  " + t.getMessage());
+                Log.e(TAG, "Aeps report response failure:  " + t.getMessage());
             }
         });
     }
@@ -2174,14 +2180,14 @@ public class Repository {
     //Network call to get aeps report list by date
     private void getAepsReportByDate(String session_id, String auth, String from, String to) {
 
-        Call<List<AepsReport>>listCall = apiService.getAepsReportByDate(session_id,auth,from,to);
+        Call<List<AepsReport>> listCall = apiService.getAepsReportByDate(session_id, auth, from, to);
         listCall.enqueue(new Callback<List<AepsReport>>() {
             @Override
             public void onResponse(Call<List<AepsReport>> call, Response<List<AepsReport>> response) {
 
-                if (response.isSuccessful() && response.body()!= null){
+                if (response.isSuccessful() && response.body() != null) {
 
-                    Log.e(TAG,"Aeps report by date response is successful");
+                    Log.e(TAG, "Aeps report by date response is successful");
                     aepsReportListMutableLiveDataByDate.setValue(response.body());
                 }
             }
@@ -2189,7 +2195,7 @@ public class Repository {
             @Override
             public void onFailure(Call<List<AepsReport>> call, Throwable t) {
 
-                Log.e(TAG,"Aeps report by date response is failure: " + t.getMessage());
+                Log.e(TAG, "Aeps report by date response is failure: " + t.getMessage());
             }
         });
     }
@@ -2197,7 +2203,7 @@ public class Repository {
     //Network request to get kyc submit response
     private void submitKycDetails(String session_id, String auth, String name, String shopName, String dob, String email, String address, String pincode,
                                   String state, String mobile, String city, String aadhaarNo, String panNo, RequestBody adharImageUrl,
-                                  RequestBody panImageUrl) {
+                                  RequestBody panImageUrl, String service) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Operator.BASE_URL)
@@ -2206,15 +2212,15 @@ public class Repository {
 
         Operator operator = retrofit.create(Operator.class);
 
-        Call<String>call = operator.submitKyc(session_id,auth,name,shopName,dob,email,address,pincode, state,mobile,city,aadhaarNo,panNo,adharImageUrl,panImageUrl,"FI_AEPS");
+        Call<String> call = operator.submitKyc(session_id, auth, name, shopName, dob, email, address, pincode, state, mobile, city, aadhaarNo, panNo, adharImageUrl, panImageUrl, service);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                Log.e(TAG,"Submit kyc Response is: " + response.body());
-                if (response.isSuccessful() && response.body() != null){
+                Log.e(TAG, "Submit kyc Response is: " + response.body());
+                if (response.isSuccessful() && response.body() != null) {
 
-                    Log.e(TAG,"Submit kyc response successful: " + response.body());
+                    Log.e(TAG, "Submit kyc response successful: " + response.body());
                     try {
                         JSONObject jsonObject = new JSONObject(response.body());
                         String message = jsonObject.optString("message");
@@ -2223,7 +2229,7 @@ public class Repository {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }else if (response.body() == null){
+                } else if (response.body() == null) {
                     kycresponseMutableLiveData.setValue("No response");
                 }
             }
@@ -2231,8 +2237,45 @@ public class Repository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
-                Log.e(TAG,"Submit Kyc response is failure : "+ t.getMessage());
+                Log.e(TAG, "Submit Kyc response is failure : " + t.getMessage());
                 kycresponseMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network call to send aeps transaction details
+
+    private void sendAepsTrans(String session_id, String auth, String service, String amount, String order_id, String mobile) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+        Call<String> call = operator.sendAepsDetails(session_id, auth, service, amount, order_id, mobile);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                Log.e(TAG, "Aeps send response is : " + response.body());
+                try {
+                    JSONArray jsonArray = new JSONArray(response.body());
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String status = jsonObject.getString("status");
+                        aepssendResponseMutableLiveData.setValue(status);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG, "Aeps send response failure: " + t.getMessage());
+                aepssendResponseMutableLiveData.setValue(t.getMessage());
             }
         });
     }

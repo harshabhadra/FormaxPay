@@ -80,4 +80,10 @@ public class AllReportViewModel extends ViewModel {
     public LiveData<List<AepsReport>>getAepsReportByDate(String session_id, String auth, String from, String to){
         return repository.getAepsReportListByDate(session_id,auth,from,to);
     }
+
+    //Send aeps details to server
+    public LiveData<String>sendAepsDetails(String session_id, String auth, String service_type, String amount, String order_id, String mobile){
+
+        return repository.sendAepsDetails(session_id,auth,service_type,amount,order_id,mobile);
+    }
 }

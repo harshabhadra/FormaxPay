@@ -33,9 +33,13 @@ import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import org.reactivestreams.Subscriber;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -285,29 +289,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Sending Post request to log in
     private void sendPost(String user, String password, final AlertDialog dialog) {
-
         Log.e(TAG, "sendPost");
-        apiService.savePost(user, password).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Post>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e(TAG, "completed");
-                    }
 
+        apiService.savePost(user,password).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new io.reactivex.Observer<Post>() {
                     @Override
-                    public void onError(Throwable e) {
+                    public void onSubscribe(Disposable d) {
 
-                        Log.e(TAG, "error");
-                        Log.e(TAG, e.getMessage());
-                        dialog.dismiss();
-                        secureLogIn.setVisibility(View.VISIBLE);
-                        signInLayout.setVisibility(View.VISIBLE);
-                        forgotPassTV.setVisibility(View.VISIBLE);
-                        newUserTv.setVisibility(View.VISIBLE);
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), e.getMessage(), Snackbar.LENGTH_LONG);
-                        View view = snackbar.getView();
-                        view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
-                        snackbar.show();
                     }
 
                     @Override
@@ -349,7 +337,28 @@ public class MainActivity extends AppCompatActivity {
                             snackbar.show();
                         }
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "error");
+                        Log.e(TAG, e.getMessage());
+                        dialog.dismiss();
+                        secureLogIn.setVisibility(View.VISIBLE);
+                        signInLayout.setVisibility(View.VISIBLE);
+                        forgotPassTV.setVisibility(View.VISIBLE);
+                        newUserTv.setVisibility(View.VISIBLE);
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), e.getMessage(), Snackbar.LENGTH_LONG);
+                        View view = snackbar.getView();
+                        view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
+                        snackbar.show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
                 });
+
     }
 
     //Create Alert Dialog
