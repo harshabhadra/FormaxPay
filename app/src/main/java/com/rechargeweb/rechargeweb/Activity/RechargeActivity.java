@@ -200,8 +200,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         }
                     }
                 });
-
-
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
