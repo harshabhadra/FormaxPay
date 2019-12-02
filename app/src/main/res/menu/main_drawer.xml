@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_report_black_24dp">
         <menu>
             <group android:id="@+id/nav_home_group"
-                android:checkableBehavior="single">
+                android:checkableBehavior="all">
                 <item android:title="Recharge"
                     android:id="@+id/nav_rehcarge_report"
                     android:icon="@drawable/ic_phone_android_primary_24dp"/>

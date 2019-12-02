@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -22,12 +20,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,11 +34,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
@@ -71,14 +68,14 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
         ReportFragment.OnReportclickListener,
-        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick,NavigationView.OnNavigationItemSelectedListener {
+        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick, NavigationView.OnNavigationItemSelectedListener {
 
     //Remote config values
     private static final String VERSION_NAME_KEY = "version_name";
     private static final String APPLY_FORCE_UPDATE_KEY = "apply_force_update";
     private static final String SHOW_UPDATE_DIALOG_KEY = "show_update_dialog";
 
-    String bank,banReferenceNo, service,stanNo,transactionAmount,transtionId,transactionNo,uidNo;
+    String bank, banReferenceNo, service, stanNo, transactionAmount, transtionId, transactionNo, uidNo;
     private boolean showUpdateDialog;
 
     //App url
@@ -116,33 +113,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     private DrawerLayout drawerLayout;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                    switch (menuItem.getItemId()) {
-                        case R.id.navigation_home:
-                            fragmentManager.beginTransaction().hide(active).show(homeFragment).commit();
-                            active = homeFragment;
-                            return true;
-                        case R.id.profile:
-                            fragmentManager.beginTransaction().hide(active).show(profileFragment).commit();
-                            active = profileFragment;
-                            return true;
-                        case R.id.reports:
-                            fragmentManager.beginTransaction().hide(active).show(reportFragment).commit();
-                            active = reportFragment;
-                            return true;
-                        case R.id.support:
-                            Intent intent = new Intent(HomeActivity.this, SupportActivity.class);
-                            startActivity(intent);
-                            return true;
-                    }
-                    return false;
-                }
-            };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +128,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.home_drawer);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
@@ -177,12 +147,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             session_id = intent.getStringExtra(Constants.SESSION_ID);
             user_id = intent.getStringExtra(Constants.USER_ID);
         }
-        BottomNavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
-
-        fragmentManager.beginTransaction().add(R.id.main_container, reportFragment, "3").hide(reportFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.main_container, profileFragment, "2").hide(profileFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.main_container, homeFragment, "1").commit();
 
         //Get remote config instance
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
@@ -199,6 +163,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         //Getting the version name
         version = getVersionName(this);
 
+        disPlaySelectedScreen(R.id.nav_home);
     }
 
     @Override
@@ -332,12 +297,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 break;
             }
             case "DMT":
-                Intent intent = new Intent(HomeActivity.this,DmtActivity.class);
-                intent.putExtra(Constants.SESSION_ID,session_id);
+                Intent intent = new Intent(HomeActivity.this, DmtActivity.class);
+                intent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(intent);
                 break;
             case "YBL AEPS":
-                View layout1 = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+                View layout1 = getLayoutInflater().inflate(R.layout.loading_dialog, null);
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setView(layout1);
                 builder1.setCancelable(false);
@@ -346,30 +311,30 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 dialog1.show();
 
                 String service_type2 = "YBL_AEPS";
-                allReportViewModel.aepsLogIn(session_id,service_type2,auth).observe(this, new Observer<AepsLogIn>() {
+                allReportViewModel.aepsLogIn(session_id, service_type2, auth).observe(this, new Observer<AepsLogIn>() {
                     @Override
                     public void onChanged(AepsLogIn aepsLogIn) {
                         dialog1.dismiss();
-                        if (aepsLogIn != null){
-                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")){
-                                Intent uploadKycIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
-                                uploadKycIntent.putExtra(Constants.SESSION_ID,session_id);
-                                uploadKycIntent.putExtra(Constants.USER_ID,user_id);
-                                uploadKycIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
-                                uploadKycIntent.putExtra(Constants.AEPS_TYPE,service_type2);
+                        if (aepsLogIn != null) {
+                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
+                                Intent uploadKycIntent = new Intent(HomeActivity.this, UploadKycActivity.class);
+                                uploadKycIntent.putExtra(Constants.SESSION_ID, session_id);
+                                uploadKycIntent.putExtra(Constants.USER_ID, user_id);
+                                uploadKycIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
+                                uploadKycIntent.putExtra(Constants.AEPS_TYPE, service_type2);
                                 startActivity(uploadKycIntent);
-                            }else if (aepsLogIn.getStatus().equals("Processing")){
+                            } else if (aepsLogIn.getStatus().equals("Processing")) {
 
-                                Intent uploadIntent = new Intent(HomeActivity.this,UploadKycActivity.class);
-                                uploadIntent.putExtra(Constants.SESSION_ID,session_id);
-                                uploadIntent.putExtra(Constants.USER_ID,user_id);
-                                uploadIntent.putExtra(Constants.AEPS_STATUS,aepsLogIn);
-                                uploadIntent.putExtra(Constants.AEPS_TYPE,service_type2);
+                                Intent uploadIntent = new Intent(HomeActivity.this, UploadKycActivity.class);
+                                uploadIntent.putExtra(Constants.SESSION_ID, session_id);
+                                uploadIntent.putExtra(Constants.USER_ID, user_id);
+                                uploadIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
+                                uploadIntent.putExtra(Constants.AEPS_TYPE, service_type2);
                                 startActivity(uploadIntent);
 
-                            }else {
+                            } else {
                                 agentCode = aepsLogIn.getAgentId();
-                                Log.e(TAG,"agernt Id: " + agentCode);
+                                Log.e(TAG, "agernt Id: " + agentCode);
                                 if (!agentCode.isEmpty()) {
 
                                     Intent finoIntent = new Intent(HomeActivity.this, FinoAepsActivity.class);
@@ -393,17 +358,17 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 300 && resultCode == RESULT_OK){
+        if (requestCode == 300 && resultCode == RESULT_OK) {
             if (data != null) {
-                Log.e(TAG,"Data is full: " + data.toString());
+                Log.e(TAG, "Data is full: " + data.toString());
                 String message = data.getStringExtra("message");
 
                 String status = data.getStringExtra("statusCode");
 
-                Log.e(TAG,"message: " + message + ", Status: " + status);
+                Log.e(TAG, "message: " + message + ", Status: " + status);
                 try {
                     JSONObject jsonTransactionJsonObject = new JSONObject(data.getStringExtra("data"));
-                    bank = message+jsonTransactionJsonObject.getString("bankName");
+                    bank = message + jsonTransactionJsonObject.getString("bankName");
                     banReferenceNo = jsonTransactionJsonObject.getString("bankrefrenceNo");
                     service = jsonTransactionJsonObject.getString("service");
                     stanNo = jsonTransactionJsonObject.getString("stanNo");
@@ -414,12 +379,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
                     if (!bank.isEmpty() && !banReferenceNo.isEmpty() && !service.isEmpty() && !transactionAmount.isEmpty()) {
                         showAepsDialog();
-                    }else {
-                        Toast.makeText(getApplicationContext(),"Empty Response",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Empty Response", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                        intent.putExtra(Constants.USER_ID,user_id);
-                        intent.putExtra(Constants.SESSION_ID,session_id);
+                        intent.putExtra(Constants.USER_ID, user_id);
+                        intent.putExtra(Constants.SESSION_ID, session_id);
                         startActivity(intent);
                         finish();
                     }
@@ -427,25 +392,25 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else {
-                Log.e(TAG,"Data is null");
+            } else {
+                Log.e(TAG, "Data is null");
             }
-        }else {
-            Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+        } else {
+            Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-            intent.putExtra(Constants.USER_ID,user_id);
-            intent.putExtra(Constants.SESSION_ID,session_id);
+            intent.putExtra(Constants.USER_ID, user_id);
+            intent.putExtra(Constants.SESSION_ID, session_id);
             startActivity(intent);
         }
     }
 
     private void showAepsDialog() {
 
-        View layout = getLayoutInflater().inflate(R.layout.aeps_dialog,null);
+        View layout = getLayoutInflater().inflate(R.layout.aeps_dialog, null);
 
         Button closeButton = layout.findViewById(R.id.aeps_close_button);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AddBeneficiaryDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AddBeneficiaryDialog);
         builder.setView(layout);
         builder.setCancelable(false);
         final AlertDialog dialog = builder.create();
@@ -455,10 +420,10 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                intent.putExtra(Constants.USER_ID,user_id);
-                intent.putExtra(Constants.SESSION_ID,session_id);
+                intent.putExtra(Constants.USER_ID, user_id);
+                intent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(intent);
                 finish();
             }
@@ -789,15 +754,15 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             AgentTranID = tranID + ran;
         } catch (Throwable e) {
 
-            Log.e(TAG,e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
         return AgentTranID;
     }
 
-    public boolean isPackageExisted(String targetPackage){
-        PackageManager pm=getPackageManager();
+    public boolean isPackageExisted(String targetPackage) {
+        PackageManager pm = getPackageManager();
         try {
-            PackageInfo info=pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+            PackageInfo info = pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
@@ -806,7 +771,41 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        disPlaySelectedScreen(id);
+        return true;
+    }
+
+    private void disPlaySelectedScreen(int itemId) {
+
+        Fragment fragment = null;
+
+        switch (itemId) {
+
+            case R.id.nav_home:
+                fragment = new HomeFragment();
+                break;
+            case R.id.nav_support:
+                Intent intent = new Intent(HomeActivity.this, SupportActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_changePassword:
+                Intent changePassIntent = new Intent(HomeActivity.this,ChangePassActivity.class);
+                changePassIntent.putExtra(Constants.SESSION_ID, session_id);
+                startActivity(changePassIntent);
+                break;
+            case R.id.nav_rehcarge_report:
+                fragment = new ReportFragment();
+                break;
+        }
+
+        if (fragment != null) {
+
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, fragment);
+            fragmentTransaction.commit();
+        }
+
         drawerLayout.closeDrawer(GravityCompat.START);
-        return false;
     }
 }
