@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -149,7 +148,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     }
 
     private void sendRequest(String id, String key) {
-        apiService.setDetailsPost(id,authKey).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        apiService.setDetailsPost(id,key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Details>() {
                     @Override
                     public void onSubscribe(Disposable d) {

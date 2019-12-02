@@ -28,10 +28,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -39,6 +43,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rechargeweb.rechargeweb.Constant.Constants;
@@ -66,7 +71,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
         ReportFragment.OnReportclickListener,
-        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick {
+        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick,NavigationView.OnNavigationItemSelectedListener {
 
     //Remote config values
     private static final String VERSION_NAME_KEY = "version_name";
@@ -109,6 +114,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     AllReportViewModel allReportViewModel;
 
+    private DrawerLayout drawerLayout;
+
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -140,24 +147,30 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_drawer);
 
         showUpdateDialog = true;
 
         //Checking the location permission
         checkLocationPermission();
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawerLayout = findViewById(R.id.home_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.syncState();
+
+        NavigationView sideNav = findViewById(R.id.home_nav_view);
+        sideNav.bringToFront();
+        sideNav.setNavigationItemSelectedListener(this);
 
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);
 
         //Initialzing auth key
         auth = getResources().getString(R.string.auth_key);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayUseLogoEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
 
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.SESSION_ID)) {
@@ -476,7 +489,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
                         //Request location updates:
                     }
 
@@ -790,5 +802,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 }

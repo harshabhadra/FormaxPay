@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/main_group"
+        android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home_24dp"
+        android:title="Home" />
+    <item android:title="Reports"
+        android:icon="@drawable/ic_report_black_24dp">
+        <menu>
+            <group android:id="@+id/nav_home_group"
+                android:checkableBehavior="single">
+                <item android:title="Recharge"
+                    android:id="@+id/nav_rehcarge_report"
+                    android:icon="@drawable/ic_phone_android_primary_24dp"/>
+                <item android:id="@+id/nav_credit_report"
+                    android:title="Credit"
+                    android:icon="@drawable/credit"/>
+                <item android:id="@+id/nav_debit_report"
+                    android:title="Debit"
+                    android:icon="@drawable/debit"/>
+                <item android:title="Coupon"
+                    android:icon="@drawable/coupon"
+                    android:id="@+id/nav_coupon_report"/>
+                <item android:id="@+id/nav_aeps_report"
+                    android:title="Aeps"
+                    android:icon="@drawable/fino_aeps"/>
+            </group>
+        </menu>
+    </item>
+    </group>
+    <group android:id="@+id/secondary_group"
+        android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_support"
+        android:icon="@drawable/support"
+        android:title="Support" />
+    <item android:title="Change Password"
+        android:id="@+id/nav_changePassword"
+        android:icon="@drawable/ic_lock_black_24dp"/>
+    <item android:id="@+id/nav_rate_us"
+        android:title="Rate Us"/>
+    <item android:title="Share App"
+        android:id="@+id/nav_shareapp"/>
+    </group>
+</menu>

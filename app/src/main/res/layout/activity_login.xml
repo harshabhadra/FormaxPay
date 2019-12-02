@@ -30,9 +30,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="20dp"
-                android:theme="@style/TextInputLayoutAppearance"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:theme="@style/TextInputLayoutAppearance">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/user_name"
@@ -51,8 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
-                android:theme="@style/TextInputLayoutAppearance"
                 android:layout_marginBottom="10dp"
+                android:theme="@style/TextInputLayoutAppearance"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/colorPrimaryDark">
 

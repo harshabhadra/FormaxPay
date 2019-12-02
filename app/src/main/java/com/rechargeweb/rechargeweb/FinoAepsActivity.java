@@ -179,7 +179,6 @@ public class FinoAepsActivity extends AppCompatActivity {
                     } else if (value < 100 || value > 10000) {
                         finoAepsBinding.finoAmountLayout.setError("Enter Amount between 100 to 10000");
                     } else {
-
                         finoAepsBinding.finoAmountTextInput.getText().clear();
                         finoAepsBinding.finoMobileNumberTextInput.getText().clear();
                         withdrawalBuilder = new StringBuilder();
@@ -219,11 +218,14 @@ public class FinoAepsActivity extends AppCompatActivity {
                         finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
                     } else {
                         finoAepsBinding.finoMobileNumberTextInput.getText().clear();
+
                         balanceBuilder = new StringBuilder();
                         balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.AEPS_BALANCE_INQUIRY);
                         balanceBuilder.append(System.currentTimeMillis());
                         orderId = balanceBuilder.toString();
+
                         Log.e(TAG,"Order Id: " + balanceBuilder.toString());
+
                         View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(FinoAepsActivity.this);
                         builder.setCancelable(false);
@@ -236,7 +238,7 @@ public class FinoAepsActivity extends AppCompatActivity {
                             public void onChanged(String s) {
                                 dialog.dismiss();
                                 if (s.equals("Success")){
-                                    cashWithDrawal(mobileNumber, amount);
+                                    checkBalance(mobileNumber);
                                 }else {
                                     Intent intent1 = new Intent(FinoAepsActivity.this, FinoAepsActivity.class);
                                     intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -247,8 +249,6 @@ public class FinoAepsActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
-                        checkBalance(mobileNumber);
                     }
                 }
             }
