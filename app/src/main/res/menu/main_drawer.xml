@@ -41,8 +41,10 @@
         android:id="@+id/nav_changePassword"
         android:icon="@drawable/ic_lock_black_24dp"/>
     <item android:id="@+id/nav_rate_us"
+        android:icon="@drawable/ic_star_black_24dp"
         android:title="Rate Us"/>
     <item android:title="Share App"
+        android:icon="@drawable/ic_share_black_24dp"
         android:id="@+id/nav_shareapp"/>
     </group>
 </menu>
