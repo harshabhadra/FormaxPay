@@ -869,7 +869,7 @@ public class Repository {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "Credit response: " + response.body());
+                    Log.e(TAG, "CreditReportFragment response: " + response.body());
                     try {
                         JSONArray jsonArray = new JSONArray(response.body());
 
@@ -1424,7 +1424,7 @@ public class Repository {
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "Credit response by date: " + response.body());
+                    Log.e(TAG, "CreditReportFragment response by date: " + response.body());
                     try {
                         JSONArray jsonArray = new JSONArray(response.body());
 

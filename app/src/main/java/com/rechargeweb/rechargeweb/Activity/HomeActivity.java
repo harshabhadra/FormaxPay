@@ -794,8 +794,10 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 changePassIntent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(changePassIntent);
                 break;
-            case R.id.nav_rehcarge_report:
-                fragment = new ReportFragment();
+            case R.id.nav_transaction_report:
+                Intent reportIntent = new Intent(HomeActivity.this,ReportActivity.class);
+                reportIntent.putExtra(Constants.SESSION_ID,session_id);
+                startActivity(reportIntent);
                 break;
         }
 

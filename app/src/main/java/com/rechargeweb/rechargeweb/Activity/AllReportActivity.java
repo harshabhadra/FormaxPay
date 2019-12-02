@@ -147,7 +147,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                         //Get the recharge report
                         getMobileRechargeReport();
                         break;
-                    case "Credit":
+                    case "CreditReportFragment":
                         //Get credit report
                         passbookAdapter = new PassbookAdapter(this, AllReportActivity.this);
                         recyclerView.setVisibility(View.VISIBLE);
@@ -214,7 +214,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                                     //Get the recharge report
                                     getMobileRechargeReport();
                                     break;
-                                case "Credit":
+                                case "CreditReportFragment":
                                     //Get credit report
                                     getCreditReport();
 
@@ -235,7 +235,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                                 case "Recharge":
                                     getRechargeListByDate(fromString, toString);
                                     break;
-                                case "Credit":
+                                case "CreditReportFragment":
                                     getCreditReportByDate(fromString, toString);
                                     break;
                                 case "Debit":
@@ -451,11 +451,11 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                             recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setAdapter(passbookAdapter);
                             passbookAdapter.setPassbookListt(passbookList);
-                            Log.e(TAG, "Credit list is full");
+                            Log.e(TAG, "CreditReportFragment list is full");
                         }
                     }
                 } else {
-                    Log.e(TAG, "Credit list is empty");
+                    Log.e(TAG, "CreditReportFragment list is empty");
                     loading.setVisibility(View.GONE);
                 }
             }
@@ -511,7 +511,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                 fromDate.setEnabled(true);
                 toDate.setEnabled(true);
                 if (passbookList != null) {
-                    Log.e(TAG, "Credit list is full");
+                    Log.e(TAG, "CreditReportFragment list is full");
                     loading.setVisibility(View.GONE);
                     for (int i = 0; i < passbookList.size(); i++) {
                         if (passbookList.get(i).getTransaction_id().isEmpty()) {
@@ -528,7 +528,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                     }
                 } else {
                     loading.setVisibility(View.GONE);
-                    Log.e(TAG, "Credit list is empty");
+                    Log.e(TAG, "CreditReportFragment list is empty");
                 }
             }
         });
@@ -653,7 +653,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
                 loading.setVisibility(View.VISIBLE);
                 if (itemName.equals("Recharge")) {
                     getRechargeListByDate(fromString, toString);
-                } else if (itemName.equals("Credit")) {
+                } else if (itemName.equals("CreditReportFragment")) {
                     getCreditReportByDate(fromString, toString);
                 } else if (itemName.equals("Debit")) {
                     getDebitSummaryByDate(fromString, toString);
@@ -669,7 +669,7 @@ public class AllReportActivity extends AppCompatActivity implements DatePickerDi
             loading.setVisibility(View.VISIBLE);
             if (itemName.equals("Recharge")) {
                 getRechargeListByDate(fromString, toString);
-            } else if (itemName.equals("Credit")) {
+            } else if (itemName.equals("CreditReportFragment")) {
                 getCreditReportByDate(fromString, toString);
             } else if (itemName.equals("Debit")) {
                 getDebitSummaryByDate(fromString, toString);
