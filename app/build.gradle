@@ -107,6 +107,7 @@ dependencies {
 
     implementation 'com.datatheorem.android.trustkit:trustkit:1.0.2'
     implementation project(path: ':epmoneyaeps-paisanikal')
+    implementation project(path: ':mpsdklibrary-release')
 
 }
 apply plugin: 'com.google.gms.google-services'

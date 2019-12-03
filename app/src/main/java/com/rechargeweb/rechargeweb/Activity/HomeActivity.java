@@ -43,6 +43,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.rechargeweb.rechargeweb.AddMoneyActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
@@ -778,6 +779,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 Intent reportIntent = new Intent(HomeActivity.this,ReportActivity.class);
                 reportIntent.putExtra(Constants.SESSION_ID,session_id);
                 startActivity(reportIntent);
+                break;
+            case R.id.nav_add_money:
+                Intent addMoneyIntent = new Intent(HomeActivity.this, AddMoneyActivity.class);
+                addMoneyIntent.putExtra(Constants.SESSION_ID,session_id);
+                startActivity(addMoneyIntent);
                 break;
         }
 

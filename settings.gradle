@@ -1,2 +1,2 @@
-include ':app', ':epmoneyaeps-paisanikal'
+include ':app', ':epmoneyaeps-paisanikal', ':mpsdklibrary-release'
 rootProject.name='RechargeWeb'

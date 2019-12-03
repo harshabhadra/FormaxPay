@@ -26,19 +26,23 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name">
-        <activity android:name=".Activity.ReportActivity"
+        <activity android:name=".AddMoneyActivity"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:parentActivityName=".Activity.HomeActivity"/>
+        <activity
+            android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
             android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FinoAepsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.UploadKycActivity"
             android:label="KYC Details"
             android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.ValidateActivity"
             android:parentActivityName=".Activity.HomeActivity"
@@ -134,6 +138,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name="com.atom.mpsdklibrary.PayActivity" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>
