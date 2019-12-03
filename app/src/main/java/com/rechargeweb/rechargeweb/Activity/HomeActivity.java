@@ -1,12 +1,15 @@
 package com.rechargeweb.rechargeweb.Activity;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -608,7 +611,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     @Override
     public void onChangePassClick() {
-
         Intent changePassIntent = new Intent(HomeActivity.this, ChangePassActivity.class);
         changePassIntent.putExtra(Constants.SESSION_ID, session_id);
         startActivity(changePassIntent);
@@ -785,6 +787,19 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 addMoneyIntent.putExtra(Constants.SESSION_ID,session_id);
                 startActivity(addMoneyIntent);
                 break;
+            case R.id.nav_fund_request:
+                Intent intent1 = new Intent(HomeActivity.this, FundRequestActivity.class);
+                intent1.putExtra(Constants.SESSION_ID, session_id);
+                startActivity(intent1);
+                break;
+            case R.id.nav_passbook:
+                Intent passbookIntent = new Intent(HomeActivity.this,PassbookActivity.class);
+                passbookIntent.putExtra(Constants.SESSION_ID,session_id);
+                startActivity(passbookIntent);
+                break;
+            case R.id.nav_rate_us:
+                openAppRating(this);
+                break;
         }
 
         if (fragment != null) {
@@ -795,5 +810,51 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+
+    public static void openAppRating(Context context) {
+        // you can also use BuildConfig.APPLICATION_ID
+        String appId = context.getPackageName();
+        Intent rateIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=" + appId));
+        boolean marketFound = false;
+
+        // find all applications able to handle our rateIntent
+        final List<ResolveInfo> otherApps = context.getPackageManager()
+                .queryIntentActivities(rateIntent, 0);
+        for (ResolveInfo otherApp: otherApps) {
+            // look for Google Play application
+            if (otherApp.activityInfo.applicationInfo.packageName
+                    .equals("com.android.vending")) {
+
+                ActivityInfo otherAppActivity = otherApp.activityInfo;
+                ComponentName componentName = new ComponentName(
+                        otherAppActivity.applicationInfo.packageName,
+                        otherAppActivity.name
+                );
+                // make sure it does NOT open in the stack of your activity
+                rateIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // task reparenting if needed
+                rateIntent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                // if the Google Play was already open in a search result
+                //  this make sure it still go to the app page you requested
+                rateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // this make sure only the Google Play app is allowed to
+                // intercept the intent
+                rateIntent.setComponent(componentName);
+                context.startActivity(rateIntent);
+                marketFound = true;
+                break;
+
+            }
+        }
+
+        // if GP not present on device, open web browser
+        if (!marketFound) {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id="+appId));
+            context.startActivity(webIntent);
+        }
     }
 }
