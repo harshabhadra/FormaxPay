@@ -67,7 +67,6 @@ import java.util.Random;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
-        ReportFragment.OnReportclickListener,
         LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick, NavigationView.OnNavigationItemSelectedListener {
 
     //Remote config values
@@ -88,12 +87,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     private FirebaseRemoteConfig firebaseRemoteConfig;
 
-    //Fragments
-    HomeFragment homeFragment = new HomeFragment();
-    ReportFragment reportFragment = new ReportFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
-    FragmentManager fragmentManager = getSupportFragmentManager();
-
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = HomeActivity.class.getSimpleName();
     LocationManager locationManager;
@@ -106,8 +99,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     String session_id, user_id;
 
     String agentCode;
-
-    Fragment active = homeFragment;
 
     AllReportViewModel allReportViewModel;
 
@@ -428,17 +419,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 finish();
             }
         });
-    }
-
-
-    //Report item click listener
-    @Override
-    public void onReportClick(Items items) {
-
-        Intent intent = new Intent(HomeActivity.this, AllReportActivity.class);
-        intent.putExtra(Constants.REPORT, items);
-        intent.putExtra(Constants.SESSION_ID, session_id);
-        startActivity(intent);
     }
 
     @Override

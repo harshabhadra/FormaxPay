@@ -91,10 +91,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.AllReportActivity"
-            android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Activity.RechargeActivity"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait">

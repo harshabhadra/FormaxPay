@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -52,11 +54,16 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
     private String fromString, toString;
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
+    OnRecharReportItemClickListener recharReportItemClickListener;
 
     private static final String TAG = RechargeReportFragment.class.getSimpleName();
 
     public RechargeReportFragment() {
         // Required empty public constructor
+    }
+
+    public interface OnRecharReportItemClickListener{
+        void onRehcargeReportItmeClick(RechargeDetails details);
     }
 
 
@@ -122,7 +129,7 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
             public void onClick(View v) {
                 isFromDate = true;
                 isTodate = false;
-                showDate(yyyy,mm,dd,R.style.DatePickerSpinner);
+                showDate(yyyy, mm, dd, R.style.DatePickerSpinner);
             }
         });
 
@@ -132,7 +139,7 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
             public void onClick(View v) {
                 isTodate = true;
                 isFromDate = false;
-                showDate(yyyy,mm,dd,R.style.DatePickerSpinner);
+                showDate(yyyy, mm, dd, R.style.DatePickerSpinner);
             }
         });
     }
@@ -148,20 +155,63 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
                 .show();
     }
 
+    @Override
+    public void onDetailsItemClick(int position) {
+
+        RechargeDetails rechargeDetails = detailsAdapter.getDetailsItem(position);
+        recharReportItemClickListener.onRehcargeReportItmeClick(rechargeDetails);
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+
+        if (isFromDate) {
+            fromString = simpleDateFormat.format(calendar.getTime());
+            fromTextView.setText(fromString);
+            if (!fromString.isEmpty() && !toString.isEmpty()) {
+                loading.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+                noRecordText.setVisibility(View.INVISIBLE);
+                getRechargeListByDate(fromString, toString);
+            }
+        } else {
+            toString = simpleDateFormat.format(calendar.getTime());
+            toTextView.setText(toString);
+            if (!fromString.isEmpty() && !toString.isEmpty()){
+                loading.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.INVISIBLE);
+                noRecordText.setVisibility(View.INVISIBLE);
+                getRechargeListByDate(fromString,toString);
+            }
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        recharReportItemClickListener = (OnRecharReportItemClickListener)getActivity();
+    }
+
     //Get recharge list
     private void getMobileRechargeReport() {
         Log.e(TAG, "Getting mobile recharge report");
 
+        fromImageView.setEnabled(false);
+        toImageView.setEnabled(false);
         allReportViewModel.getRechargeList(id, authKey).observe(this, new Observer<List<RechargeDetails>>() {
             @Override
             public void onChanged(List<RechargeDetails> rechargeDetails) {
+                fromImageView.setEnabled(true);
+                toImageView.setEnabled(true);
                 if (rechargeDetails != null) {
                     Log.e(TAG, "recharge details is not null ");
                     for (int i = 0; i < rechargeDetails.size(); i++) {
                         RechargeDetails details = rechargeDetails.get(i);
                         if (details.getAmount().isEmpty()) {
                             Log.e(TAG, details.getNumber());
-                            loading.setVisibility(View.GONE);
+                            loading.setVisibility(View.INVISIBLE);
                             recyclerView.setVisibility(View.GONE);
                             noRecordText.setVisibility(View.VISIBLE);
                             noRecordText.setText(details.getApi_response());
@@ -177,28 +227,45 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
 
                 } else {
                     Log.e(TAG, "Details list is empty");
-                    loading.setVisibility(View.GONE);
+                    loading.setVisibility(View.INVISIBLE);
                 }
             }
         });
     }
 
-    @Override
-    public void onDetailsItemClick(int position) {
+    //Get recharge list by date
+    private void getRechargeListByDate(String fromString, String toString) {
+        noRecordText.setVisibility(View.GONE);
 
-    }
+        fromImageView.setEnabled(false);
+        toImageView.setEnabled(false);
+        allReportViewModel.getRechargeListByDate(id, authKey, fromString, toString).observe(this, new Observer<List<RechargeDetails>>() {
+            @Override
+            public void onChanged(List<RechargeDetails> rechargeDetails) {
+                fromImageView.setEnabled(true);
+                toImageView.setEnabled(true);
+                if (rechargeDetails != null) {
+                    for (int i = 0; i < rechargeDetails.size(); i++) {
+                        RechargeDetails details = rechargeDetails.get(i);
+                        if (details.getAmount() == null || details.getAmount().isEmpty()) {
+                            recyclerView.setVisibility(View.GONE);
+                            loading.setVisibility(View.INVISIBLE);
+                            noRecordText.setVisibility(View.VISIBLE);
+                            noRecordText.setText(details.getApi_response());
+                        } else {
+                            loading.setVisibility(View.INVISIBLE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            noRecordText.setVisibility(View.GONE);
+                            Log.e(TAG, "Details list by selectedDate is full");
+                            detailsAdapter = new DetailsAdapter(getContext(), RechargeReportFragment.this, rechargeDetails);
+                            recyclerView.setAdapter(detailsAdapter);
+                        }
+                    }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        Calendar calendar = new GregorianCalendar(year,monthOfYear,dayOfMonth);
-
-        if (isFromDate){
-        
-            fromString = simpleDateFormat.format(calendar.getTime());
-            fromTextView.setText(fromString);
-        }else {
-            toString = simpleDateFormat.format(calendar.getTime());
-            toTextView.setText(toString);
-        }
+                } else {
+                    Log.e(TAG, "Details list by selectedDate is empty");
+                }
+            }
+        });
     }
 }
