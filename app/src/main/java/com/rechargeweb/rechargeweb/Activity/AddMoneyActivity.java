@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb;
+package com.rechargeweb.rechargeweb.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.atom.mpsdklibrary.PayActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.databinding.ActivityAddMoneyBinding;
 
 import java.text.SimpleDateFormat;

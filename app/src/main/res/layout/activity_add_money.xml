@@ -5,8 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".AddMoneyActivity">
+        android:layout_height="wrap_content"
+        tools:context=".Activity.AddMoneyActivity">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout_add_money"
@@ -34,25 +34,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/button"
             android:drawableStart="@drawable/ic_add_white_24dp"
+            android:enabled="false"
             android:paddingStart="32dp"
             android:paddingEnd="32dp"
             android:text="Add Money"
-            android:enabled="false"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout_add_money"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout_add_money"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_add_money" />
 
         <ImageView
             android:id="@+id/imageView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="240dp"
             android:layout_marginTop="16dp"
+            app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/add_money2" />
+            app:srcCompat="@drawable/add_money3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

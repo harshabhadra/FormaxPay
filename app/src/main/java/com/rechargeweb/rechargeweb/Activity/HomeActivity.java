@@ -36,7 +36,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -46,7 +45,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.rechargeweb.rechargeweb.AddMoneyActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
@@ -55,7 +53,6 @@ import com.rechargeweb.rechargeweb.Model.Profile;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.Ui.HomeFragment;
 import com.rechargeweb.rechargeweb.Ui.ProfileFragment;
-import com.rechargeweb.rechargeweb.Ui.ReportFragment;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
 
 import org.json.JSONException;
@@ -277,18 +274,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 intent.putExtra(Constants.ITEM_POSITION, items);
                 intent.putExtra(Constants.LOCATION_BUNDLE, bundle);
                 startActivity(intent);
-                break;
-            }
-            case "Passbook": {
-                Intent intent = new Intent(HomeActivity.this, PassbookActivity.class);
-                intent.putExtra(Constants.SESSION_ID, session_id);
-                startActivity(intent);
-                break;
-            }
-            case "Fund Request": {
-                Intent intent1 = new Intent(HomeActivity.this, FundRequestActivity.class);
-                intent1.putExtra(Constants.SESSION_ID, session_id);
-                startActivity(intent1);
                 break;
             }
             case "DMT":
@@ -799,6 +784,12 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 break;
             case R.id.nav_rate_us:
                 openAppRating(this);
+                break;
+            case R.id.nav_shareapp:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey Check out this awesome app on: https://play.google.com/store/apps/details?id=com.rechargeweb.rechargeweb");
+                shareIntent.setType("text/plain");
+                startActivity(Intent.createChooser(shareIntent,"Share Via"));
                 break;
         }
 

@@ -15,9 +15,6 @@
         <item android:id="@+id/nav_add_money"
             android:title="Add Money"
             android:icon="@mipmap/add_moneytwo"/>
-        <item android:icon="@mipmap/check_balancetwo"
-            android:id="@+id/nav_check_balance"
-            android:title="Check Balance"/>
         <item android:title="Fund Request"
             android:id="@+id/nav_fund_request"
             android:icon="@mipmap/fund_requesttwo"/>

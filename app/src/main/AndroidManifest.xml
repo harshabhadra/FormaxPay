@@ -26,8 +26,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name">
-        <activity android:name=".AddMoneyActivity"
-            android:theme="@style/Theme.AppCompat.Light"
+        <activity android:name=".Activity.AddMoneyActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"/>
         <activity
             android:name=".Activity.ReportActivity"

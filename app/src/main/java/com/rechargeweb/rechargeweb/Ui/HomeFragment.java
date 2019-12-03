@@ -4,7 +4,6 @@ package com.rechargeweb.rechargeweb.Ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +16,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.BankingAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
-import com.rechargeweb.rechargeweb.Adapters.MoneyAdapter;
-import com.rechargeweb.rechargeweb.Adapters.MoneyAdapter.OnMoneyItemClickListener;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
 import com.rechargeweb.rechargeweb.Gist.Utility;
@@ -36,6 +31,8 @@ import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.SliderAdapter;
+import com.smarteist.autoimageslider.SliderView;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,7 +44,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener, OnMoneyItemClickListener, BankingAdapter.OnBankingItemClickListener {
+public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener, BankingAdapter.OnBankingItemClickListener {
 
 
     private StatefulRecyclerView itemRecyclerView;
@@ -57,18 +54,12 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     String id;
     String authKey;
 
-
-    private RecyclerView moneyRecycler;
-
-    private MoneyAdapter moneyAdapter;
-
     private StatefulRecyclerView bankingRecyclerView;
     private BankingAdapter bankingAdapter;
 
     OnHomeItemClickLisetener homeItemClickLisetener;
 
     private ProgressBar balanceLoading;
-    private View view;
 
     private boolean isLoading;
 
@@ -103,26 +94,23 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         //Initializing progressbar
         balanceLoading = view.findViewById(R.id.balance_loading);
 
+        //Setting up Slider View
+        SliderView sliderView = view.findViewById(R.id.imageSlider);
+        SliderAdapter sliderAdapter = new SliderAdapter(getContext());
+        sliderView.setSliderAdapter(sliderAdapter);
         //Initializing RecyclerView
         itemRecyclerView = view.findViewById(R.id.item_recycler);
         itemRecyclerView.setHasFixedSize(true);
         int noOfc = Utility.calculateNoOfColumns(getContext(), 110);
-        itemRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),noOfc));
+        itemRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), noOfc));
         itemAdapter = new ItemAdapter(getContext(), HomeFragment.this, dummyData.getItemsList());
         itemRecyclerView.setAdapter(itemAdapter);
-
-        //Initializing money recyclerView
-        moneyRecycler = view.findViewById(R.id.money_recycler);
-        moneyRecycler.setHasFixedSize(true);
-        moneyRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        moneyAdapter = new MoneyAdapter(getContext(), HomeFragment.this, dummyData.getMoneyItemsList());
-        moneyRecycler.setAdapter(moneyAdapter);
 
         //Initializing banking recyclerView
         bankingRecyclerView = view.findViewById(R.id.banking_recycler);
         bankingRecyclerView.setHasFixedSize(true);
-        bankingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-        bankingAdapter = new BankingAdapter(getContext(),dummyData.getBankingItems(),HomeFragment.this);
+        bankingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        bankingAdapter = new BankingAdapter(getContext(), dummyData.getBankingItems(), HomeFragment.this);
         bankingRecyclerView.setAdapter(bankingAdapter);
 
         return view;
@@ -137,18 +125,15 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     @Override
     public void onResume() {
         super.onResume();
-        Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.move_from_right);
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.move_from_right);
         itemRecyclerView.startAnimation(animation);
 
-        Animation animation1 = AnimationUtils.loadAnimation(getContext(),R.anim.move_from_left);
-        moneyRecycler.startAnimation(animation1);
-
-        Animation animation2 = AnimationUtils.loadAnimation(getContext(),R.anim.swing_up_left);
+        Animation animation2 = AnimationUtils.loadAnimation(getContext(), R.anim.swing_up_left);
         bankingRecyclerView.setAnimation(animation2);
     }
 
     private void sendRequest(String id, String key) {
-        apiService.setDetailsPost(id,key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        apiService.setDetailsPost(id, key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Details>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -165,7 +150,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "error");
-                        Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         balanceLoading.setVisibility(View.GONE);
                         isLoading = false;
                     }
@@ -222,33 +207,9 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     }
 
     @Override
-    public void onMOneyItemClick(int position) {
-
-        if (!isLoading) {
-            Items items = moneyAdapter.getMoneyItem(position);
-            String name = items.getName();
-            if (name.equals("Check Balance")) {
-                isLoading = true;
-                balanceLoading.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        sendRequest(id, authKey);
-                    }
-                }, 3000);
-
-
-            }else{
-                homeItemClickLisetener.onHomeItemclick(items);
-            }
-        }
-    }
-
-    @Override
     public void onBankItemclick(int position) {
 
-        if (!isLoading){
+        if (!isLoading) {
             Items items = bankingAdapter.getBankingItem(position);
             homeItemClickLisetener.onHomeItemclick(items);
         }
