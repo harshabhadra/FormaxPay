@@ -7,9 +7,12 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -115,6 +118,7 @@ public class AddMoneyActivity extends AppCompatActivity {
                 }
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 Log.e(TAG,"RECEIVED BACK--->" + message);
+                showCallbackMessage(message);
             }
 
         }
@@ -184,5 +188,34 @@ public class AddMoneyActivity extends AppCompatActivity {
         Random random = new Random();
         int r = random.nextInt(100);
         return "FP" + timeS + r;
+    }
+
+    //Create Alert Dialog to show callback message
+    private void showCallbackMessage(String message){
+
+        View layout = getLayoutInflater().inflate(R.layout.add_money_dialog_layout,null);
+        TextView messageTv = layout.findViewById(R.id.add_money_message_tv);
+        TextView amountTv = layout.findViewById(R.id.add_money_amount_tv);
+        Button button = layout.findViewById(R.id.add_money_dialog_button);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
+        builder.setView(layout);
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        messageTv.setText(message);
+        amountTv.setText("Amount: " + activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent intent = new Intent(AddMoneyActivity.this,AddMoneyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                intent.putExtra(Constants.SESSION_ID,session_id);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
