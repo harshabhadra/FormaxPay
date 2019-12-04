@@ -30,11 +30,11 @@ public class DummyData {
     //Get report items
     public List<Items> getReportList() {
         List<Items> itemsList = new ArrayList<>();
-        itemsList.add(new Items(R.drawable.recharge, "Recharge"));
-        itemsList.add(new Items(R.drawable.credit, "CreditReportFragment"));
-        itemsList.add(new Items(R.drawable.debit, "Debit"));
-        itemsList.add(new Items(R.drawable.coupon, "Coupon"));
+        itemsList.add(new Items(R.drawable.mobile_icon, "Recharge"));
         itemsList.add(new Items(R.drawable.aeps_icon,"AEPS"));
+        itemsList.add(new Items(R.drawable.coupon, "Coupon"));
+        itemsList.add(new Items(R.drawable.credit, "Credit"));
+        itemsList.add(new Items(R.drawable.debit, "Debit"));
 
         return itemsList;
     }

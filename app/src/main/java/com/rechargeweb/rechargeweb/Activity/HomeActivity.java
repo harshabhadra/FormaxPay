@@ -68,7 +68,8 @@ import java.util.Random;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
-        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick, NavigationView.OnNavigationItemSelectedListener {
+        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick,
+        NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnReportItemClickListener {
 
     //Remote config values
     private static final String VERSION_NAME_KEY = "version_name";
@@ -124,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
         NavigationView sideNav = findViewById(R.id.home_nav_view);
         sideNav.bringToFront();
@@ -809,5 +810,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     Uri.parse("https://play.google.com/store/apps/details?id="+appId));
             context.startActivity(webIntent);
         }
+    }
+
+    @Override
+    public void onReportItemClick(Items items) {
+        Intent reportIntent = new Intent(HomeActivity.this,ReportActivity.class);
+        reportIntent.putExtra(Constants.SESSION_ID,session_id);
+        reportIntent.putExtra(Constants.REPORT,items);
+        startActivity(reportIntent);
     }
 }

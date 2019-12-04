@@ -2,6 +2,7 @@ package com.rechargeweb.rechargeweb.Activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.rechargeweb.rechargeweb.Adapters.ReportPagerAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Passbook;
 import com.rechargeweb.rechargeweb.Model.RechargeDetails;
 import com.rechargeweb.rechargeweb.R;
@@ -31,24 +33,52 @@ public class ReportActivity extends AppCompatActivity implements
 
     private ReportPagerAdapter reportPagerAdapter;
     private String session_id;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-
-        ViewPager viewPager = findViewById(R.id.report_viewPager);
-        reportPagerAdapter = new ReportPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,this);
-        setReportPagerAdapter(viewPager);
-        TabLayout tabLayout = findViewById(R.id.report_tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
-
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.SESSION_ID)){
             session_id = intent.getStringExtra(Constants.SESSION_ID);
         }
+        ViewPager viewPager = findViewById(R.id.report_viewPager);
+        reportPagerAdapter = new ReportPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,this);
+        if (intent.hasExtra(Constants.REPORT)){
+            Items items = intent.getParcelableExtra(Constants.REPORT);
+            title = items.getName();
+           switch (title){
+               case "Recharge":
+                   setSingleReportPager(viewPager,new RechargeReportFragment(),title);
+                   break;
+               case "Credit":
+                   setSingleReportPager(viewPager, new CreditReportFragment(),title);
+                   break;
+               case "Debit":
+                   setSingleReportPager(viewPager,new DebitReportFragment(),title);
+                   break;
+               case "Coupon":
+                   setSingleReportPager(viewPager, new CouponReportFragment(),title);
+                   break;
+               case "AEPS":
+                   setSingleReportPager(viewPager,new AepsReportFragment(),title);
+                   break;
+           }
+        }else {
+            setReportPagerAdapter(viewPager);
+        }
+        TabLayout tabLayout = findViewById(R.id.report_tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
+    //Set up view pager for single element
+    private void setSingleReportPager(ViewPager viewPager, Fragment fragment, String title){
+        reportPagerAdapter.addFraqment(fragment,title,0);
+        reportPagerAdapter.notifyDataSetChanged();
+        viewPager.setAdapter(reportPagerAdapter);
+    }
+    //Set up View Pager for all
     private void setReportPagerAdapter(ViewPager viewPager){
         reportPagerAdapter.addFraqment(new RechargeReportFragment(),"Recharge Report",0);
         reportPagerAdapter.addFraqment(new CouponReportFragment(),"Coupon Report",1);

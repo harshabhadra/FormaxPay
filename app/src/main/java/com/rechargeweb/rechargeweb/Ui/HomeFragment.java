@@ -1,7 +1,6 @@
 package com.rechargeweb.rechargeweb.Ui;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
+import com.rechargeweb.rechargeweb.Adapters.AllReportAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
@@ -35,38 +36,34 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import mehdi.sakout.fancybuttons.FancyButton;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener {
+public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener, AllReportAdapter.OnReportItemClickListener {
 
+
+    private static final String TAG = HomeFragment.class.getSimpleName();
 
     private StatefulRecyclerView itemRecyclerView;
+    private RecyclerView reportRecyclerView;
+
     private ItemAdapter itemAdapter;
+    private AllReportAdapter allReportAdapter;
+
     private TextView retailerNameTv;
     private TextView retailerPhoneTV;
     private TextView walletOneTv;
     private TextView walletTwoTv;
     private String retailerName, retailerPhone, walletOne, walletTWo;
-
     private ApiService apiService;
     private String id;
     private String authKey;
-
-
-    OnHomeItemClickLisetener homeItemClickLisetener;
-
     private boolean isLoading;
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
-
-    public interface OnHomeItemClickLisetener {
-        void onHomeItemclick(Items items);
-    }
-
+    OnHomeItemClickLisetener homeItemClickLisetener;
+    OnReportItemClickListener reportItemClickListener;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -107,6 +104,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         itemAdapter = new ItemAdapter(getContext(), HomeFragment.this, dummyData.getItemsList());
         itemRecyclerView.setAdapter(itemAdapter);
 
+        reportRecyclerView = view.findViewById(R.id.home_report_recycler);
+        reportRecyclerView.setHasFixedSize(true);
+        reportRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        allReportAdapter = new AllReportAdapter(getContext(), HomeFragment.this, dummyData.getReportList());
+        reportRecyclerView.setAdapter(allReportAdapter);
         return view;
     }
 
@@ -121,7 +123,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         super.onResume();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.move_from_right);
         itemRecyclerView.startAnimation(animation);
-        sendRequest(id,authKey);
+        sendRequest(id, authKey);
     }
 
     private void sendRequest(String id, String key) {
@@ -159,11 +161,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
                 });
     }
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         homeItemClickLisetener = (OnHomeItemClickLisetener) context;
+        reportItemClickListener = (OnReportItemClickListener)getActivity();
     }
 
     @Override
@@ -173,5 +175,20 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
             Items rItem = itemAdapter.getItem(position);
             homeItemClickLisetener.onHomeItemclick(rItem);
         }
+    }
+
+    @Override
+    public void onReportItemClick(int position) {
+
+        Items items = allReportAdapter.getReportItem(position);
+        reportItemClickListener.onReportItemClick(items);
+    }
+
+    public interface OnReportItemClickListener{
+        void onReportItemClick(Items items);
+    }
+
+    public interface OnHomeItemClickLisetener {
+        void onHomeItemclick(Items items);
     }
 }
