@@ -16,14 +16,14 @@ public class DummyData {
     public List<Items> getItemsList() {
 
         List<Items> dummyList = new ArrayList<>();
-        dummyList.add(new Items(R.mipmap.mobile_icon, "Mobile"));
-        dummyList.add(new Items(R.mipmap.dth_icon, "DTH"));
-        dummyList.add(new Items(R.mipmap.landfone_icon, "Telephone"));
-        dummyList.add(new Items(R.mipmap.electricity_icon, "Electricity"));
-        dummyList.add(new Items(R.mipmap.broadband_icon, "Broadband"));
-        dummyList.add(new Items(R.mipmap.gas_icon, "Gas"));
-        dummyList.add(new Items(R.mipmap.life_insurance_icon, "Insurance"));
-        dummyList.add(new Items(R.mipmap.pancard_icon,"PAN Coupon"));
+        dummyList.add(new Items(R.drawable.mobile_icon, "Mobile"));
+        dummyList.add(new Items(R.drawable.dth_icon, "DTH"));
+        dummyList.add(new Items(R.drawable.landline_icon, "Telephone"));
+        dummyList.add(new Items(R.drawable.electricity_icon, "Electricity"));
+        dummyList.add(new Items(R.drawable.boardband_icon, "Broadband"));
+        dummyList.add(new Items(R.drawable.pan_icon,"PAN Coupon"));
+        dummyList.add(new Items(R.drawable.dmt_icon,"DMT"));
+        dummyList.add(new Items(R.drawable.aeps_icon,"YBL AEPS"));
         return dummyList;
     }
 
@@ -59,14 +59,5 @@ public class DummyData {
         paymentList.add("CASH DEPOSIT");
         paymentList.add("BANK TRANSFER");
         return paymentList;
-    }
-
-    //Get Banking service item list
-    public List<Items>getBankingItems(){
-        List<Items>bankingItems = new ArrayList<>();
-        bankingItems.add(new Items((R.drawable.dmt),"DMT"));
-//        bankingItems.add(new Items(R.drawable.aeps_icon,"AEPS"));
-        bankingItems.add(new Items(R.drawable.fino_aeps,"YBL AEPS"));
-        return bankingItems;
     }
 }

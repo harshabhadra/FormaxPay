@@ -18,14 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
-import com.rechargeweb.rechargeweb.Adapters.BankingAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
-import com.rechargeweb.rechargeweb.Gist.Utility;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Network.ApiService;
@@ -44,22 +41,23 @@ import mehdi.sakout.fancybuttons.FancyButton;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener, BankingAdapter.OnBankingItemClickListener {
+public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickListener {
 
 
     private StatefulRecyclerView itemRecyclerView;
     private ItemAdapter itemAdapter;
+    private TextView retailerNameTv;
+    private TextView retailerPhoneTV;
+    private TextView walletOneTv;
+    private TextView walletTwoTv;
+    private String retailerName, retailerPhone, walletOne, walletTWo;
 
-    ApiService apiService;
-    String id;
-    String authKey;
+    private ApiService apiService;
+    private String id;
+    private String authKey;
 
-    private StatefulRecyclerView bankingRecyclerView;
-    private BankingAdapter bankingAdapter;
 
     OnHomeItemClickLisetener homeItemClickLisetener;
-
-    private ProgressBar balanceLoading;
 
     private boolean isLoading;
 
@@ -83,6 +81,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //Initializing Retailer name, retailer phone, wallet one and wallet two text view
+        retailerNameTv = view.findViewById(R.id.home_retailer_name);
+        retailerPhoneTV = view.findViewById(R.id.home_retailer_phone);
+        walletOneTv = view.findViewById(R.id.home_walllet_1_tv);
+        walletTwoTv = view.findViewById(R.id.home_wallet_2_tv);
 
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
@@ -92,7 +95,6 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
 
         DummyData dummyData = new DummyData();
         //Initializing progressbar
-        balanceLoading = view.findViewById(R.id.balance_loading);
 
         //Setting up Slider View
         SliderView sliderView = view.findViewById(R.id.imageSlider);
@@ -101,17 +103,9 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         //Initializing RecyclerView
         itemRecyclerView = view.findViewById(R.id.item_recycler);
         itemRecyclerView.setHasFixedSize(true);
-        int noOfc = Utility.calculateNoOfColumns(getContext(), 110);
-        itemRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), noOfc));
+        itemRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         itemAdapter = new ItemAdapter(getContext(), HomeFragment.this, dummyData.getItemsList());
         itemRecyclerView.setAdapter(itemAdapter);
-
-        //Initializing banking recyclerView
-        bankingRecyclerView = view.findViewById(R.id.banking_recycler);
-        bankingRecyclerView.setHasFixedSize(true);
-        bankingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        bankingAdapter = new BankingAdapter(getContext(), dummyData.getBankingItems(), HomeFragment.this);
-        bankingRecyclerView.setAdapter(bankingAdapter);
 
         return view;
     }
@@ -127,9 +121,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         super.onResume();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.move_from_right);
         itemRecyclerView.startAnimation(animation);
-
-        Animation animation2 = AnimationUtils.loadAnimation(getContext(), R.anim.swing_up_left);
-        bankingRecyclerView.setAnimation(animation2);
+        sendRequest(id,authKey);
     }
 
     private void sendRequest(String id, String key) {
@@ -143,15 +135,20 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
                     @Override
                     public void onNext(Details details) {
                         Log.e(TAG, "success: " + details.toString());
-                        balanceLoading.setVisibility(View.GONE);
-                        createBalanceDialog(details);
+                        retailerName = details.getBusiness_name();
+                        walletOne = details.getWallet_1();
+                        walletTWo = details.getWallet_2();
+                        retailerNameTv.setText(retailerName);
+                        walletOneTv.setText(walletOne);
+                        walletTwoTv.setText(walletTWo);
+                        retailerPhoneTV.setText(details.getUser_type());
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "error");
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        balanceLoading.setVisibility(View.GONE);
+
                         isLoading = false;
                     }
 
@@ -160,34 +157,6 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
 
                     }
                 });
-    }
-
-    private void createBalanceDialog(Details details) {
-
-        Log.e(TAG, "Balance dialog creating");
-        View layout = getLayoutInflater().inflate(R.layout.wallet_layout, null);
-
-        TextView businessName = layout.findViewById(R.id.business_name);
-        TextView walletone = layout.findViewById(R.id.wallet1_tv);
-        TextView wallettwo = layout.findViewById(R.id.wallet2_tv);
-        FancyButton button = layout.findViewById(R.id.close);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.walletDialog);
-        builder.setView(layout);
-
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-
-        businessName.setText(details.getBusiness_name());
-        walletone.setText(details.getWallet_1());
-        wallettwo.setText(details.getWallet_2());
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                isLoading = false;
-            }
-        });
     }
 
 
@@ -203,15 +172,6 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         if (!isLoading) {
             Items rItem = itemAdapter.getItem(position);
             homeItemClickLisetener.onHomeItemclick(rItem);
-        }
-    }
-
-    @Override
-    public void onBankItemclick(int position) {
-
-        if (!isLoading) {
-            Items items = bankingAdapter.getBankingItem(position);
-            homeItemClickLisetener.onHomeItemclick(items);
         }
     }
 }

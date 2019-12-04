@@ -124,6 +124,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
 
         NavigationView sideNav = findViewById(R.id.home_nav_view);
         sideNav.bringToFront();
@@ -156,46 +157,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         version = getVersionName(this);
 
         disPlaySelectedScreen(R.id.nav_home);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_log_out) {
-
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Do you want to Log Out?");
-            builder.setIcon(R.mipmap.formax_round_icon);
-            builder.setPositiveButton("Log Out", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-                    intent.putExtra("logout", true);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public String getSession_id() {
@@ -705,28 +666,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         return pInfo.versionName;
     }
 
-    //Generate Checksum for aeps
-    public final String createMultipleTransactionID() {
-        String AgentTranID = "";
-        try {
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSS");
-            Date date = new Date();
-            String tranID = sdf.format(date);
-            int n = 6;
-            Random randGen = new Random();
-            int startNum = (int) Math.pow(10, n - 1);
-            int range = (int) (Math.pow(10, n) - startNum);
-            int randomNum = randGen.nextInt(range) + startNum;
-            String ran = String.valueOf(randomNum);
-            AgentTranID = tranID + ran;
-        } catch (Throwable e) {
-
-            Log.e(TAG, e.getMessage());
-        }
-        return AgentTranID;
-    }
-
     public boolean isPackageExisted(String targetPackage) {
         PackageManager pm = getPackageManager();
         try {
@@ -790,6 +729,29 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey Check out this awesome app on: https://play.google.com/store/apps/details?id=com.rechargeweb.rechargeweb");
                 shareIntent.setType("text/plain");
                 startActivity(Intent.createChooser(shareIntent,"Share Via"));
+                break;
+            case R.id.nav_logout:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Do you want to Log Out?");
+                builder.setIcon(R.mipmap.formax_round_icon);
+                builder.setPositiveButton("Log Out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                        intent.putExtra("logout", true);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
         }
 

@@ -76,6 +76,7 @@
     <string name="note_validate">Note: You will charged RS/- 4 to get name by validating your account or you can enter name manually</string>
     <string name="balance_enquiry">Balance Enquiry</string>
     <string name="enter_mobile_number">Mobile Number</string>
+    <string name="header_text"><![CDATA[Recharge & Bill Payments]]></string>
 
     <style name="cash_withdraw">Cash Withdrawal</style>
 
