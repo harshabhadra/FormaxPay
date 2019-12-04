@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
 
         NavigationView sideNav = findViewById(R.id.home_nav_view);
         sideNav.bringToFront();

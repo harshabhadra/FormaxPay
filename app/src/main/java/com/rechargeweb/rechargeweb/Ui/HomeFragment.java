@@ -2,6 +2,7 @@ package com.rechargeweb.rechargeweb.Ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +21,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rechargeweb.rechargeweb.Activity.AddMoneyActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.AllReportAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
+import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
 import com.rechargeweb.rechargeweb.Model.Details;
@@ -52,11 +56,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     private ItemAdapter itemAdapter;
     private AllReportAdapter allReportAdapter;
 
-    private TextView retailerNameTv;
-    private TextView retailerPhoneTV;
     private TextView walletOneTv;
     private TextView walletTwoTv;
-    private String retailerName, retailerPhone, walletOne, walletTWo;
+    private ImageView addMoneyImgOne, addMoneyImgTwo;
+
+    private String  walletOne, walletTWo;
     private ApiService apiService;
     private String id;
     private String authKey;
@@ -78,11 +82,14 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //Initializing Retailer name, retailer phone, wallet one and wallet two text view
-        retailerNameTv = view.findViewById(R.id.home_retailer_name);
-        retailerPhoneTV = view.findViewById(R.id.home_retailer_phone);
+        //Initializing wallet one and wallet two text view
         walletOneTv = view.findViewById(R.id.home_walllet_1_tv);
         walletTwoTv = view.findViewById(R.id.home_wallet_2_tv);
+
+        //Initializing Add Money img one and two
+        addMoneyImgOne = view.findViewById(R.id.add_money_img_1);
+        addMoneyImgTwo = view.findViewById(R.id.add_money_img_2);
+
 
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
@@ -104,11 +111,30 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         itemAdapter = new ItemAdapter(getContext(), HomeFragment.this, dummyData.getItemsList());
         itemRecyclerView.setAdapter(itemAdapter);
 
+        //Setting Report Recycler
         reportRecyclerView = view.findViewById(R.id.home_report_recycler);
         reportRecyclerView.setHasFixedSize(true);
         reportRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         allReportAdapter = new AllReportAdapter(getContext(), HomeFragment.this, dummyData.getReportList());
         reportRecyclerView.setAdapter(allReportAdapter);
+
+        addMoneyImgOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddMoneyActivity.class);
+                intent.putExtra(Constants.SESSION_ID,id);
+                startActivity(intent);
+            }
+        });
+
+        addMoneyImgTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddMoneyActivity.class);
+                intent.putExtra(Constants.SESSION_ID,id);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -137,13 +163,10 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
                     @Override
                     public void onNext(Details details) {
                         Log.e(TAG, "success: " + details.toString());
-                        retailerName = details.getBusiness_name();
                         walletOne = details.getWallet_1();
                         walletTWo = details.getWallet_2();
-                        retailerNameTv.setText(retailerName);
                         walletOneTv.setText(walletOne);
                         walletTwoTv.setText(walletTWo);
-                        retailerPhoneTV.setText(details.getUser_type());
                     }
 
                     @Override
