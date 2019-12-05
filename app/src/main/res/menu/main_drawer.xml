@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/main_group"
+    <group
+        android:id="@+id/main_group"
         android:checkableBehavior="single">
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_home_24dp"
-        android:title="Home" />
-    <item android:title="Transaction Reports"
-        android:id="@+id/nav_transaction_report"
-        android:icon="@drawable/ic_assessment_black_24dp"/>
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_24dp"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_transaction_report"
+            android:icon="@drawable/ic_assessment_black_24dp"
+            android:title="Transaction Reports" />
     </group>
     <group android:id="@+id/money_group">
-        <item android:id="@+id/nav_add_money"
-            android:title="Add Money"
-            android:icon="@mipmap/add_moneytwo"/>
-        <item android:title="Fund Request"
+        <item
+            android:id="@+id/nav_add_money"
+            android:icon="@mipmap/add_moneytwo"
+            android:title="Add Money" />
+        <item
             android:id="@+id/nav_fund_request"
-            android:icon="@mipmap/fund_requesttwo"/>
-        <item android:icon="@mipmap/passbook_icontwo"
-            android:title="Passbook"
-            android:id="@+id/nav_passbook"/>
+            android:icon="@mipmap/fund_requesttwo"
+            android:title="Fund Request" />
+        <item
+            android:id="@+id/nav_passbook"
+            android:icon="@mipmap/passbook_icontwo"
+            android:title="Passbook" />
     </group>
-    <group android:id="@+id/secondary_group"
+    <group
+        android:id="@+id/secondary_group"
         android:checkableBehavior="single">
-    <item
-        android:id="@+id/nav_support"
-        android:icon="@drawable/support"
-        android:title="Support" />
-    <item android:title="Change Password"
-        android:id="@+id/nav_changePassword"
-        android:icon="@drawable/ic_lock_black_24dp"/>
-    <item android:id="@+id/nav_rate_us"
-        android:icon="@drawable/ic_star_black_24dp"
-        android:title="Rate Us"/>
-    <item android:title="Share App"
-        android:icon="@drawable/ic_share_black_24dp"
-        android:id="@+id/nav_shareapp"/>
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/support"
+            android:title="Support" />
+        <item
+            android:id="@+id/nav_changePassword"
+            android:icon="@drawable/ic_lock_black_24dp"
+            android:title="Change Password" />
+        <item
+            android:id="@+id/nav_rate_us"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Rate Us" />
+        <item
+            android:id="@+id/nav_shareapp"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="Share App" />
     </group>
-    <item android:id="@+id/nav_logout"
-        android:title="Log Out"
-        android:icon="@drawable/ic_logout_user"/>
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout_user"
+        android:title="Log Out" />
 </menu>

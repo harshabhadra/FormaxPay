@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingBottom="16dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
 
     <EditText
         android:id="@+id/name_bc"
@@ -24,20 +23,20 @@
         android:id="@+id/imageView28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/cred_name"
         app:layout_constraintBottom_toBottomOf="@+id/name_bc"
         app:layout_constraintStart_toStartOf="@+id/psa_id_bc"
-        app:layout_constraintTop_toTopOf="@+id/name_bc"
-        android:src="@drawable/cred_name" />
+        app:layout_constraintTop_toTopOf="@+id/name_bc" />
 
     <ImageView
         android:id="@+id/imageView29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/buy_coupon"
         app:layout_constraintBottom_toBottomOf="@+id/quantity_bc"
         app:layout_constraintEnd_toEndOf="@+id/imageView28"
         app:layout_constraintStart_toStartOf="@+id/imageView28"
-        app:layout_constraintTop_toTopOf="@+id/quantity_bc"
-        android:src="@drawable/buy_coupon" />
+        app:layout_constraintTop_toTopOf="@+id/quantity_bc" />
 
     <EditText
         android:id="@+id/quantity_bc"
@@ -53,17 +52,17 @@
 
     <TextView
         android:id="@+id/psa_id_bc"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        tools:text="TextView"
         android:gravity="center"
-        style="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
 
     <Button
         android:id="@+id/buy_coupon_submit"

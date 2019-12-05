@@ -3,6 +3,8 @@ package com.rechargeweb.rechargeweb.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -210,6 +212,85 @@ public class RemitterActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
         dialog.show();
 
+
+        //Adding Text Watcher to all text input Edit text
+        confirmAccont.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                confirmAccountLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                confirmAccountLayout.setErrorEnabled(true);
+            }
+        });
+        account.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                accountLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                accountLayout.setErrorEnabled(true);
+            }
+        });
+        ifsc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                ifscLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ifscLayout.setErrorEnabled(true);
+                if (s.length()>0){
+                    getNameTv.setEnabled(true);
+                }else {
+                    getNameTv.setEnabled(true);
+                }
+            }
+        });
+
+        name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                nameLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                nameLayout.setErrorEnabled(true);
+            }
+        });
+
         //On Get Name button clicked
         getNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +301,7 @@ public class RemitterActivity extends AppCompatActivity {
                 String conAccount = confirmAccont.getText().toString();
                 isValidIfsc = validateIfsc(ifscS);
 
-                if (ifscS.isEmpty()) {
+                if (ifscS.isEmpty() || (!isValidIfsc)) {
                     ifscLayout.setError("Enter IFSC code");
                 } else if (accountS.isEmpty()) {
                     accountLayout.setError("Enter Account Number");
@@ -229,8 +310,6 @@ public class RemitterActivity extends AppCompatActivity {
                 } else if (!accountS.equals(conAccount)) {
                     accountLayout.setError("Account Number doesn't match");
                     confirmAccountLayout.setError("Account Number doesn't match");
-                } else if (!isValidIfsc){
-                    Toast.makeText(getApplicationContext(),"Enter Valid IFSC code",Toast.LENGTH_LONG).show();
                 }else {
                     getNameTv.setEnabled(false);
                     submitBeneficiaryButton.setVisibility(View.GONE);
@@ -289,10 +368,12 @@ public class RemitterActivity extends AppCompatActivity {
                     accountLayout.setError("Account Number doesn't match");
                     confirmAccountLayout.setError("Account Number doesn't match");
                 } else if (!isValidIfsc){
-                    Toast.makeText(getApplicationContext(),"Enter valid IFSC code",Toast.LENGTH_LONG).show();
+                    ifscLayout.setError("Enter Valid IFSC Code");
                 }else {
                     InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(submitBeneficiaryButton.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                    if (inputMethodManager != null) {
+                        inputMethodManager.hideSoftInputFromWindow(submitBeneficiaryButton.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
                     progressBar.setVisibility(View.VISIBLE);
                     submitBeneficiaryButton.setVisibility(View.GONE);
 
@@ -315,6 +396,12 @@ public class RemitterActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(RemitterActivity.this,RemitterActivity.class);
+                                    intent.putExtra(Constants.REMITTER_MOBILE,mobile);
+                                    intent.putExtra(Constants.SESSION_ID,session_id);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             } else {
                                 Log.e(TAG, "Beneficiary not added");

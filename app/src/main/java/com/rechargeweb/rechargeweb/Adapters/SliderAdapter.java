@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb;
+package com.rechargeweb.rechargeweb.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.rechargeweb.rechargeweb.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 

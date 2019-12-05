@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_send_money"
@@ -22,22 +21,24 @@
             android:id="@+id/send_money_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Enter Amount"
             android:inputType="number"
-            android:hint="Enter Amount" />
+            android:maxLength="4" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView74"
+        style="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Transfer Money"
-        android:gravity="center"
         android:background="@color/colorAccent"
+        android:gravity="center"
         android:padding="8dp"
-        style="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
+        android:text="Transfer Money"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/close_image_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -67,4 +68,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout_send_money" />
+
+    <ImageView
+        android:id="@+id/close_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView74"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_white_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <ImageView
         android:id="@+id/recharge_confirm_logo"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        tools:src="@mipmap/vodafone_logo"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        tools:src="@mipmap/vodafone_logo" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="8dp"
         android:gravity="center"
+        android:paddingStart="8dp"
         android:paddingEnd="8dp">
 
         <ImageView
@@ -34,20 +36,20 @@
             tools:text="Your Request is under Processing" />
     </LinearLayout>
 
-    <include layout="@layout/stauts_message"/>
+    <include layout="@layout/stauts_message" />
 
     <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/close_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="center_horizontal"
-        android:paddingLeft="20dp"
         android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:paddingLeft="20dp"
         android:paddingTop="8dp"
         android:paddingRight="20dp"
         android:paddingBottom="8dp"
-        android:layout_alignParentEnd="true"
         android:text="Close"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"

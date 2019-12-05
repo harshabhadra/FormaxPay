@@ -49,11 +49,11 @@
 
     <TextView
         android:id="@+id/details_amount"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        style="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toBottomOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -71,11 +71,11 @@
 
     <TextView
         android:id="@+id/details_status"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        style="@style/TextAppearance.AppCompat.Body2"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,11 +94,11 @@
 
     <TextView
         android:id="@+id/details_date"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        style="@style/TextAppearance.AppCompat.Body2"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintEnd_toEndOf="parent"

@@ -47,23 +47,23 @@
 
     <TextView
         android:id="@+id/confirm_ifsc_tv"
+        style="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        style="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
-        tools:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
 
     <TextView
         android:id="@+id/confrim_account_tv"
+        style="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:layout_marginEnd="16dp"
-        tools:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

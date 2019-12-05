@@ -258,7 +258,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     public void onChanged(AepsLogIn aepsLogIn) {
                         dialog1.dismiss();
                         if (aepsLogIn != null) {
-                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
+                             if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
                                 Intent uploadKycIntent = new Intent(HomeActivity.this, UploadKycActivity.class);
                                 uploadKycIntent.putExtra(Constants.SESSION_ID, session_id);
                                 uploadKycIntent.putExtra(Constants.USER_ID, user_id);

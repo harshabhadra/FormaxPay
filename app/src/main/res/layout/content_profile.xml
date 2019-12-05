@@ -40,9 +40,9 @@
 
                 <TextView
                     android:id="@+id/business_name_profile"
+                    style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    style="@style/TextAppearance.AppCompat.Medium"
                     android:gravity="center_vertical"
                     tools:text="@string/app_name" />
             </LinearLayout>
@@ -55,9 +55,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="4dp"
-            android:layout_marginEnd="8dp"
             app:cardUseCompatPadding="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +73,8 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
                     android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
                     android:paddingTop="16dp"
+                    android:paddingEnd="4dp"
                     android:paddingBottom="4dp">
 
                     <FrameLayout
@@ -82,12 +82,13 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView34"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/profile_user_type_white_24dp"/>
+                            android:layout_gravity="center"
+                            android:src="@drawable/profile_user_type_white_24dp" />
 
                     </FrameLayout>
 
@@ -96,8 +97,8 @@
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="4"
                         android:layout_marginStart="16dp"
+                        android:layout_weight="4"
                         android:gravity="center_vertical"
                         android:text="TextView"
                         android:textSize="16sp" />
@@ -126,11 +127,12 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/profile_user_name_white_24dp"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:src="@drawable/profile_user_name_white_24dp" />
                     </FrameLayout>
 
                     <TextView
@@ -138,8 +140,8 @@
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -154,6 +156,7 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView42"
                             android:layout_width="wrap_content"
@@ -161,13 +164,14 @@
                             android:layout_gravity="center"
                             android:src="@drawable/profile_mobile_white_24dp" />
                     </FrameLayout>
+
                     <TextView
                         android:id="@+id/profile_name"
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -182,21 +186,23 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
-                            android:layout_gravity="center"
                             android:id="@+id/imageView35"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:src="@drawable/profile_pan_white_24dp" />
 
                     </FrameLayout>
+
                     <TextView
                         android:id="@+id/profile_pan"
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="N/A" />
 
                 </LinearLayout>
@@ -212,6 +218,7 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView36"
                             android:layout_width="wrap_content"
@@ -225,8 +232,8 @@
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="N/A" />
 
                 </LinearLayout>
@@ -236,15 +243,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
                     android:paddingTop="4dp"
+                    android:paddingEnd="4dp"
                     android:paddingBottom="16dp">
 
                     <FrameLayout
                         android:layout_width="32dp"
-                        android:layout_marginStart="8dp"
                         android:layout_height="32dp"
+                        android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView41"
                             android:layout_width="wrap_content"
@@ -258,8 +266,8 @@
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -288,16 +296,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="4dp"
                     android:paddingStart="4dp"
+                    android:paddingTop="16dp"
                     android:paddingEnd="4dp"
-                    android:paddingTop="16dp">
+                    android:paddingBottom="4dp">
 
                     <FrameLayout
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView38"
                             android:layout_width="wrap_content"
@@ -311,8 +320,8 @@
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -327,6 +336,7 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView39"
                             android:layout_width="wrap_content"
@@ -340,8 +350,8 @@
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -350,8 +360,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
                     android:paddingTop="4dp"
+                    android:paddingEnd="4dp"
                     android:paddingBottom="16dp">
 
                     <FrameLayout
@@ -359,20 +369,22 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:background="@drawable/profile_icon_back">
+
                         <ImageView
                             android:id="@+id/imageView40"
-                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:src="@drawable/profile_pin_white_24dp" />
                     </FrameLayout>
+
                     <TextView
                         android:id="@+id/profile_pincode"
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
                         android:text="TextView" />
                 </LinearLayout>
 

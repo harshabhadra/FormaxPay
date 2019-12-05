@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <EditText
         android:id="@+id/enter_user_id"
@@ -13,29 +13,31 @@
         android:layout_height="wrap_content"
         android:hint="@string/user_id"
         android:padding="16dp" />
+
     <TextView
         android:id="@+id/password_message"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
-        tools:text="New Password has been sent to your registered Phone No."
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:maxEms="5"
         android:visibility="gone"
-        android:gravity="center"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"/>
+        tools:text="New Password has been sent to your registered Phone No." />
+
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/alert_loading"
         style="@style/SpinKitView.FadingCircle"
         android:layout_width="wrap_content"
-        android:visibility="gone"
-        app:SpinKit_Color="@color/colorPrimaryDark"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/colorPrimaryDark" />
 
     <LinearLayout
-        android:paddingTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp">
 
         <Button
             android:id="@+id/cancel_request"
@@ -46,16 +48,17 @@
             android:background="@drawable/btnformate"
             android:text="Cancel"
             android:textColor="#FFFFFF" />
+
         <Button
             android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:background="@drawable/btnformate"
             android:text="Ok"
             android:textColor="#FFFFFF"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:background="@drawable/btnformate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/reset_password"
@@ -63,8 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:enabled="false"
             android:background="@drawable/btnformate"
+            android:enabled="false"
             android:text="Submit"
             android:textColor="#FFFFFF" />
     </LinearLayout>

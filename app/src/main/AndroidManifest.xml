@@ -26,9 +26,10 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name">
-        <activity android:name=".Activity.AddMoneyActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Activity.HomeActivity"/>
+        <activity
+            android:name=".Activity.AddMoneyActivity"
+            android:parentActivityName=".Activity.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
@@ -127,8 +128,7 @@
             android:name=".Activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

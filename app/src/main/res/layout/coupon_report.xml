@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="6dp">
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:padding="8dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/textView40"
@@ -160,13 +160,13 @@
 
         <TextView
             android:id="@+id/couponPrice"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="TextView"
-            style="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="@+id/quanitity_tv"
             app:layout_constraintStart_toStartOf="@+id/quanitity_tv"
-            app:layout_constraintTop_toBottomOf="@+id/quanitity_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/quanitity_tv"
+            tools:text="TextView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

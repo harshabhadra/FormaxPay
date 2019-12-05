@@ -3,6 +3,8 @@ package com.rechargeweb.rechargeweb.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -45,7 +47,27 @@ public class DmtActivity extends AppCompatActivity {
 
         auth = getResources().getString(R.string.auth_key);
 
+        //Initializing ViewModel Class
         dmtViewModel = ViewModelProviders.of(this).get(DmtViewModel.class);
+
+        //Adding Text Watcher to Mobile Number Layout
+        dmtBinding.numberRemmiter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                dmtBinding.dmtMobileNumberLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                dmtBinding.dmtMobileNumberLayout.setErrorEnabled(true);
+            }
+        });
 
         //On button Click
         dmtBinding.dmtSerachButton.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +86,7 @@ public class DmtActivity extends AppCompatActivity {
                     dmtBinding.dmtSerachButton.setVisibility(View.GONE);
                     searchEmitterNumber(auth, mobile);
                 }else {
-                    dmtBinding.textInputLayout2.setError("Enter Valid Mobile Number");
+                    dmtBinding.dmtMobileNumberLayout.setError("Enter Valid Mobile Number");
                 }
             }
         });

@@ -68,7 +68,7 @@ public class FinoAepsActivity extends AppCompatActivity {
         auth = getResources().getString(R.string.auth_key);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(Constants.SESSION_ID)){
+        if (intent.hasExtra(Constants.SESSION_ID)) {
             session_id = intent.getStringExtra(Constants.SESSION_ID);
             user_id = intent.getStringExtra(Constants.USER_ID);
         }
@@ -96,7 +96,7 @@ public class FinoAepsActivity extends AppCompatActivity {
                     finoAepsBinding.finoAmountTextInput.setEnabled(false);
                 }
 
-                String[] typeList = {getResources().getString(R.string.balance_enquiry),"Cash Withdrawal"};
+                String[] typeList = {getResources().getString(R.string.balance_enquiry), "Cash Withdrawal"};
                 position = 0;
                 AlertDialog.Builder builder = new AlertDialog.Builder(FinoAepsActivity.this);
                 builder.setTitle("What you'd like to do?");
@@ -138,7 +138,12 @@ public class FinoAepsActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                finoAepsBinding.finoMobileNumberLayout.setErrorEnabled(true);
+                if (s.length() == 10) {
+                    finoAepsBinding.finoSubmitButton.setEnabled(true);
+                } else {
+                    finoAepsBinding.finoSubmitButton.setEnabled(false);
+                }
             }
         });
 
@@ -156,7 +161,10 @@ public class FinoAepsActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                finoAepsBinding.finoAmountLayout.setErrorEnabled(true);
+                if (s.length() > 0 && !isValidAmount(s.toString())) {
+                    finoAepsBinding.finoAmountLayout.setError("Enter Amount between 100 to 10000");
+                }
             }
         });
 
@@ -165,22 +173,14 @@ public class FinoAepsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                finoAepsBinding.finoAmountLayout.setErrorEnabled(true);
-                finoAepsBinding.finoMobileNumberLayout.setErrorEnabled(true);
-
                 if (!isBalanceCheck) {
                     mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
                     amount = finoAepsBinding.finoAmountTextInput.getText().toString().trim();
 
-                    int value = Integer.parseInt(amount);
-                    if (mobileNumber.isEmpty() || mobileNumber.length() < 10) {
-
-                        finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
-                    } else if (value < 100 || value > 10000) {
-                        finoAepsBinding.finoAmountLayout.setError("Enter Amount between 100 to 10000");
-                    } else {
+                    if (!amount.isEmpty() && isValidAmount(amount)) {
                         finoAepsBinding.finoAmountTextInput.getText().clear();
                         finoAepsBinding.finoMobileNumberTextInput.getText().clear();
+
                         withdrawalBuilder = new StringBuilder();
                         withdrawalBuilder.append(PaisaNikalConfig.ApiTransactionId.AEPS_CASH_WITHDRAW);
                         withdrawalBuilder.append(System.currentTimeMillis());
@@ -193,13 +193,13 @@ public class FinoAepsActivity extends AppCompatActivity {
 
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                        allReportViewModel.sendAepsDetails(session_id,auth,"AW",amount,orderId,mobileNumber).observe(FinoAepsActivity.this, new Observer<String>() {
+                        allReportViewModel.sendAepsDetails(session_id, auth, "AW", amount, orderId, mobileNumber).observe(FinoAepsActivity.this, new Observer<String>() {
                             @Override
                             public void onChanged(String s) {
                                 dialog.dismiss();
-                                if (s.equals("Success")){
+                                if (s.equals("Success")) {
                                     cashWithDrawal(mobileNumber, amount);
-                                }else {
+                                } else {
                                     Intent intent1 = new Intent(FinoAepsActivity.this, FinoAepsActivity.class);
                                     intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                                     intent.putExtra(Constants.SESSION_ID, session_id);
@@ -209,47 +209,44 @@ public class FinoAepsActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
+                    } else {
+                        finoAepsBinding.finoAmountLayout.setError("Enter Valid Amount");
                     }
                 } else {
                     mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
 
-                    if (mobileNumber.isEmpty() || mobileNumber.length() < 10) {
-                        finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
-                    } else {
-                        finoAepsBinding.finoMobileNumberTextInput.getText().clear();
+                    finoAepsBinding.finoMobileNumberTextInput.getText().clear();
 
-                        balanceBuilder = new StringBuilder();
-                        balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.AEPS_BALANCE_INQUIRY);
-                        balanceBuilder.append(System.currentTimeMillis());
-                        orderId = balanceBuilder.toString();
+                    balanceBuilder = new StringBuilder();
+                    balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.AEPS_BALANCE_INQUIRY);
+                    balanceBuilder.append(System.currentTimeMillis());
+                    orderId = balanceBuilder.toString();
 
-                        Log.e(TAG,"Order Id: " + balanceBuilder.toString());
+                    Log.e(TAG, "Order Id: " + balanceBuilder.toString());
 
-                        View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(FinoAepsActivity.this);
-                        builder.setCancelable(false);
-                        builder.setView(view);
+                    View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FinoAepsActivity.this);
+                    builder.setCancelable(false);
+                    builder.setView(view);
 
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                        allReportViewModel.sendAepsDetails(session_id,auth,"AB","0.00",orderId,mobileNumber).observe(FinoAepsActivity.this, new Observer<String>() {
-                            @Override
-                            public void onChanged(String s) {
-                                dialog.dismiss();
-                                if (s.equals("Success")){
-                                    checkBalance(mobileNumber);
-                                }else {
-                                    Intent intent1 = new Intent(FinoAepsActivity.this, FinoAepsActivity.class);
-                                    intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                                    intent.putExtra(Constants.SESSION_ID, session_id);
-                                    intent.putExtra(Constants.USER_ID, user_id);
-                                    startActivity(intent1);
-                                    finish();
-                                }
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    allReportViewModel.sendAepsDetails(session_id, auth, "AB", "0.00", orderId, mobileNumber).observe(FinoAepsActivity.this, new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            dialog.dismiss();
+                            if (s.equals("Success")) {
+                                checkBalance(mobileNumber);
+                            } else {
+                                Intent intent1 = new Intent(FinoAepsActivity.this, FinoAepsActivity.class);
+                                intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                intent.putExtra(Constants.SESSION_ID, session_id);
+                                intent.putExtra(Constants.USER_ID, user_id);
+                                startActivity(intent1);
+                                finish();
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         });
@@ -344,13 +341,19 @@ public class FinoAepsActivity extends AppCompatActivity {
         } else if (requestCode == CODE_MICRO_TRANSACTION && resultCode == Activity.RESULT_CANCELED) {
             //handler for user canceled
             Toast.makeText(this, "Request has been canceled by user", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Intent homeIntent = new Intent(FinoAepsActivity.this, HomeActivity.class);
             homeIntent.putExtra(Constants.SESSION_ID, session_id);
             homeIntent.putExtra(Constants.USER_ID, user_id);
             startActivity(homeIntent);
             finish();
         }
+    }
+
+    //Check if the amount is valid
+    private boolean isValidAmount(String amt) {
+        int value = Integer.parseInt(amt);
+        return value >= 100 && value <= 10000;
     }
 
     @Override

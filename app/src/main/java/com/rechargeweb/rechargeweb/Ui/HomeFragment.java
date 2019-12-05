@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,18 +23,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rechargeweb.rechargeweb.Activity.AddMoneyActivity;
+import com.rechargeweb.rechargeweb.Activity.DmtActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.AllReportAdapter;
+import com.rechargeweb.rechargeweb.Adapters.DmtSliderAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
+import com.rechargeweb.rechargeweb.AepsSliderAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
+import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
-import com.rechargeweb.rechargeweb.SliderAdapter;
+import com.rechargeweb.rechargeweb.Adapters.SliderAdapter;
 import com.smarteist.autoimageslider.SliderView;
 
 import io.reactivex.Observer;
@@ -59,6 +64,9 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     private TextView walletOneTv;
     private TextView walletTwoTv;
     private ImageView addMoneyImgOne, addMoneyImgTwo;
+    private TextView transactionReportLabelTv;
+    private Button dmtSendtButton;
+    private Button aepsSendButton;
 
     private String  walletOne, walletTWo;
     private ApiService apiService;
@@ -90,6 +98,13 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         addMoneyImgOne = view.findViewById(R.id.add_money_img_1);
         addMoneyImgTwo = view.findViewById(R.id.add_money_img_2);
 
+        //Initializing Aeps and dmt send button
+        dmtSendtButton = view.findViewById(R.id.dmt_home_button);
+        aepsSendButton = view.findViewById(R.id.aeps_home_button);
+
+        //Initializing Transaction report label text view
+        transactionReportLabelTv = view.findViewById(R.id.transaction_report_label);
+
 
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
@@ -98,12 +113,22 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         apiService = ApiUtills.getApiService();
 
         DummyData dummyData = new DummyData();
-        //Initializing progressbar
 
         //Setting up Slider View
         SliderView sliderView = view.findViewById(R.id.imageSlider);
         SliderAdapter sliderAdapter = new SliderAdapter(getContext());
         sliderView.setSliderAdapter(sliderAdapter);
+
+        //Setting Dmt Slider View
+        SliderView dmtSlider = view.findViewById(R.id.dmt_slider_view);
+        DmtSliderAdapter dmtSliderAdapter = new DmtSliderAdapter(getContext());
+        dmtSlider.setSliderAdapter(dmtSliderAdapter);
+
+        //Setting up Aeps Slider View
+        SliderView aepsSlider = view.findViewById(R.id.aeps_slider_view);
+        AepsSliderAdapter aepsSliderAdapter = new AepsSliderAdapter(getContext());
+        aepsSlider.setSliderAdapter(aepsSliderAdapter);
+
         //Initializing RecyclerView
         itemRecyclerView = view.findViewById(R.id.item_recycler);
         itemRecyclerView.setHasFixedSize(true);
@@ -118,6 +143,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         allReportAdapter = new AllReportAdapter(getContext(), HomeFragment.this, dummyData.getReportList());
         reportRecyclerView.setAdapter(allReportAdapter);
 
+        //On Click add money one ImageView
         addMoneyImgOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,12 +153,39 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
             }
         });
 
+        //On Click AddMoneyTwo ImageView
         addMoneyImgTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddMoneyActivity.class);
                 intent.putExtra(Constants.SESSION_ID,id);
                 startActivity(intent);
+            }
+        });
+
+        //On Click TransactionReportLabel TextView label
+        transactionReportLabelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportRecyclerView.smoothScrollToPosition(100);
+            }
+        });
+
+        //On Dmt home button click
+        dmtSendtButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dmtIntent = new Intent(getActivity(), DmtActivity.class);
+                dmtIntent.putExtra(Constants.SESSION_ID, id);
+                startActivity(dmtIntent);
+            }
+        });
+
+        //On Aeps home button click
+        aepsSendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         return view;
