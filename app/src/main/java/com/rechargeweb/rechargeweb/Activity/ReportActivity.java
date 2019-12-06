@@ -43,32 +43,43 @@ public class ReportActivity extends AppCompatActivity implements
         if (intent.hasExtra(Constants.SESSION_ID)){
             session_id = intent.getStringExtra(Constants.SESSION_ID);
         }
+
+        //Initializing TabLayout and ViewPager
+        TabLayout tabLayout = findViewById(R.id.report_tab_layout);
         ViewPager viewPager = findViewById(R.id.report_viewPager);
+
+        //Initializing ReportPagerAdapter
         reportPagerAdapter = new ReportPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,this);
+
         if (intent.hasExtra(Constants.REPORT)){
             Items items = intent.getParcelableExtra(Constants.REPORT);
+            tabLayout.setVisibility(View.GONE);
             title = items.getName();
            switch (title){
                case "Recharge":
                    setSingleReportPager(viewPager,new RechargeReportFragment(),title);
+                   getSupportActionBar().setTitle("Recharge Report");
                    break;
                case "Credit":
                    setSingleReportPager(viewPager, new CreditReportFragment(),title);
+                   getSupportActionBar().setTitle("Credit Report");
                    break;
                case "Debit":
                    setSingleReportPager(viewPager,new DebitReportFragment(),title);
+                   getSupportActionBar().setTitle("Debit Report");
                    break;
                case "Coupon":
                    setSingleReportPager(viewPager, new CouponReportFragment(),title);
+                   getSupportActionBar().setTitle("Coupon Report");
                    break;
                case "AEPS":
                    setSingleReportPager(viewPager,new AepsReportFragment(),title);
+                   getSupportActionBar().setTitle("AEPS Report");
                    break;
            }
         }else {
             setReportPagerAdapter(viewPager);
         }
-        TabLayout tabLayout = findViewById(R.id.report_tab_layout);
         tabLayout.setupWithViewPager(viewPager);
     }
 

@@ -27,10 +27,6 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name">
         <activity
-            android:name=".Activity.AddMoneyActivity"
-            android:parentActivityName=".Activity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
             android:parentActivityName=".Activity.HomeActivity"

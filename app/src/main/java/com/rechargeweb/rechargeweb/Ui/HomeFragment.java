@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.Ui;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,27 +19,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rechargeweb.rechargeweb.Activity.AddMoneyActivity;
 import com.rechargeweb.rechargeweb.Activity.DmtActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
+import com.rechargeweb.rechargeweb.Activity.UploadKycActivity;
 import com.rechargeweb.rechargeweb.Adapters.AllReportAdapter;
 import com.rechargeweb.rechargeweb.Adapters.DmtSliderAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
+import com.rechargeweb.rechargeweb.Adapters.SliderAdapter;
 import com.rechargeweb.rechargeweb.AepsSliderAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
+import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
-import com.rechargeweb.rechargeweb.Adapters.SliderAdapter;
+import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
 import com.smarteist.autoimageslider.SliderView;
 
 import io.reactivex.Observer;
@@ -68,14 +73,19 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     private Button dmtSendtButton;
     private Button aepsSendButton;
 
-    private String  walletOne, walletTWo;
+    private String walletOne, walletTWo;
     private ApiService apiService;
     private String id;
     private String authKey;
+    private String user_id;
     private boolean isLoading;
+    private AllReportViewModel allReportViewModel;
 
-    OnHomeItemClickLisetener homeItemClickLisetener;
-    OnReportItemClickListener reportItemClickListener;
+    private AlertDialog loadingDialog;
+
+    private OnHomeItemClickLisetener homeItemClickLisetener;
+    private OnReportItemClickListener reportItemClickListener;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -89,6 +99,9 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         authKey = getResources().getString(R.string.auth_key);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        //Initializing AllReportViewModel
+        allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);
 
         //Initializing wallet one and wallet two text view
         walletOneTv = view.findViewById(R.id.home_walllet_1_tv);
@@ -109,6 +122,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
             id = activity.getSession_id();
+            user_id = activity.getUser_id();
         }
         apiService = ApiUtills.getApiService();
 
@@ -147,9 +161,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         addMoneyImgOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddMoneyActivity.class);
-                intent.putExtra(Constants.SESSION_ID,id);
-                startActivity(intent);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                Fragment fragment = new AddMoneyFragment();
+                fragmentTransaction.replace(R.id.main_container,fragment);
+                fragmentTransaction.commit();
+                activity.setFragment(fragment);
             }
         });
 
@@ -157,9 +173,11 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         addMoneyImgTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddMoneyActivity.class);
-                intent.putExtra(Constants.SESSION_ID,id);
-                startActivity(intent);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                Fragment fragment = new AddMoneyFragment();
+                fragmentTransaction.replace(R.id.main_container,fragment);
+                fragmentTransaction.commit();
+                activity.setFragment(fragment);
             }
         });
 
@@ -185,6 +203,45 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         aepsSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                loadingDialog = createAlertDialog(getContext());
+                loadingDialog.show();
+                String serviceType = "YBL_AEPS";
+                allReportViewModel.aepsLogIn(id, serviceType, authKey).observe(HomeFragment.this, new androidx.lifecycle.Observer<AepsLogIn>() {
+                    @Override
+                    public void onChanged(AepsLogIn aepsLogIn) {
+                        loadingDialog.dismiss();
+                        if (aepsLogIn != null) {
+                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
+                                Intent uploadKycIntent = new Intent(getActivity(), UploadKycActivity.class);
+                                uploadKycIntent.putExtra(Constants.SESSION_ID, id);
+                                uploadKycIntent.putExtra(Constants.USER_ID, user_id);
+                                uploadKycIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
+                                uploadKycIntent.putExtra(Constants.AEPS_TYPE, serviceType);
+                                startActivity(uploadKycIntent);
+                            } else if (aepsLogIn.getStatus().equals("Processing")) {
+
+                                Intent uploadIntent = new Intent(getActivity(), UploadKycActivity.class);
+                                uploadIntent.putExtra(Constants.SESSION_ID, id);
+                                uploadIntent.putExtra(Constants.USER_ID, user_id);
+                                uploadIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
+                                uploadIntent.putExtra(Constants.AEPS_TYPE, serviceType);
+                                startActivity(uploadIntent);
+
+                            } else {
+                                String agentCode = aepsLogIn.getAgentId();
+                                Log.e(TAG, "agernt Id: " + agentCode);
+                                if (!agentCode.isEmpty()) {
+
+                                    Intent finoIntent = new Intent(getActivity(), FinoAepsActivity.class);
+                                    finoIntent.putExtra(Constants.SESSION_ID, id);
+                                    finoIntent.putExtra(Constants.USER_ID, user_id);
+                                    startActivity(finoIntent);
+                                }
+                            }
+                        }
+                    }
+                });
 
             }
         });
@@ -241,7 +298,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         homeItemClickLisetener = (OnHomeItemClickLisetener) context;
-        reportItemClickListener = (OnReportItemClickListener)getActivity();
+        reportItemClickListener = (OnReportItemClickListener) getActivity();
     }
 
     @Override
@@ -260,11 +317,23 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         reportItemClickListener.onReportItemClick(items);
     }
 
-    public interface OnReportItemClickListener{
+    public interface OnReportItemClickListener {
         void onReportItemClick(Items items);
     }
 
     public interface OnHomeItemClickLisetener {
         void onHomeItemclick(Items items);
     }
+
+    //Create loading Dialog
+    private AlertDialog createAlertDialog(Context context) {
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
+    }
+
+
 }

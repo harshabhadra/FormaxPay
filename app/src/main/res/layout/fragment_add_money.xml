@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".Activity.AddMoneyActivity">
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout_add_money"
@@ -34,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:background="@drawable/button"
             android:drawableStart="@drawable/ic_add_white_24dp"
             android:enabled="false"
@@ -42,7 +40,6 @@
             android:paddingEnd="32dp"
             android:text="Add Money"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout_add_money"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout_add_money"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_add_money" />

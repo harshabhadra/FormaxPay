@@ -276,6 +276,7 @@ public class PanActivity extends AppCompatActivity {
             public void onChanged(Credential credential) {
 
                 if (credential != null) {
+                    Log.e(TAG,"Credential is not empty");
                     message = credential.getMessage();
                     psaId = credential.getPsaId();
                     userName = credential.getVleName();
@@ -301,6 +302,8 @@ public class PanActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
                     }
+                }else {
+                    Log.e(TAG,"No credential found");
                 }
             }
         });

@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +50,7 @@ import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Profile;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.Ui.AddMoneyFragment;
 import com.rechargeweb.rechargeweb.Ui.HomeFragment;
 import com.rechargeweb.rechargeweb.Ui.ProfileFragment;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
@@ -59,17 +59,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
         LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick,
-        NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnReportItemClickListener {
+        NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnReportItemClickListener {
 
     //Remote config values
     private static final String VERSION_NAME_KEY = "version_name";
@@ -105,7 +102,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     AllReportViewModel allReportViewModel;
 
     private DrawerLayout drawerLayout;
-
+    private Fragment fragment;
+    private HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,35 +170,41 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     @Override
     public void onBackPressed() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else if (fragment != homeFragment){
+            disPlaySelectedScreen(R.id.nav_home);
+        }
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        View exitLayout = getLayoutInflater().inflate(R.layout.exit_dialog_layout, null);
-        FancyButton cancel = exitLayout.findViewById(R.id.cancel_confirm);
-        FancyButton confirm = exitLayout.findViewById(R.id.exit_confirm);
+            View exitLayout = getLayoutInflater().inflate(R.layout.exit_dialog_layout, null);
+            FancyButton cancel = exitLayout.findViewById(R.id.cancel_confirm);
+            FancyButton confirm = exitLayout.findViewById(R.id.exit_confirm);
 
-        builder.setTitle("Do you want to Exit?");
-        builder.setIcon(R.mipmap.formax_round_icon);
-        builder.setView(exitLayout);
-        final AlertDialog dialog = builder.create();
-        dialog.show();
+            builder.setTitle("Do you want to Exit?");
+            builder.setIcon(R.mipmap.formax_round_icon);
+            builder.setView(exitLayout);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                dialog.dismiss();
-            }
-        });
+                    dialog.dismiss();
+                }
+            });
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                dialog.dismiss();
-                finish();
-            }
-        });
-
+                    dialog.dismiss();
+                    HomeActivity.super.onBackPressed();
+                }
+            });
+        }
 
     }
 
@@ -258,7 +262,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     public void onChanged(AepsLogIn aepsLogIn) {
                         dialog1.dismiss();
                         if (aepsLogIn != null) {
-                             if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
+                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
                                 Intent uploadKycIntent = new Intent(HomeActivity.this, UploadKycActivity.class);
                                 uploadKycIntent.putExtra(Constants.SESSION_ID, session_id);
                                 uploadKycIntent.putExtra(Constants.USER_ID, user_id);
@@ -667,16 +671,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         return pInfo.versionName;
     }
 
-    public boolean isPackageExisted(String targetPackage) {
-        PackageManager pm = getPackageManager();
-        try {
-            PackageInfo info = pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
@@ -686,31 +680,30 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     private void disPlaySelectedScreen(int itemId) {
 
-        Fragment fragment = null;
+        fragment = null;
 
         switch (itemId) {
 
             case R.id.nav_home:
-                fragment = new HomeFragment();
+                fragment = homeFragment;
                 break;
             case R.id.nav_support:
                 Intent intent = new Intent(HomeActivity.this, SupportActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_changePassword:
-                Intent changePassIntent = new Intent(HomeActivity.this,ChangePassActivity.class);
+                Intent changePassIntent = new Intent(HomeActivity.this, ChangePassActivity.class);
                 changePassIntent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(changePassIntent);
                 break;
             case R.id.nav_transaction_report:
-                Intent reportIntent = new Intent(HomeActivity.this,ReportActivity.class);
-                reportIntent.putExtra(Constants.SESSION_ID,session_id);
+                Intent reportIntent = new Intent(HomeActivity.this, ReportActivity.class);
+                reportIntent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(reportIntent);
                 break;
             case R.id.nav_add_money:
-                Intent addMoneyIntent = new Intent(HomeActivity.this, AddMoneyActivity.class);
-                addMoneyIntent.putExtra(Constants.SESSION_ID,session_id);
-                startActivity(addMoneyIntent);
+                fragment = new AddMoneyFragment();
+                getSupportActionBar().setTitle("Add Money");
                 break;
             case R.id.nav_fund_request:
                 Intent intent1 = new Intent(HomeActivity.this, FundRequestActivity.class);
@@ -718,8 +711,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 startActivity(intent1);
                 break;
             case R.id.nav_passbook:
-                Intent passbookIntent = new Intent(HomeActivity.this,PassbookActivity.class);
-                passbookIntent.putExtra(Constants.SESSION_ID,session_id);
+                Intent passbookIntent = new Intent(HomeActivity.this, PassbookActivity.class);
+                passbookIntent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(passbookIntent);
                 break;
             case R.id.nav_rate_us:
@@ -727,9 +720,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 break;
             case R.id.nav_shareapp:
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT,"Hey Check out this awesome app on: https://play.google.com/store/apps/details?id=com.rechargeweb.rechargeweb");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Hey Check out this awesome app on: https://play.google.com/store/apps/details?id=com.rechargeweb.rechargeweb");
                 shareIntent.setType("text/plain");
-                startActivity(Intent.createChooser(shareIntent,"Share Via"));
+                startActivity(Intent.createChooser(shareIntent, "Share Via"));
                 break;
             case R.id.nav_logout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -777,7 +770,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         // find all applications able to handle our rateIntent
         final List<ResolveInfo> otherApps = context.getPackageManager()
                 .queryIntentActivities(rateIntent, 0);
-        for (ResolveInfo otherApp: otherApps) {
+        for (ResolveInfo otherApp : otherApps) {
             // look for Google Play application
             if (otherApp.activityInfo.applicationInfo.packageName
                     .equals("com.android.vending")) {
@@ -807,16 +800,20 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         // if GP not present on device, open web browser
         if (!marketFound) {
             Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id="+appId));
+                    Uri.parse("https://play.google.com/store/apps/details?id=" + appId));
             context.startActivity(webIntent);
         }
     }
 
     @Override
     public void onReportItemClick(Items items) {
-        Intent reportIntent = new Intent(HomeActivity.this,ReportActivity.class);
-        reportIntent.putExtra(Constants.SESSION_ID,session_id);
-        reportIntent.putExtra(Constants.REPORT,items);
+        Intent reportIntent = new Intent(HomeActivity.this, ReportActivity.class);
+        reportIntent.putExtra(Constants.SESSION_ID, session_id);
+        reportIntent.putExtra(Constants.REPORT, items);
         startActivity(reportIntent);
+    }
+
+    public void setFragment(Fragment fragment) {
+        this.fragment = fragment;
     }
 }

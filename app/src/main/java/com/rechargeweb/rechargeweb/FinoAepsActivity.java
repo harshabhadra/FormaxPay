@@ -32,6 +32,8 @@ import org.apache.commons.codec.DecoderException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FinoAepsActivity extends AppCompatActivity {
 
@@ -177,7 +179,7 @@ public class FinoAepsActivity extends AppCompatActivity {
                     mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
                     amount = finoAepsBinding.finoAmountTextInput.getText().toString().trim();
 
-                    if (!amount.isEmpty() && isValidAmount(amount)) {
+                    if (!amount.isEmpty() && isValidAmount(amount) && isValidMobile(mobileNumber)) {
                         finoAepsBinding.finoAmountTextInput.getText().clear();
                         finoAepsBinding.finoMobileNumberTextInput.getText().clear();
 
@@ -209,44 +211,51 @@ public class FinoAepsActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                    } else {
+                    } else if (!isValidAmount(amount)|| amount.isEmpty()){
                         finoAepsBinding.finoAmountLayout.setError("Enter Valid Amount");
+                    }else if (!(isValidMobile(mobileNumber)) || mobileNumber.isEmpty()){
+                        finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
                     }
                 } else {
                     mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
 
-                    finoAepsBinding.finoMobileNumberTextInput.getText().clear();
+                    if (isValidMobile(mobileNumber) && (!mobileNumber.isEmpty())) {
 
-                    balanceBuilder = new StringBuilder();
-                    balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.AEPS_BALANCE_INQUIRY);
-                    balanceBuilder.append(System.currentTimeMillis());
-                    orderId = balanceBuilder.toString();
+                        finoAepsBinding.finoMobileNumberTextInput.getText().clear();
 
-                    Log.e(TAG, "Order Id: " + balanceBuilder.toString());
+                        balanceBuilder = new StringBuilder();
+                        balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.AEPS_BALANCE_INQUIRY);
+                        balanceBuilder.append(System.currentTimeMillis());
+                        orderId = balanceBuilder.toString();
 
-                    View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(FinoAepsActivity.this);
-                    builder.setCancelable(false);
-                    builder.setView(view);
+                        Log.e(TAG, "Order Id: " + balanceBuilder.toString());
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    allReportViewModel.sendAepsDetails(session_id, auth, "AB", "0.00", orderId, mobileNumber).observe(FinoAepsActivity.this, new Observer<String>() {
-                        @Override
-                        public void onChanged(String s) {
-                            dialog.dismiss();
-                            if (s.equals("Success")) {
-                                checkBalance(mobileNumber);
-                            } else {
-                                Intent intent1 = new Intent(FinoAepsActivity.this, FinoAepsActivity.class);
-                                intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                                intent.putExtra(Constants.SESSION_ID, session_id);
-                                intent.putExtra(Constants.USER_ID, user_id);
-                                startActivity(intent1);
-                                finish();
+                        View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(FinoAepsActivity.this);
+                        builder.setCancelable(false);
+                        builder.setView(view);
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        allReportViewModel.sendAepsDetails(session_id, auth, "AB", "0.00", orderId, mobileNumber).observe(FinoAepsActivity.this, new Observer<String>() {
+                            @Override
+                            public void onChanged(String s) {
+                                dialog.dismiss();
+                                if (s.equals("Success")) {
+                                    checkBalance(mobileNumber);
+                                } else {
+                                    Intent intent1 = new Intent(FinoAepsActivity.this, FinoAepsActivity.class);
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                                    intent.putExtra(Constants.SESSION_ID, session_id);
+                                    intent.putExtra(Constants.USER_ID, user_id);
+                                    startActivity(intent1);
+                                    finish();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }else {
+                        finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
+                    }
                 }
             }
         });
@@ -354,6 +363,14 @@ public class FinoAepsActivity extends AppCompatActivity {
     private boolean isValidAmount(String amt) {
         int value = Integer.parseInt(amt);
         return value >= 100 && value <= 10000;
+    }
+
+    //Check if the mobile no. is correct
+    private boolean isValidMobile(String s) {
+        Pattern pattern = Pattern.compile("(0/91)?[6-9][0-9]{9}");
+
+        Matcher matcher = pattern.matcher(s);
+        return matcher.matches();
     }
 
     @Override

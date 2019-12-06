@@ -1266,9 +1266,8 @@ public class Repository {
         call.enqueue(new Callback<Credential>() {
             @Override
             public void onResponse(Call<Credential> call, Response<Credential> response) {
-
+                Log.e(TAG, "cred response: " + response.body());
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "cred response: " + response.body());
 
                     String status = response.body().getStatus();
                     if (status == null) {

@@ -1,34 +1,42 @@
-package com.rechargeweb.rechargeweb.Activity;
+package com.rechargeweb.rechargeweb.Ui;
 
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.atom.mpsdklibrary.PayActivity;
-import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Activity.HomeActivity;
+import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.R;
-import com.rechargeweb.rechargeweb.databinding.ActivityAddMoneyBinding;
+import com.rechargeweb.rechargeweb.databinding.FragmentAddMoneyBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-public class AddMoneyActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class AddMoneyFragment extends Fragment{
 
-    ActivityAddMoneyBinding activityAddMoneyBinding;
     private String amount;
     private String date;
     private Double payAmount;
@@ -36,20 +44,32 @@ public class AddMoneyActivity extends AppCompatActivity {
     private String session_id;
     private String clientCode;
     private String txnId;
-    private static final String TAG = AddMoneyActivity.class.getSimpleName();
+    private static final String TAG = AddMoneyFragment.class.getSimpleName();
+    private FragmentAddMoneyBinding activityAddMoneyBinding;
+    private static final int RC_PAYMENT_GATEWAY = 1;
+
+    public interface OnReportclickListener {
+        void onReportClick(Items items);
+    }
+
+    public AddMoneyFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_money);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        activityAddMoneyBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_add_money,container,false);
+        View view = activityAddMoneyBinding.getRoot();
 
-        //Getting intent
-        session_id = getIntent().getStringExtra(Constants.SESSION_ID);
-        clientCode = "00" + session_id;
-        txnId = getTxnId();
 
-        //Initializing DataBinding
-        activityAddMoneyBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_money);
+        HomeActivity activity = (HomeActivity) getActivity();
+        if (activity != null) {
+            session_id = activity.getSession_id();
+            clientCode = "00" + session_id;
+            txnId = getTxnId();
+        }
 
         //Getting date
         date = getCurrentTime();
@@ -57,7 +77,7 @@ public class AddMoneyActivity extends AppCompatActivity {
         customerAcc = getCustomerAcc();
         Log.e(TAG,"Acc: " + customerAcc);
 
-        //Add text watcher to amount text input layout
+        //Adding TextWatcher to AmountTextInputLayout
         activityAddMoneyBinding.addMoneyTextInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -66,13 +86,11 @@ public class AddMoneyActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 activityAddMoneyBinding.textInputLayoutAddMoney.setErrorEnabled(false);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 activityAddMoneyBinding.textInputLayoutAddMoney.setErrorEnabled(true);
                 if (!s.toString().isEmpty()) {
                     if (!isValidAmount(s.toString())) {
@@ -81,30 +99,33 @@ public class AddMoneyActivity extends AppCompatActivity {
                         activityAddMoneyBinding.addMoneyButton.setEnabled(true);
                     }
                 }
-
             }
         });
-        //Add on click listener to add money button
+
+        //Set OnClick Listener to the AddMoney Button
         activityAddMoneyBinding.addMoneyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
-                if (!amount.isEmpty()) {
+                if (!amount.isEmpty() && isValidAmount(amount)) {
                     payAmount = Double.parseDouble(amount);
                     Log.e(TAG, "Amount: " + payAmount);
                     if (payAmount != null && date != null){
                         startPaymentGateway(date,payAmount,customerAcc, clientCode,txnId);
                     }
+                }else {
+                    activityAddMoneyBinding.textInputLayoutAddMoney.setError("Enter Amount between 50 to 15000");
                 }
             }
         });
+
+        return view;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1)
+        if (requestCode == RC_PAYMENT_GATEWAY)
         {
             System.out.println("---------INSIDE-------");
             if (data != null)
@@ -117,7 +138,7 @@ public class AddMoneyActivity extends AppCompatActivity {
                     for(int i=0; i<resKey.length; i++)
                         Log.e(TAG,"  "+i+" resKey : "+resKey[i]+" resValue : "+resValue[i]);
                 }
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                 Log.e(TAG,"RECEIVED BACK--->" + message);
                 showCallbackMessage(message);
             }
@@ -125,8 +146,19 @@ public class AddMoneyActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    //Method to start payment Gateway
     private void startPaymentGateway(String pDatem, Double pAmount, String cusAcc,String id,String tranId) {
-        Intent newPayIntent = new Intent(this, PayActivity.class);
+        Intent newPayIntent = new Intent(getContext(), PayActivity.class);
         newPayIntent.putExtra("merchantId", "98617");
         //txnscamt Fixed. Must be 0
         newPayIntent.putExtra("txnscamt", "0");
@@ -146,15 +178,14 @@ public class AddMoneyActivity extends AppCompatActivity {
         newPayIntent.putExtra("signature_response", "ba9dfcedd0c45dd02b");
         newPayIntent.putExtra("discriminator", "All");
         newPayIntent.putExtra("isLive", true);
-        startActivityForResult(newPayIntent, 1);
+        startActivityForResult(newPayIntent, RC_PAYMENT_GATEWAY);
     }
 
+    //Encode the clientCode
     public String encodeBase64(String encode) {
         String decode = null;
 
         try {
-
-
             decode = Base64.encodeToString(encode.getBytes(), Base64.DEFAULT);
         } catch (Exception e) {
             System.out.println("Unable to decode : " + e);
@@ -162,17 +193,28 @@ public class AddMoneyActivity extends AppCompatActivity {
         return decode;
     }
 
-    //Is valid amount
-    private boolean isValidAmount(String amt) {
-        int a = Integer.parseInt(amt);
-        return a >= 50 && a <= 15000;
-    }
+    //Create Alert Dialog to show callback message
+    private void showCallbackMessage(String message){
 
-    //Generate current date and time
-    private String getCurrentTime() {
+        View layout = getLayoutInflater().inflate(R.layout.add_money_dialog_layout,null);
+        TextView messageTv = layout.findViewById(R.id.add_money_message_tv);
+        TextView amountTv = layout.findViewById(R.id.add_money_amount_tv);
+        Button button = layout.findViewById(R.id.add_money_dialog_button);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
-        return simpleDateFormat.format(new Date());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.CustomDialog);
+        builder.setView(layout);
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        messageTv.setText(message);
+        amountTv.setText("Amount: " + activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     //Generate customer account
@@ -191,32 +233,15 @@ public class AddMoneyActivity extends AppCompatActivity {
         return "FP" + timeS + r;
     }
 
-    //Create Alert Dialog to show callback message
-    private void showCallbackMessage(String message){
+    //Generate current date and time
+    private String getCurrentTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+        return simpleDateFormat.format(new Date());
+    }
 
-        View layout = getLayoutInflater().inflate(R.layout.add_money_dialog_layout,null);
-        TextView messageTv = layout.findViewById(R.id.add_money_message_tv);
-        TextView amountTv = layout.findViewById(R.id.add_money_amount_tv);
-        Button button = layout.findViewById(R.id.add_money_dialog_button);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
-        builder.setView(layout);
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        messageTv.setText(message);
-        amountTv.setText("Amount: " + activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim());
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Intent intent = new Intent(AddMoneyActivity.this,AddMoneyActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                intent.putExtra(Constants.SESSION_ID,session_id);
-                startActivity(intent);
-                finish();
-            }
-        });
+    //Is valid amount
+    private boolean isValidAmount(String amt) {
+        int a = Integer.parseInt(amt);
+        return a >= 50 && a <= 15000;
     }
 }
