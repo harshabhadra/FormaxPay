@@ -20,9 +20,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.atom.mpsdklibrary.PayActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
+import com.rechargeweb.rechargeweb.AddMoneyTermsAdapters;
+import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.databinding.FragmentAddMoneyBinding;
@@ -47,10 +51,7 @@ public class AddMoneyFragment extends Fragment{
     private static final String TAG = AddMoneyFragment.class.getSimpleName();
     private FragmentAddMoneyBinding activityAddMoneyBinding;
     private static final int RC_PAYMENT_GATEWAY = 1;
-
-    public interface OnReportclickListener {
-        void onReportClick(Items items);
-    }
+    private AddMoneyTermsAdapters addMoneyTermsAdapters;
 
     public AddMoneyFragment() {
         // Required empty public constructor
@@ -63,7 +64,15 @@ public class AddMoneyFragment extends Fragment{
         activityAddMoneyBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_add_money,container,false);
         View view = activityAddMoneyBinding.getRoot();
 
+        DummyData dummyData = new DummyData();
 
+        //Setting up terms recyclerView
+        activityAddMoneyBinding.addMoneyTermsRecycler.setHasFixedSize(true);
+        activityAddMoneyBinding.addMoneyTermsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        addMoneyTermsAdapters = new AddMoneyTermsAdapters(getContext(),dummyData.getAddMoneyTerms());
+        activityAddMoneyBinding.addMoneyTermsRecycler.setAdapter(addMoneyTermsAdapters);
+
+        //Get Activity
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
             session_id = activity.getSession_id();

@@ -40,12 +40,15 @@ public class DummyData {
     }
 
     //Get balance items
-    public List<Items>getMoneyItemsList(){
+    public List<Items>getAddMoneyTerms(){
         List<Items>itemsList = new ArrayList<>();
-        itemsList.add(new Items(R.mipmap.check_balancetwo, "Check Balance"));
-        itemsList.add(new Items(R.mipmap.passbook_icontwo, "Passbook"));
-        itemsList.add(new Items(R.mipmap.add_moneytwo, "Add Money"));
-        itemsList.add(new Items(R.mipmap.fund_requesttwo, "Fund Request"));
+        itemsList.add(new Items(R.drawable.ic_play_arrow_black_24dp, "Load money via Debit Card amount below Rs. 2000/- transaction charges is FREE."));
+        itemsList.add(new Items(R.drawable.ic_play_arrow_black_24dp, "Load money via Debit Card amount above Rs. 2000/- transaction charges is 1%"));
+        itemsList.add(new Items(R.drawable.ic_play_arrow_black_24dp, "Load money via Credit Card transaction charges is 1.99%"));
+        itemsList.add(new Items(R.drawable.ic_play_arrow_black_24dp, "Load money via Internet Banking transaction charges is 1.80%"));
+        itemsList.add(new Items(R.drawable.ic_play_arrow_black_24dp, "The money will be automatically loaded in your account."));
+        itemsList.add(new Items(R.drawable.ic_play_arrow_black_24dp, "Load money via Debit Card amount below Rs. 2000/- transaction charges is FREE."));
+
         return itemsList;
     }
 
