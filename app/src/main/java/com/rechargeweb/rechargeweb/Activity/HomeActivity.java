@@ -19,9 +19,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,11 +46,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.infideap.drawerbehavior.Advance3DDrawerLayout;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
+import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Profile;
+import com.rechargeweb.rechargeweb.Network.ApiService;
+import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.Ui.AddMoneyFragment;
 import com.rechargeweb.rechargeweb.Ui.HomeFragment;
@@ -62,6 +68,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
@@ -101,9 +110,14 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     AllReportViewModel allReportViewModel;
 
-    private DrawerLayout drawerLayout;
+    private Advance3DDrawerLayout drawerLayout;
     private Fragment fragment;
     private HomeFragment homeFragment = new HomeFragment();
+
+    private ApiService apiService;
+
+    private View headerView;
+    private TextView navTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +125,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         setContentView(R.layout.activity_drawer);
 
         showUpdateDialog = true;
+
+        apiService = ApiUtills.getApiService();
 
         //Checking the location permission
         checkLocationPermission();
@@ -121,6 +137,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         drawerLayout = findViewById(R.id.home_drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
+        drawerLayout.setViewRotation(Gravity.START,15);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -129,6 +146,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         sideNav.bringToFront();
         sideNav.setNavigationItemSelectedListener(this);
 
+        headerView = sideNav.inflateHeaderView(R.layout.nav_header_main);
+        navTextView = headerView.findViewById(R.id.nav_header_name);
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);
 
         //Initialzing auth key
@@ -421,6 +440,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     protected void onResume() {
         super.onResume();
 
+        sendRequest(session_id,auth);
         if (showUpdateDialog) {
             fetchValues();
         }
@@ -711,8 +731,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 startActivity(intent1);
                 break;
             case R.id.nav_passbook:
-                Intent passbookIntent = new Intent(HomeActivity.this, PassbookActivity.class);
+                Intent passbookIntent = new Intent(HomeActivity.this, ReportActivity.class);
                 passbookIntent.putExtra(Constants.SESSION_ID, session_id);
+                passbookIntent.putExtra(Constants.PASSBOOK,"Passbook");
                 startActivity(passbookIntent);
                 break;
             case R.id.nav_rate_us:
@@ -815,5 +836,33 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    //Get user details
+    private void sendRequest(String id, String key) {
+        apiService.setDetailsPost(id, key).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new io.reactivex.Observer<Details>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Details details) {
+                        Log.e(TAG, "success: " + details.toString());
+                        navTextView.setText(details.getBusiness_name());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "error");
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

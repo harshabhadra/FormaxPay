@@ -39,4 +39,6 @@ public class Constants {
 
     public static final String AEPS_STATUS = "status";
     public static final String AEPS_TYPE =  "aeps_type";
+    public static final String PASSBOOK = "passbook";
+
 }

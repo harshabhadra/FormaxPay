@@ -24,6 +24,7 @@ import com.rechargeweb.rechargeweb.ReportsFragments.AepsReportFragment;
 import com.rechargeweb.rechargeweb.ReportsFragments.CouponReportFragment;
 import com.rechargeweb.rechargeweb.ReportsFragments.CreditReportFragment;
 import com.rechargeweb.rechargeweb.ReportsFragments.DebitReportFragment;
+import com.rechargeweb.rechargeweb.ReportsFragments.PassbookFragment;
 import com.rechargeweb.rechargeweb.ReportsFragments.RechargeReportFragment;
 
 public class ReportActivity extends AppCompatActivity implements
@@ -77,7 +78,12 @@ public class ReportActivity extends AppCompatActivity implements
                    getSupportActionBar().setTitle("AEPS Report");
                    break;
            }
-        }else {
+        }else if (intent.hasExtra(Constants.PASSBOOK)){
+            tabLayout.setVisibility(View.GONE);
+            setSingleReportPager(viewPager,new PassbookFragment(),"Passbook");
+            getSupportActionBar().setTitle("Passbook");
+        }
+        else {
             setReportPagerAdapter(viewPager);
         }
         tabLayout.setupWithViewPager(viewPager);
@@ -96,6 +102,7 @@ public class ReportActivity extends AppCompatActivity implements
         reportPagerAdapter.addFraqment(new AepsReportFragment(),"AEPS Report",2);
         reportPagerAdapter.addFraqment(new CreditReportFragment(),"Credit Report",3);
         reportPagerAdapter.addFraqment(new DebitReportFragment(),"Debit Report",4);
+        reportPagerAdapter.addFraqment(new PassbookFragment(),"PassBook",5);
         reportPagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(reportPagerAdapter);
     }

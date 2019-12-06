@@ -73,11 +73,6 @@
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.PassbookActivity"
-            android:label="Passbook"
-            android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Activity.PanActivity"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
