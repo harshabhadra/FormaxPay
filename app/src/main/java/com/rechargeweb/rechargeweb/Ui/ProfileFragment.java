@@ -38,31 +38,12 @@ public class ProfileFragment extends Fragment {
     private String auth;
     private static final String TAG = ProfileFragment.class.getSimpleName();
 
-    TextView businessNameTv,profileIdTv;
-    ConstraintLayout profileLayout, passwordLayout;
-
-    private CardView profileCard;
-    private CardView passwordCard;
-
     private ApiService apiService;
 
     private boolean isConnected;
 
-    Profile mProfile;
-
-    public OnProfileItemClick profileItemClick;
-    OnPassChangeLayoutClick passChangeLayoutClick;
-
     public ProfileFragment() {
         // Required empty public constructor
-    }
-
-    public interface OnProfileItemClick{
-        void onProfileItemClick(Profile profile);
-    }
-
-    public interface OnPassChangeLayoutClick{
-        void onChangePassClick();
     }
 
 
@@ -70,12 +51,6 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Animation leftAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.move_from_left);
-        Animation rightAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.move_from_right);
-        profileLayout.startAnimation(leftAnimation);
-        passwordLayout.startAnimation(rightAnimation);
-        passwordCard.startAnimation(rightAnimation);
-        profileCard.startAnimation(leftAnimation);
     }
 
     @Override
@@ -85,14 +60,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         Log.e(TAG,"Profile Fragment");
-        businessNameTv = view.findViewById(R.id.business_name);
-        profileIdTv = view.findViewById(R.id.profile_id);
 
-        profileCard = view.findViewById(R.id.profile_layout_card);
-        passwordCard = view.findViewById(R.id.password_layout_card);
-
-        profileLayout = view.findViewById(R.id.profile_layout);
-        passwordLayout = view.findViewById(R.id.change_pass_layout);
         apiService = ApiUtills.getApiService();
 
         auth = getResources().getString(R.string.auth_key);
@@ -116,27 +84,12 @@ public class ProfileFragment extends Fragment {
 
                     @Override
                     public void onNext(Profile profile) {
-                        mProfile = profile;
+
                         if (profile != null) {
-                            businessNameTv.setText(mProfile.getBusinessName());
-                            profileIdTv.setText(user_id);
 
                         }else {
-                            Log.e(TAG,"Proifle is empty");
-                        }
-                        profileLayout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
 
-                                profileItemClick.onProfileItemClick(mProfile);
-                            }
-                        });
-                        passwordLayout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                passChangeLayoutClick.onChangePassClick();
-                            }
-                        });
+                        }
                     }
 
                     @Override
@@ -149,13 +102,5 @@ public class ProfileFragment extends Fragment {
                         Log.e(TAG, "Profile Completed");
                     }
                 });
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        profileItemClick = (OnProfileItemClick)getActivity();
-        passChangeLayoutClick = (OnPassChangeLayoutClick)getActivity();
     }
 }

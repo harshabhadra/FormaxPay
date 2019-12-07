@@ -37,12 +37,9 @@ public class FundRequestActivity extends AppCompatActivity implements BankNameBo
         PaymentModeBottomSheet.OnPaymentClickListener, DatePickerDialog.OnDateSetListener {
 
     EditText amoutEdit, transactionIdEdit, accountEdit;
-
     TextView selectBankEdit, dateEdit,paymentMethodEdit;
     TextView chooseWallet;
     ProgressBar fundProgress;
-
-    RadioButton wallletOneRadioButton, walletTwoRadioButton;
 
     Button submitButton;
 

@@ -19,13 +19,13 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/formax_icon"
-        android:label="@string/app_name"
+        android:label="@string/my_app_name"
         android:roundIcon="@mipmap/formax_round_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:theme,android:allowBackup,android:icon,android:name">
+        tools:replace="android:theme,android:allowBackup,android:icon,android:name,android:label">
         <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
@@ -81,11 +81,6 @@
             android:label="E-Bill Payment"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.ProfileActivity"
-            android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.RechargeActivity"
             android:parentActivityName=".Activity.HomeActivity"

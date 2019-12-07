@@ -35,7 +35,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -74,7 +73,7 @@ import io.reactivex.schedulers.Schedulers;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
-        LocationListener, ProfileFragment.OnProfileItemClick, ProfileFragment.OnPassChangeLayoutClick,
+        LocationListener,
         NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnReportItemClickListener {
 
     //Remote config values
@@ -110,7 +109,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     AllReportViewModel allReportViewModel;
 
-    private Advance3DDrawerLayout drawerLayout;
+    Advance3DDrawerLayout drawerLayout;
     private Fragment fragment;
     private HomeFragment homeFragment = new HomeFragment();
 
@@ -148,6 +147,18 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
         headerView = sideNav.inflateHeaderView(R.layout.nav_header_main);
         navTextView = headerView.findViewById(R.id.nav_header_name);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new ProfileFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.main_container, fragment);
+                fragmentTransaction.commit();
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        //Initializing the ViewModel Class
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);
 
         //Initialzing auth key
@@ -572,21 +583,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
     }
 
-    @Override
-    public void onProfileItemClick(Profile profile) {
-
-        Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-        intent.putExtra(Constants.PROFILE, profile);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onChangePassClick() {
-        Intent changePassIntent = new Intent(HomeActivity.this, ChangePassActivity.class);
-        changePassIntent.putExtra(Constants.SESSION_ID, session_id);
-        startActivity(changePassIntent);
-    }
-
     //Fetch values from firebase
     private void fetchValues() {
 
@@ -723,7 +719,6 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 break;
             case R.id.nav_add_money:
                 fragment = new AddMoneyFragment();
-                getSupportActionBar().setTitle("Add Money");
                 break;
             case R.id.nav_fund_request:
                 Intent intent1 = new Intent(HomeActivity.this, FundRequestActivity.class);

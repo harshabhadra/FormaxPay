@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Formax Pay</string>
+    <string name="my_app_name">Formax Pay</string>
     <!-- -->
     <string name="auth_key">5!mk516*pgh154%$#$#@$</string>
     <string name="token">gZuSjocItx5YtkPD3vDkGp2j8eQHsa</string>

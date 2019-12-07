@@ -52,6 +52,7 @@ public class AddMoneyFragment extends Fragment{
     private FragmentAddMoneyBinding activityAddMoneyBinding;
     private static final int RC_PAYMENT_GATEWAY = 1;
     private AddMoneyTermsAdapters addMoneyTermsAdapters;
+    private int addMoneyAmount;
 
     public AddMoneyFragment() {
         // Required empty public constructor
@@ -75,6 +76,7 @@ public class AddMoneyFragment extends Fragment{
         //Get Activity
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
+            activity.getSupportActionBar().setTitle("Add Money");
             session_id = activity.getSession_id();
             clientCode = "00" + session_id;
             txnId = getTxnId();
@@ -128,6 +130,96 @@ public class AddMoneyFragment extends Fragment{
             }
         });
 
+        //Setting on Click listener to preset amount buttons
+        activityAddMoneyBinding.hundredButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
+                if (amount.isEmpty()){
+                    activityAddMoneyBinding.addMoneyTextInput.setText("100");
+                }else {
+                    addMoneyAmount = Integer.parseInt(amount) + 100;
+                    if (addMoneyAmount <= 15000) {
+                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
+                    }
+                }
+            }
+        });
+
+        activityAddMoneyBinding.fiveHunButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
+                if (amount.isEmpty()){
+                    activityAddMoneyBinding.addMoneyTextInput.setText("500");
+                }else {
+                    addMoneyAmount = Integer.parseInt(amount)+500;
+                    if (addMoneyAmount <= 15000) {
+                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
+                    }
+                }
+            }
+        });
+
+        activityAddMoneyBinding.thousandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
+                if (amount.isEmpty()){
+                    activityAddMoneyBinding.addMoneyTextInput.setText("1000");
+                }else {
+                    addMoneyAmount = Integer.parseInt(amount)+1000;
+                    if (addMoneyAmount <= 15000) {
+                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
+                    }
+                }
+            }
+        });
+
+        activityAddMoneyBinding.twoThouButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
+                if (amount.isEmpty()){
+                    activityAddMoneyBinding.addMoneyTextInput.setText("2000");
+                }else {
+                    addMoneyAmount = Integer.parseInt(amount)+2000;
+                    if (addMoneyAmount <= 15000) {
+                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
+                    }
+                }
+            }
+        });
+
+        activityAddMoneyBinding.fiveThouButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
+                if (amount.isEmpty()){
+                    activityAddMoneyBinding.addMoneyTextInput.setText("5000");
+                }else {
+                    addMoneyAmount = Integer.parseInt(amount)+5000;
+                    if (addMoneyAmount <= 15000) {
+                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
+                    }
+                }
+            }
+        });
+
+        activityAddMoneyBinding.tenThouButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
+                if (amount.isEmpty()){
+                    activityAddMoneyBinding.addMoneyTextInput.setText("10000");
+                }else {
+                    addMoneyAmount = Integer.parseInt(amount)+10000;
+                    if (addMoneyAmount <= 15000) {
+                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
+                    }
+                }
+            }
+        });
         return view;
     }
 

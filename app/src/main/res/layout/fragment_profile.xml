@@ -1,105 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradientbakcthree"
-    android:orientation="vertical"
     tools:context=".Ui.ProfileFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profile_layout_card"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        fancy:cardElevation="6dp"
-        fancy:cardUseCompatPadding="true">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/profile_layout"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/nav_icon"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView84"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/croissant_one"
+        android:text="Harsha Bhadra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textView85"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="(Retailer)"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/textView84"
+        app:layout_constraintStart_toStartOf="@+id/textView84"
+        app:layout_constraintTop_toBottomOf="@+id/textView84" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_mobile_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView85">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_mobile_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:enabled="false"
+            android:hint="Mobile Number" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/imageView33"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:src="@mipmap/formax_round_icon"
-                fancy:layout_constraintBottom_toBottomOf="parent"
-                fancy:layout_constraintStart_toStartOf="parent"
-                fancy:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/business_name"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_weight="3"
-                android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-                android:gravity="center_vertical"
-                android:textColor="#000000"
-                fancy:layout_constraintEnd_toEndOf="parent"
-                fancy:layout_constraintStart_toEndOf="@+id/imageView33"
-                fancy:layout_constraintTop_toTopOf="@+id/imageView33"
-                tools:text="Formax It Solutions" />
-
-            <TextView
-                android:id="@+id/profile_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                fancy:layout_constraintBottom_toBottomOf="@+id/imageView33"
-                fancy:layout_constraintEnd_toEndOf="@+id/business_name"
-                fancy:layout_constraintStart_toStartOf="@+id/business_name"
-                fancy:layout_constraintTop_toBottomOf="@+id/business_name" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/password_layout_card"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_pan"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        fancy:cardElevation="6dp"
-        fancy:cardUseCompatPadding="true">
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_mobile_number"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_mobile_number"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_mobile_number">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/change_pass_layout"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_pan_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:enabled="false"
+            android:hint="Pan Number" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/pass_Iv"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_lock_black_24dp"
-                fancy:layout_constraintBottom_toBottomOf="parent"
-                fancy:layout_constraintStart_toStartOf="parent"
-                fancy:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_gst"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_pan"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_pan"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_pan">
 
-            <TextView
-                android:id="@+id/change_pass_text"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_weight="3"
-                android:drawableRight="@drawable/ic_chevron_right_black_24dp"
-                android:gravity="center_vertical"
-                android:text="Change Password"
-                android:textColor="#000000"
-                fancy:layout_constraintBottom_toBottomOf="parent"
-                fancy:layout_constraintEnd_toEndOf="parent"
-                fancy:layout_constraintStart_toEndOf="@+id/pass_Iv"
-                fancy:layout_constraintTop_toTopOf="@+id/pass_Iv" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_gst_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="GST Number" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    </androidx.cardview.widget.CardView>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_dob"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_gst"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_gst"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_gst">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_dob_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Date Of Birth" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-</LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_dob"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_dob"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_dob">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_address_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Address" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_pincode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_address"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_address"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_address">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_pincode_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Pincode" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_pincode"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_pincode"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_pincode">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_state_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

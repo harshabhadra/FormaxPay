@@ -118,9 +118,9 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
         //Initializing Transaction report label text view
         transactionReportLabelTv = view.findViewById(R.id.transaction_report_label);
 
-
         HomeActivity activity = (HomeActivity) getActivity();
         if (activity != null) {
+            activity.getSupportActionBar().setTitle(getResources().getString(R.string.my_app_name));
             id = activity.getSession_id();
             user_id = activity.getUser_id();
         }
