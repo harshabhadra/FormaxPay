@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -51,7 +52,6 @@ import com.rechargeweb.rechargeweb.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
-import com.rechargeweb.rechargeweb.Model.Profile;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
@@ -112,11 +112,14 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     Advance3DDrawerLayout drawerLayout;
     private Fragment fragment;
     private HomeFragment homeFragment = new HomeFragment();
+    private ProfileFragment profileFragment = new ProfileFragment();
 
     private ApiService apiService;
 
     private View headerView;
     private TextView navTextView;
+
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,12 +137,13 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.home_drawer);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
-        drawerLayout.setViewRotation(Gravity.START,15);
+        drawerLayout.setViewRotation(Gravity.START, 15);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
+        toolbar.setVisibility(View.VISIBLE);
 
         NavigationView sideNav = findViewById(R.id.home_nav_view);
         sideNav.bringToFront();
@@ -150,7 +154,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new ProfileFragment();
+                fragment = profileFragment;
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_container, fragment);
                 fragmentTransaction.commit();
@@ -202,7 +206,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
         if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else if (fragment != homeFragment){
+        } else if (fragment != homeFragment ) {
             disPlaySelectedScreen(R.id.nav_home);
         }
         else {
@@ -451,7 +455,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
     protected void onResume() {
         super.onResume();
 
-        sendRequest(session_id,auth);
+        sendRequest(session_id, auth);
         if (showUpdateDialog) {
             fetchValues();
         }
@@ -641,7 +645,8 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                     finish();
                 }
             });
-        } else if (version_name.equals(version) && firebaseRemoteConfig.getBoolean(SHOW_UPDATE_DIALOG_KEY) && !(firebaseRemoteConfig.getBoolean(APPLY_FORCE_UPDATE_KEY))) {
+        } else if (version_name.equals(version) && firebaseRemoteConfig.getBoolean(SHOW_UPDATE_DIALOG_KEY) &&
+                !(firebaseRemoteConfig.getBoolean(APPLY_FORCE_UPDATE_KEY))) {
 
             View layout = getLayoutInflater().inflate(R.layout.update_dilog, null);
 
@@ -702,6 +707,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
             case R.id.nav_home:
                 fragment = homeFragment;
+                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
                 break;
             case R.id.nav_support:
                 Intent intent = new Intent(HomeActivity.this, SupportActivity.class);
@@ -719,6 +725,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 break;
             case R.id.nav_add_money:
                 fragment = new AddMoneyFragment();
+                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorPrimaryDark));
                 break;
             case R.id.nav_fund_request:
                 Intent intent1 = new Intent(HomeActivity.this, FundRequestActivity.class);
@@ -728,7 +735,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             case R.id.nav_passbook:
                 Intent passbookIntent = new Intent(HomeActivity.this, ReportActivity.class);
                 passbookIntent.putExtra(Constants.SESSION_ID, session_id);
-                passbookIntent.putExtra(Constants.PASSBOOK,"Passbook");
+                passbookIntent.putExtra(Constants.PASSBOOK, "Passbook");
                 startActivity(passbookIntent);
                 break;
             case R.id.nav_rate_us:

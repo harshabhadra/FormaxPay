@@ -7,7 +7,7 @@ import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.FundResponse;
 import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Model.Post;
-import com.rechargeweb.rechargeweb.Model.Profile;
+import com.rechargeweb.rechargeweb.Profile;
 
 import java.util.List;
 

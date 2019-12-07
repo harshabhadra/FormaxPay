@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb.Model;
+package com.rechargeweb.rechargeweb;
 
 import android.os.Parcel;
 import android.os.Parcelable;
