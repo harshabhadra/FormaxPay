@@ -48,7 +48,8 @@
             android:name=".Activity.RemitterActivity"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light"
+            android:label="Quick DMT"/>
         <activity
             android:name=".Activity.DmtActivity"
             android:label="Quick DMT"

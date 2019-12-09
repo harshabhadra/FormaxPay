@@ -56,12 +56,14 @@ public class UploadKycActivity extends AppCompatActivity {
 
     private static final String TAG = UploadKycActivity.class.getSimpleName();
 
+    //Storage Permission array
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
     private static final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 99;
 
+    //Method to verify storage permission
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -80,12 +82,16 @@ public class UploadKycActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_kyc);
 
+        //Verify storage permission
         verifyStoragePermissions(this);
 
 
         auth_key = getResources().getString(R.string.auth_key);
 
+        //Initializing DataBinding
         uploadKycBinding = DataBindingUtil.setContentView(this,R.layout.activity_upload_kyc);
+
+        //Initializing ViewModel
         uploadKycViewModel = ViewModelProviders.of(this).get(UploadKycViewModel.class);
 
         //Getting Intent
@@ -121,8 +127,212 @@ public class UploadKycActivity extends AppCompatActivity {
             alertDialog.show();
         }
 
+        //Adding text watcher to Text input layouts
+        uploadKycBinding.kycNameTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycNameLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                uploadKycBinding.kycNameLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycShopNameTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycShopNameLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                uploadKycBinding.kycShopNameLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycDobTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycDobLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                uploadKycBinding.kycDobLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycEmailTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycEmailLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                uploadKycBinding.kycEmailLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycAddressInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycAddressLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                uploadKycBinding.kycAddressLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycPincodeInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycPincodeLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                uploadKycBinding.kycPincodeLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycStateInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycStateLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                uploadKycBinding.kycStateLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycMobileInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycMobileNumberLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                uploadKycBinding.kycMobileNumberLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycCityInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycCityLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                uploadKycBinding.kycCityLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycAadhaarInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                uploadKycBinding.kycAdharnumberLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                uploadKycBinding.kycAdharnumberLayout.setErrorEnabled(true);
+            }
+        });
+
+        uploadKycBinding.kycPanNumberInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                uploadKycBinding.kycPanNumberLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                uploadKycBinding.kycPanNumberLayout.setErrorEnabled(true);
+            }
+        });
+
         //Upload aadhar image
-        uploadKycBinding.kycAadhaarImageView.setOnClickListener(new View.OnClickListener() {
+        uploadKycBinding.aadharImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -133,7 +343,7 @@ public class UploadKycActivity extends AppCompatActivity {
         });
 
         //Upload pan image
-        uploadKycBinding.kycPanImageView.setOnClickListener(new View.OnClickListener() {
+        uploadKycBinding.panImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -199,6 +409,7 @@ public class UploadKycActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Upload Pan Image", Toast.LENGTH_SHORT).show();
                 }else {
 
+                    //Make loading Dialog
                     View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
                     final AlertDialog.Builder builder = new AlertDialog.Builder(UploadKycActivity.this);
                     builder.setCancelable(false);
@@ -244,7 +455,7 @@ public class UploadKycActivity extends AppCompatActivity {
         //Get Aadhaar Image
         if (requestCode == RC_ADHAR_IMAGE && resultCode == RESULT_OK){
             adharUri = data.getData();
-            Picasso.get().load(adharUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycAadhaarImageView);
+            Picasso.get().load(adharUri).placeholder(R.drawable.add_cred_img2).into(uploadKycBinding.kycAadhaarImageView);
             //creating a file
             File file = new File(FileUtils.getPath(adharUri,this));
             aadharImageBody = RequestBody.create(MediaType.parse(getContentResolver().getType(adharUri)), file);
@@ -254,7 +465,7 @@ public class UploadKycActivity extends AppCompatActivity {
             panUri = data.getData();
             //creating a file
             if (panUri != null) {
-                Picasso.get().load(panUri).placeholder(R.drawable.add_image_icon).into(uploadKycBinding.kycPanImageView);
+                Picasso.get().load(panUri).placeholder(R.drawable.add_cred_img2).into(uploadKycBinding.kycPanImageView);
                 File file = new File(FileUtils.getPath(adharUri, this));
                 panImageBody = RequestBody.create(MediaType.parse(getContentResolver().getType(panUri)), file);
                 uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
@@ -313,15 +524,4 @@ public class UploadKycActivity extends AppCompatActivity {
             }
         }
         }
-
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
 }

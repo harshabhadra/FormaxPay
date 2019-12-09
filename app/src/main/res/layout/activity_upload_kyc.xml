@@ -5,10 +5,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".Activity.UploadKycActivity">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent">
+             <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -203,7 +201,7 @@
                 android:visibility="gone"
                 app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout,kyc_email_layout,kyc_address_layout
                                         ,kyc_pincode_layout,kyc_state_layout,kyc_mobile_number_layout
-                                        ,kyc_city_layout,kyc_adharnumber_layout,kyc_pan_number_layout,submit_kyc_button" />
+                                        ,kyc_city_layout,kyc_adharnumber_layout,submit_kyc_button,kyc_pan_number_layout" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/kyc_image_group"
@@ -211,28 +209,32 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:constraint_referenced_ids="kyc_aadhaar_image_view,kyc_pan_image_view
-            ,upload_kyc_text,aadhar_image_tv,pan_image_tv" />
+            ,upload_kyc_text,aadhar_image_button,pan_image_button" />
 
 
             <ImageView
                 android:id="@+id/kyc_pan_image_view"
-                android:layout_width="120dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/kyc_aadhaar_image_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/kyc_aadhaar_image_view"
-                app:srcCompat="@drawable/add_image_icon" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintDimensionRatio="w,16:9"
+                app:layout_constraintEnd_toEndOf="@+id/kyc_aadhaar_image_view"
+                app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/aadhar_image_button"
+                app:srcCompat="@drawable/add_cred_img2" />
 
             <ImageView
                 android:id="@+id/kyc_aadhaar_image_view"
-                android:layout_width="120dp"
-                android:layout_height="90dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintDimensionRatio="w,16:9"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/kyc_pan_number_layout"
-                app:srcCompat="@drawable/add_image_icon" />
+                app:srcCompat="@drawable/add_cred_img2" />
 
             <Button
                 android:id="@+id/submit_kyc_button"
@@ -253,31 +255,42 @@
 
             <TextView
                 android:id="@+id/upload_kyc_text"
+                style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
                 android:text="Upload photos of Aadhaar and Pan Card (Both Side) "
-                app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
-                app:layout_constraintHorizontal_bias="0.492"
-                app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/remark_tv" />
 
-            <TextView
-                android:id="@+id/aadhar_image_tv"
+            <Button
+                android:id="@+id/aadhar_image_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/radio_button_back"
+                android:drawableStart="@drawable/ic_add_black_24dp"
+                android:drawablePadding="8dp"
                 android:gravity="center"
+                android:padding="8dp"
                 android:text="Aadhaar Image"
                 app:layout_constraintEnd_toEndOf="@+id/kyc_aadhaar_image_view"
                 app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/kyc_aadhaar_image_view" />
 
-            <TextView
-                android:id="@+id/pan_image_tv"
+            <Button
+                android:id="@+id/pan_image_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Pan Image"
+                android:background="@drawable/radio_button_back"
+                android:padding="8dp"
+                android:drawableStart="@drawable/ic_add_black_24dp"
+                android:drawablePadding="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
                 app:layout_constraintStart_toStartOf="@+id/kyc_pan_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/kyc_pan_image_view" />
@@ -286,16 +299,15 @@
                 android:id="@+id/remark_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
                 android:textColor="@color/snackBarRed"
-                app:layout_constraintBottom_toTopOf="@+id/upload_kyc_text"
-                app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
-                app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
-                app:layout_constraintTop_toBottomOf="@+id/aadhar_image_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pan_image_button"
                 tools:text="TextView" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 </layout>
