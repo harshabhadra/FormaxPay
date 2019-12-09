@@ -99,7 +99,6 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         String today = simpleDateFormat.format(calendar);
-
         String[]parts = today.split("/");
         day = Integer.parseInt(parts[0]);
         month = Integer.parseInt(parts[1])-1;
@@ -120,12 +119,12 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         service_type = intent.getStringExtra(Constants.AEPS_TYPE);
 
         AepsLogIn aepsLogIn = intent.getParcelableExtra(Constants.AEPS_STATUS);
-        if (aepsLogIn.getStatus().equals("Rejected")){
+        if (aepsLogIn.getStatus().equals("Rejected") || aepsLogIn.getStatus().equals("REJECTED")){
 
             String reject = "ApplicationTest Rejected : " + aepsLogIn.getRemark();
             uploadKycBinding.remarkTv.setText(reject);
 
-        }else if (aepsLogIn.getStatus().equals("Processing")){
+        }else if (aepsLogIn.getStatus().equals("Processing") || aepsLogIn.getStatus().equals("PROCESSING")){
             AlertDialog.Builder successBuilder = new AlertDialog.Builder(this);
             successBuilder.setCancelable(false);
             successBuilder.setMessage("You've successfully submitted your KYC details, Please wait for approval.");

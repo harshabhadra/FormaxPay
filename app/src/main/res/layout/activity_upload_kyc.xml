@@ -202,7 +202,7 @@
                 android:id="@+id/kyc_input_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout,kyc_email_layout,kyc_address_layout
                                         ,kyc_pincode_layout,kyc_state_layout,kyc_mobile_number_layout
                                         ,kyc_city_layout,kyc_adharnumber_layout,submit_kyc_button,kyc_pan_number_layout" />
