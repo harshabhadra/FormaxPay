@@ -33,13 +33,20 @@ import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.UploadKycViewModel;
 import com.rechargeweb.rechargeweb.databinding.ActivityUploadKycBinding;
 import com.squareup.picasso.Picasso;
+import com.tsongkha.spinnerdatepicker.DatePicker;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class UploadKycActivity extends AppCompatActivity {
+public class UploadKycActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     ActivityUploadKycBinding uploadKycBinding;
     private static final int RC_ADHAR_IMAGE = 1;
@@ -53,6 +60,9 @@ public class UploadKycActivity extends AppCompatActivity {
     String auth_key;
     String user_id;
     String service_type;
+
+    private SimpleDateFormat simpleDateFormat;
+    private int day,month,year;
 
     private static final String TAG = UploadKycActivity.class.getSimpleName();
 
@@ -85,6 +95,15 @@ public class UploadKycActivity extends AppCompatActivity {
         //Verify storage permission
         verifyStoragePermissions(this);
 
+        //Getting today's date
+        simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        String today = simpleDateFormat.format(calendar);
+
+        String[]parts = today.split("/");
+        day = Integer.parseInt(parts[0]);
+        month = Integer.parseInt(parts[1])-1;
+        year = Integer.parseInt(parts[2]);
 
         auth_key = getResources().getString(R.string.auth_key);
 
@@ -163,25 +182,6 @@ public class UploadKycActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
                 uploadKycBinding.kycShopNameLayout.setErrorEnabled(true);
-            }
-        });
-
-        uploadKycBinding.kycDobTextInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                uploadKycBinding.kycDobLayout.setErrorEnabled(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                uploadKycBinding.kycDobLayout.setErrorEnabled(true);
             }
         });
 
@@ -353,26 +353,12 @@ public class UploadKycActivity extends AppCompatActivity {
             }
         });
 
-        //Set Date of Birth
-        uploadKycBinding.kycDobTextInput.addTextChangedListener(new TextWatcher() {
+        //Add onClickListener to Dob textView
+        uploadKycBinding.kycDobLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (s.toString().length()==2){
-                    uploadKycBinding.kycDobTextInput.setText( s + "/");
-                }else if (s.toString().length() == 5){
-                    uploadKycBinding.kycDobTextInput.setText(s+"/");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                showDate(year,month,day,R.style.DatePickerSpinner);
             }
         });
 
@@ -385,8 +371,8 @@ public class UploadKycActivity extends AppCompatActivity {
                     uploadKycBinding.kycNameLayout.setError("Enter Name");
                 }else if (uploadKycBinding.kycShopNameTextInput.getText().toString().isEmpty()){
                     uploadKycBinding.kycShopNameLayout.setError("Enter Shop Name");
-                }else if (uploadKycBinding.kycDobTextInput.getText().toString().isEmpty()){
-                    uploadKycBinding.kycDobLayout.setError("Enter Date of birth");
+                }else if (uploadKycBinding.kycDobLayout.getText().toString().isEmpty()){
+                   Toast.makeText(getApplicationContext(),"Enter Date Of Birth",Toast.LENGTH_SHORT).show();
                 }else if (uploadKycBinding.kycEmailTextInput.getText().toString().isEmpty()){
                     uploadKycBinding.kycEmailLayout.setError("Enter Email Address");
                 }else if (uploadKycBinding.kycAddressInputText.getText().toString().isEmpty()){
@@ -419,7 +405,7 @@ public class UploadKycActivity extends AppCompatActivity {
 
                     name = uploadKycBinding.kycNameTextInput.getText().toString();
                     shopName = uploadKycBinding.kycShopNameTextInput.getText().toString();
-                    dob = uploadKycBinding.kycDobTextInput.getText().toString();
+                    dob = uploadKycBinding.kycDobLayout.getText().toString();
                     email = uploadKycBinding.kycEmailTextInput.getText().toString();
                     address = uploadKycBinding.kycAddressInputText.getText().toString();
                     pincode = uploadKycBinding.kycPincodeInputText.getText().toString();
@@ -524,4 +510,23 @@ public class UploadKycActivity extends AppCompatActivity {
             }
         }
         }
+
+    //Setting up the date picker
+    void showDate(int year, int monthOfYear, int dayOfMonth, int spinnerTheme) {
+        new SpinnerDatePickerDialogBuilder()
+                .context(this)
+                .callback(this)
+                .spinnerTheme(spinnerTheme)
+                .defaultDate(year, monthOfYear, dayOfMonth)
+                .build()
+                .show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+        Calendar calendar = new GregorianCalendar(dayOfMonth,monthOfYear,year);
+        String today = simpleDateFormat.format(calendar.getTime());
+        uploadKycBinding.kycDobLayout.setText(today);
+    }
 }

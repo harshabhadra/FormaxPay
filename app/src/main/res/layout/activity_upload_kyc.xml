@@ -44,38 +44,42 @@
                     android:hint="Enter Shop Name" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
                 android:id="@+id/kyc_dob_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:hint="Enter Date of Birth"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/kyc_shop_name_layout"
                 app:layout_constraintStart_toStartOf="@+id/kyc_shop_name_layout"
-                app:layout_constraintTop_toBottomOf="@+id/kyc_shop_name_layout">
+                app:layout_constraintTop_toBottomOf="@+id/kyc_shop_name_layout"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/kyc_dob_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Date of Birth (dd/mm/yyyy)"
-                    android:inputType="date" />
-            </com.google.android.material.textfield.TextInputLayout>
+                 <View
+                     android:layout_width="0dp"
+                     android:layout_height="1dp"
+                     android:background="@android:color/darker_gray"
+                     app:layout_constraintBottom_toTopOf="@+id/kyc_email_layout"
+                     app:layout_constraintEnd_toEndOf="@+id/kyc_dob_layout"
+                     app:layout_constraintStart_toStartOf="@+id/kyc_dob_layout"
+                     app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/kyc_email_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/kyc_dob_layout"
-                app:layout_constraintStart_toStartOf="@+id/kyc_dob_layout"
-                app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout">
+                 <com.google.android.material.textfield.TextInputLayout
+                     android:id="@+id/kyc_email_layout"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="8dp"
+                     app:layout_constraintEnd_toEndOf="@+id/kyc_dob_layout"
+                     app:layout_constraintStart_toStartOf="@+id/kyc_dob_layout"
+                     app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/kyc_email_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter Email" />
-            </com.google.android.material.textfield.TextInputLayout>
+                     <com.google.android.material.textfield.TextInputEditText
+                         android:id="@+id/kyc_email_text_input"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:hint="Enter Email" />
+                 </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/kyc_address_layout"
@@ -198,7 +202,7 @@
                 android:id="@+id/kyc_input_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout,kyc_email_layout,kyc_address_layout
                                         ,kyc_pincode_layout,kyc_state_layout,kyc_mobile_number_layout
                                         ,kyc_city_layout,kyc_adharnumber_layout,submit_kyc_button,kyc_pan_number_layout" />
