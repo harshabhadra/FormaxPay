@@ -98,7 +98,7 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         //Getting today's date
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
-        String today = simpleDateFormat.format(calendar);
+        String today = simpleDateFormat.format(calendar.getTime());
         String[]parts = today.split("/");
         day = Integer.parseInt(parts[0]);
         month = Integer.parseInt(parts[1])-1;
@@ -453,7 +453,6 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
                 Picasso.get().load(panUri).placeholder(R.drawable.add_cred_img2).into(uploadKycBinding.kycPanImageView);
                 File file = new File(FileUtils.getPath(adharUri, this));
                 panImageBody = RequestBody.create(MediaType.parse(getContentResolver().getType(panUri)), file);
-                uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
             }
         }else if (resultCode == RESULT_CANCELED){
             Log.e(TAG,"No image selected");
@@ -524,7 +523,7 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-        Calendar calendar = new GregorianCalendar(dayOfMonth,monthOfYear,year);
+        Calendar calendar = new GregorianCalendar(year,monthOfYear,dayOfMonth);
         String today = simpleDateFormat.format(calendar.getTime());
         uploadKycBinding.kycDobLayout.setText(today);
     }
