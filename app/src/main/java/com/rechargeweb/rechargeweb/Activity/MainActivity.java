@@ -285,6 +285,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Set OnClick Listener to Create Account text
+        newUserTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signUpIntent = new Intent(MainActivity.this,SignUpActivity.class);
+                startActivity(signUpIntent);
+                overridePendingTransition(R.anim.move_from_right,R.anim.move_from_right);
+            }
+        });
     }
 
     //Sending Post request to log in

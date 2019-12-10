@@ -27,6 +27,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name,android:label">
         <activity
+            android:name=".Activity.SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
             android:parentActivityName=".Activity.HomeActivity"
@@ -46,10 +49,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.RemitterActivity"
+            android:label="Quick DMT"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:label="Quick DMT"/>
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity
             android:name=".Activity.DmtActivity"
             android:label="Quick DMT"
@@ -105,7 +108,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignUpActivity" />
         <activity
             android:name=".Activity.HomeActivity"
             android:launchMode="singleTop"
@@ -115,7 +117,7 @@
             android:name=".Activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"

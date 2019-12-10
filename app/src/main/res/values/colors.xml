@@ -9,4 +9,6 @@
     <color name="orange">#ed5107</color>
     <color name="processing">#FF9800</color>
     <color name="green">#009624</color>
+    <color name="signUpAccent">#8eacbb</color>
+    <color name="signUpPrimary">#607d8b</color>
 </resources>

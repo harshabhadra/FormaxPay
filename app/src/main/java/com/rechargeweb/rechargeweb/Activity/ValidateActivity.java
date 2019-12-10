@@ -137,6 +137,12 @@ public class ValidateActivity extends AppCompatActivity {
                         finish();
                     }else {
                         validateBinding.otpLayout.setError(status);
+                        Intent intent = new Intent(ValidateActivity.this, ValidateActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                        intent.putExtra(Constants.REMITTER_MOBILE,mobile);
+                        intent.putExtra(Constants.MESSAGE,message);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }
