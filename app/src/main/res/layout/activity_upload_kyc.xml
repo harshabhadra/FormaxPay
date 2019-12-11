@@ -3,10 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e0e0ee">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/kyc_appbar"
+            android:layout_width="match_parent"
+            app:elevation="0dp"
+            android:layout_height="@dimen/app_bar_height"
+            android:background="@drawable/log_in_background"
+            style="@style/AppTheme.AppBarOverlay">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/kyc_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/croissant_one"
+                    android:gravity="center"
+                    android:text="Kyc Details"
+                    android:textColor="@color/white" />
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-             <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
+        app:layout_anchor="@id/kyc_appbar"
+        app:layout_anchorGravity="center|bottom"
+        android:layout_marginTop="90dp"
+        android:background="@drawable/sign_up_layout_back"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -28,234 +62,241 @@
                     android:hint="Enter Name(As Aadhaar)" />
             </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_shop_name_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_name_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_shop_name_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_name_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_shop_name_text_input"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter Shop Name" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_shop_name_text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Shop Name" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <TextView
-                     android:id="@+id/kyc_dob_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     android:hint="Enter Date of Birth"
-                     android:padding="8dp"
-                     android:textSize="16sp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_shop_name_layout" />
+            <TextView
+                android:id="@+id/kyc_dob_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Enter Date of Birth"
+                android:padding="8dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_shop_name_layout" />
 
-                 <View
-                     android:layout_width="0dp"
-                     android:layout_height="1dp"
-                     android:background="@android:color/darker_gray"
-                     app:layout_constraintBottom_toTopOf="@+id/kyc_email_layout"
-                     app:layout_constraintEnd_toEndOf="@+id/kyc_dob_layout"
-                     app:layout_constraintStart_toStartOf="@+id/kyc_dob_layout"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toTopOf="@+id/kyc_email_layout"
+                app:layout_constraintEnd_toEndOf="@+id/kyc_dob_layout"
+                app:layout_constraintStart_toStartOf="@+id/kyc_dob_layout"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout" />
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_email_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_email_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_dob_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_email_text_input"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter Email" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_email_text_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Email" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_address_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_email_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_address_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_email_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_address_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter Address (As Aadhaar)" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_address_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Address (As Aadhaar)" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_pincode_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_address_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_pincode_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_address_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_pincode_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter Pincode"
-                         android:inputType="number" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_pincode_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Pincode"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_state_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_pincode_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_state_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_save_button">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_state_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter  State" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_state_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter  State" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_mobile_number_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_state_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_mobile_number_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_state_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_mobile_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="@string/enter_mobile_number"
-                         android:inputType="phone" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_mobile_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_mobile_number"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_city_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_mobile_number_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_city_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_mobile_number_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_city_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter City" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_city_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter City" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_adharnumber_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_city_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_adharnumber_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_city_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_aadhaar_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter Aadhaar No."
-                         android:inputType="number" />
-                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_aadhaar_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Aadhaar No."
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                 <com.google.android.material.textfield.TextInputLayout
-                     android:id="@+id/kyc_pan_number_layout"
-                     android:layout_width="0dp"
-                     android:layout_height="wrap_content"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_adharnumber_layout">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/kyc_pan_number_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_adharnumber_layout">
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/kyc_pan_number_input_text"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:hint="Enter Pan No." />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/kyc_pan_number_input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Pan No." />
 
-                 </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/kyc_input_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout
+                ,kyc_email_layout,kyc_address_layout
+                                        ,kyc_pincode_layout,kyc_save_button" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/kyc_image_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:constraint_referenced_ids="kyc_name_layout,kyc_shop_name_layout,kyc_dob_layout,kyc_email_layout,kyc_address_layout
-                                        ,kyc_pincode_layout,kyc_state_layout,kyc_mobile_number_layout
-                                        ,kyc_city_layout,kyc_adharnumber_layout,submit_kyc_button,kyc_pan_number_layout" />
+                app:constraint_referenced_ids="kyc_aadhaar_image_view,kyc_pan_image_view
+            ,upload_kyc_text,aadhar_image_button,pan_image_button" />
 
-<!--            <androidx.constraintlayout.widget.Group-->
-<!--                android:id="@+id/kyc_image_group"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:visibility="visible"-->
-<!--                app:constraint_referenced_ids="kyc_aadhaar_image_view,kyc_pan_image_view-->
-<!--            ,upload_kyc_text,aadhar_image_button,pan_image_button" />-->
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/kyc_input_group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="kyc_state_layout,kyc_mobile_number_layout,kyc_city_layout
+,kyc_adharnumber_layout,kyc_pan_number_layout,submit_kyc_button"/>
+            <ImageView
+                android:id="@+id/kyc_pan_image_view"
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/kyc_aadhaar_image_view"
+                app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/aadhar_image_button"
+                app:srcCompat="@drawable/add_cred_img2" />
 
-
-                 <ImageView
-                     android:id="@+id/kyc_pan_image_view"
-                     android:layout_width="0dp"
-                     android:layout_height="240dp"
-                     android:layout_marginTop="16dp"
-                     app:layout_constraintEnd_toEndOf="@+id/kyc_aadhaar_image_view"
-                     app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
-                     app:layout_constraintTop_toBottomOf="@+id/aadhar_image_button"
-                     app:srcCompat="@drawable/add_cred_img2" />
-
-                 <ImageView
-                     android:id="@+id/kyc_aadhaar_image_view"
-                     android:layout_width="0dp"
-                     android:layout_height="240dp"
-                     android:layout_marginStart="16dp"
-                     android:layout_marginTop="16dp"
-                     android:layout_marginEnd="16dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@+id/kyc_pan_number_layout"
-                     app:srcCompat="@drawable/add_cred_img2" />
+            <ImageView
+                android:id="@+id/kyc_aadhaar_image_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_pan_number_layout"
+                app:srcCompat="@drawable/add_cred_img2" />
 
             <Button
                 android:id="@+id/submit_kyc_button"
@@ -306,12 +347,12 @@
                 android:id="@+id/pan_image_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Pan Image"
                 android:background="@drawable/radio_button_back"
-                android:padding="8dp"
                 android:drawableStart="@drawable/ic_add_black_24dp"
                 android:drawablePadding="8dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Pan Image"
                 app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
                 app:layout_constraintStart_toStartOf="@+id/kyc_pan_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/kyc_pan_image_view" />
@@ -329,6 +370,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pan_image_button"
                 tools:text="TextView" />
+
+            <Button
+                android:id="@+id/kyc_save_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Save"
+                android:background="@drawable/button"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/kyc_pincode_layout"
+                app:layout_constraintStart_toStartOf="@+id/kyc_pincode_layout"
+                app:layout_constraintTop_toBottomOf="@+id/kyc_pincode_layout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

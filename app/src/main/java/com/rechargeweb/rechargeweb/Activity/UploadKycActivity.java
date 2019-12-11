@@ -112,6 +112,7 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         //Initializing ViewModel
         uploadKycViewModel = ViewModelProviders.of(this).get(UploadKycViewModel.class);
 
+        setSupportActionBar(uploadKycBinding.kycToolbar);
         //Getting Intent
         Intent intent = getIntent();
         session_id = intent.getStringExtra(Constants.SESSION_ID);
@@ -361,6 +362,15 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
+        //On save button clicked
+        uploadKycBinding.kycSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadKycBinding.kycInputGroup.setVisibility(View.GONE);
+                uploadKycBinding.kycInputGroup2.setVisibility(View.VISIBLE);
+            }
+        });
+
         //Submit button click
         uploadKycBinding.submitKycButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -453,6 +463,8 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
                 Picasso.get().load(panUri).placeholder(R.drawable.add_cred_img2).into(uploadKycBinding.kycPanImageView);
                 File file = new File(FileUtils.getPath(adharUri, this));
                 panImageBody = RequestBody.create(MediaType.parse(getContentResolver().getType(panUri)), file);
+                uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
+                uploadKycBinding.kycImageGroup.setVisibility(View.GONE);
             }
         }else if (resultCode == RESULT_CANCELED){
             Log.e(TAG,"No image selected");

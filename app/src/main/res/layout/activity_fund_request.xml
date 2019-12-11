@@ -1,10 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#e0e0ee"
     tools:context=".Activity.FundRequestActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/fund_request_appbar"
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@drawable/log_in_background"/>
 
-    <include layout="@layout/fund_request" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/fund_request_appbar"
+        app:layout_anchorGravity="center"
+        android:layout_marginTop="110dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/sign_up_layout_back"
+        android:layout_marginBottom="16dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/fund_button"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/button"
+                android:text="@string/fund_submit_button"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/fund_transaction_id_layout"
+                app:layout_constraintStart_toStartOf="@+id/fund_transaction_id_layout"
+                app:layout_constraintTop_toBottomOf="@+id/fund_transaction_id_layout" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fund_amount_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/choose_wallet"
+                app:layout_constraintStart_toStartOf="@+id/choose_wallet"
+                app:layout_constraintTop_toBottomOf="@+id/choose_wallet">
+
+                <EditText
+                    android:id="@+id/fund_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_account_balance_wallet_black_24dp"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:hint="@string/amount"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fund_transaction_id_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/fund_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fund_date">
+
+                <EditText
+                    android:id="@+id/fund_transaction_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_edit_white_24dp"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:hint="Transaction Id/UTR Number"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <EditText
+                android:id="@+id/fund_account"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/fund_select_bank"
+                app:layout_constraintStart_toStartOf="@+id/fund_select_bank"
+                app:layout_constraintTop_toBottomOf="@+id/fund_select_bank" />
+
+            <ProgressBar
+                android:id="@+id/fund_progress_bar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fund_transaction_id_layout" />
+
+            <TextView
+                android:id="@+id/fund_select_bank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/ic_account_balance_black_24dp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/ic_pick_operator"
+                android:hint="--Select Bank--"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/fund_amount_layout"
+                app:layout_constraintStart_toStartOf="@+id/fund_amount_layout"
+                app:layout_constraintTop_toBottomOf="@+id/fund_amount_layout" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="@+id/fund_select_bank"
+                app:layout_constraintStart_toStartOf="@+id/fund_select_bank"
+                app:layout_constraintTop_toTopOf="@+id/fund_account" />
+
+            <TextView
+                android:id="@+id/fund_payment_mode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/ic_payment_white_24dp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/ic_pick_operator"
+                android:hint=" Payment Method"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/fund_select_bank"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fund_account" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="16dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/fund_payment_mode"
+                app:layout_constraintTop_toBottomOf="@+id/fund_payment_mode" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="@+id/fund_date"
+                app:layout_constraintStart_toStartOf="@+id/fund_date"
+                app:layout_constraintTop_toBottomOf="@+id/fund_date" />
+
+            <TextView
+                android:id="@+id/fund_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/profile_date_white_24dp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/ic_pick_operator"
+                android:hint=" Select Date"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/fund_payment_mode"
+                app:layout_constraintStart_toStartOf="@+id/fund_payment_mode"
+                app:layout_constraintTop_toBottomOf="@+id/fund_payment_mode" />
+
+            <TextView
+                android:id="@+id/choose_wallet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:drawableStart="@drawable/ic_select_wallet_white_24dp"
+                android:drawableEnd="@drawable/ic_pick_operator"
+                android:drawablePadding="8dp"
+                android:hint="@string/select_walet"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="@+id/choose_wallet"
+                app:layout_constraintStart_toStartOf="@+id/choose_wallet"
+                app:layout_constraintTop_toBottomOf="@+id/choose_wallet" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

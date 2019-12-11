@@ -28,7 +28,8 @@
         tools:replace="android:theme,android:allowBackup,android:icon,android:name,android:label">
         <activity
             android:name=".Activity.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
@@ -41,6 +42,7 @@
         <activity
             android:name=".Activity.UploadKycActivity"
             android:label="KYC Details"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -73,7 +75,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.FundRequestActivity"
-            android:label="Fund Request"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity

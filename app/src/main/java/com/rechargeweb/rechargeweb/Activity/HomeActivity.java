@@ -754,7 +754,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 builder.setPositiveButton("Log Out", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, SignUpActivity.class);
                         intent.putExtra("logout", true);
                         startActivity(intent);
                         finish();

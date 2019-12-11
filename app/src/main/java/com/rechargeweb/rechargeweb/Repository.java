@@ -1198,15 +1198,19 @@ public class Repository {
             @Override
             public void onResponse(Call<FundResponse> call, Response<FundResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.e(TAG,"Fund requrest response is successful");
                     String message = response.body().getMessage();
 
                     fundResponseMutableLiveData.setValue(message);
+                }else {
+                    Log.e(TAG,"Fund request response is null");
                 }
             }
 
             @Override
             public void onFailure(Call<FundResponse> call, Throwable t) {
 
+                Log.e(TAG,"Fund Request response is failed : " + t.getMessage());
             }
         });
     }
