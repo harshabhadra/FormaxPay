@@ -2,14 +2,17 @@ package com.rechargeweb.rechargeweb.Activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,8 @@ public class ReportActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+
+        //Getting Intent
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.SESSION_ID)){
             session_id = intent.getStringExtra(Constants.SESSION_ID);
@@ -48,6 +53,11 @@ public class ReportActivity extends AppCompatActivity implements
         //Initializing TabLayout and ViewPager
         TabLayout tabLayout = findViewById(R.id.report_tab_layout);
         ViewPager viewPager = findViewById(R.id.report_viewPager);
+
+        //Initializing toolbar and set as Action Bar
+        Toolbar toolbar = findViewById(R.id.report_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
 
         //Initializing ReportPagerAdapter
         reportPagerAdapter = new ReportPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,this);
@@ -183,7 +193,7 @@ public class ReportActivity extends AppCompatActivity implements
         TextView openbal = layout.findViewById(R.id.opening_balance_passbook);
         TextView wallet = layout.findViewById(R.id.narration_passbook);
         TextView transaction = layout.findViewById(R.id.traction_passbook);
-        Button button = layout.findViewById(R.id.close_passbook);
+        ImageView button = layout.findViewById(R.id.close_passbook);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
         builder.setView(layout);

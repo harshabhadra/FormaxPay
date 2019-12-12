@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,7 @@ public class DebitReportFragment extends Fragment implements DatePickerDialog.On
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
     OnDebitItemClickListener debitItemClickListener;
+    private AlertDialog alertDialog;
 
     public DebitReportFragment() {
         // Required empty public constructor
@@ -164,19 +167,35 @@ public class DebitReportFragment extends Fragment implements DatePickerDialog.On
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getDebitSummaryByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getDebitSummaryByDate(fromString,toString);
+                    }
+                },2000);
+
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getDebitSummaryByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getDebitSummaryByDate(fromString,toString);
+                    }
+                },2000);
+
             }
         }
     }
@@ -226,9 +245,9 @@ public class DebitReportFragment extends Fragment implements DatePickerDialog.On
             public void onChanged(List<Passbook> passbookList) {
                 fromImageView.setEnabled(true);
                 toImageView.setEnabled(true);
+                alertDialog.dismiss();
                 if (passbookList != null) {
                     Log.e(TAG, "Debit list is full");
-                    loading.setVisibility(View.GONE);
                     for (int i = 0; i < passbookList.size(); i++) {
                         if (passbookList.get(i).getTransaction_id().isEmpty()) {
                             recyclerView.setVisibility(View.GONE);
@@ -242,8 +261,9 @@ public class DebitReportFragment extends Fragment implements DatePickerDialog.On
                         }
                     }
                 } else {
-                    loading.setVisibility(View.GONE);
                     Log.e(TAG, "Debit list is empty");
+                    noRecordText.setText("No record Found");
+                    noRecordText.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -259,5 +279,14 @@ public class DebitReportFragment extends Fragment implements DatePickerDialog.On
     public void onPassBookItemClick(int position) {
         Passbook passbook = passbookAdapter.getPassBook(position);
         debitItemClickListener.onDebitItemClick(passbook);
+    }
+
+    private AlertDialog createLoadingDialog(Context context){
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

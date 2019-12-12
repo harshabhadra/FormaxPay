@@ -33,6 +33,7 @@
         <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
+            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity

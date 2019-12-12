@@ -1,8 +1,10 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,7 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
     OnRecharReportItemClickListener recharReportItemClickListener;
+    private AlertDialog alertDialog;
 
     private static final String TAG = RechargeReportFragment.class.getSimpleName();
 
@@ -170,19 +173,33 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getRechargeListByDate(fromString, toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getRechargeListByDate(fromString, toString);
+                    }
+                },2000);
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getRechargeListByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getRechargeListByDate(fromString,toString);
+                    }
+                },2000);
             }
         }
     }
@@ -236,7 +253,6 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
     //Get recharge list by date
     private void getRechargeListByDate(String fromString, String toString) {
         noRecordText.setVisibility(View.GONE);
-
         fromImageView.setEnabled(false);
         toImageView.setEnabled(false);
         allReportViewModel.getRechargeListByDate(id, authKey, fromString, toString).observe(this, new Observer<List<RechargeDetails>>() {
@@ -244,16 +260,15 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
             public void onChanged(List<RechargeDetails> rechargeDetails) {
                 fromImageView.setEnabled(true);
                 toImageView.setEnabled(true);
+                alertDialog.dismiss();
                 if (rechargeDetails != null) {
                     for (int i = 0; i < rechargeDetails.size(); i++) {
                         RechargeDetails details = rechargeDetails.get(i);
                         if (details.getAmount() == null || details.getAmount().isEmpty()) {
                             recyclerView.setVisibility(View.GONE);
-                            loading.setVisibility(View.INVISIBLE);
                             noRecordText.setVisibility(View.VISIBLE);
                             noRecordText.setText(details.getApi_response());
                         } else {
-                            loading.setVisibility(View.INVISIBLE);
                             recyclerView.setVisibility(View.VISIBLE);
                             noRecordText.setVisibility(View.GONE);
                             Log.e(TAG, "Details list by selectedDate is full");
@@ -264,8 +279,19 @@ public class RechargeReportFragment extends Fragment implements DetailsAdapter.O
 
                 } else {
                     Log.e(TAG, "Details list by selectedDate is empty");
+                    noRecordText.setText("No record Found");
+                    noRecordText.setVisibility(View.VISIBLE);
                 }
             }
         });
+    }
+
+    private AlertDialog createLoadingDialog(Context context){
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

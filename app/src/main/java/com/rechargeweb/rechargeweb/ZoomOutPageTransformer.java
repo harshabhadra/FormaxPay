@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb.Activity;
+package com.rechargeweb.rechargeweb;
 
 import android.view.View;
 

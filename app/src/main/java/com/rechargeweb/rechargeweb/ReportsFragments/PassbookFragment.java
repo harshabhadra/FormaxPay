@@ -1,7 +1,10 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +54,7 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
     private String fromString, toString;
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
+    private AlertDialog alertDialog;
 
     public PassbookFragment() {
         // Required empty public constructor
@@ -160,19 +164,35 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getPassBookDetailsByDate(fromString, toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPassBookDetailsByDate(fromString, toString);
+                    }
+                },2000);
+
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getPassBookDetailsByDate(fromString, toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPassBookDetailsByDate(fromString, toString);
+                    }
+                },2000);
+
             }
         }
     }
@@ -218,8 +238,7 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
 
                 fromImageView.setEnabled(true);
                 toImageView.setEnabled(true);
-
-                loading.setVisibility(View.GONE);
+                alertDialog.dismiss();
                 if (passbookList != null) {
                     for (int i = 0; i < passbookList.size(); i++) {
                         if (passbookList.get(i).getTransaction_id().isEmpty()) {
@@ -236,9 +255,17 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
                 } else {
                     noRecordText.setText("No record Found");
                     noRecordText.setVisibility(View.VISIBLE);
-                    loading.setVisibility(View.GONE);
                 }
             }
         });
+    }
+
+    private AlertDialog createLoadingDialog(Context context){
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

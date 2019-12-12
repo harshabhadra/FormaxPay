@@ -1,7 +1,10 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +54,7 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
     private String fromString, toString;
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
+    private AlertDialog alertDialog;
 
     public CouponReportFragment() {
         // Required empty public constructor
@@ -152,19 +156,36 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getCouponTransferReportByDate(fromString,toString);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getCouponTransferReportByDate(fromString,toString);
+                    }
+                },2000);
+
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getCouponTransferReportByDate(fromString,toString);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getCouponTransferReportByDate(fromString,toString);
+                    }
+                },2000);
             }
         }
     }
@@ -214,7 +235,7 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
             public void onChanged(List<CouponReport> couponReports) {
                 toImageView.setEnabled(true);
                 fromImageView.setEnabled(true);
-                loading.setVisibility(View.GONE);
+                alertDialog.dismiss();
                 if (couponReports != null) {
                     Log.e(TAG, "Coupon report is full");
                     for (int i = 0; i < couponReports.size(); i++) {
@@ -235,5 +256,14 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
                 }
             }
         });
+    }
+
+    private AlertDialog createLoadingDialog(Context context){
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

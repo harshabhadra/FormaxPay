@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -10,18 +11,22 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Closing Balance"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/close_passbook" />
 
     <TextView
         android:id="@+id/closing_balance_passbook"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginEnd="16dp"
         android:text="TextView"
+        android:textStyle="bold"
+        android:textColor="@color/green"
         app:layout_constraintBottom_toBottomOf="@+id/textView33"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView33"
@@ -33,6 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textSize="16sp"
         android:text="Opening Balance"
         app:layout_constraintStart_toStartOf="@+id/textView33"
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
@@ -42,7 +48,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="TextView"
+        android:textColor="@color/green"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView35"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/closing_balance_passbook"
         app:layout_constraintTop_toBottomOf="@+id/closing_balance_passbook" />
@@ -54,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Wallet Type"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView35"
         app:layout_constraintStart_toStartOf="@+id/textView35"
         app:layout_constraintTop_toBottomOf="@+id/textView35" />
@@ -64,6 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textColor="#000"
+        app:layout_constraintBottom_toBottomOf="@+id/textView37"
         app:layout_constraintEnd_toEndOf="@+id/opening_balance_passbook"
         app:layout_constraintStart_toStartOf="@+id/opening_balance_passbook"
         app:layout_constraintTop_toBottomOf="@+id/opening_balance_passbook" />
@@ -74,7 +87,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Transaction Id"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView37"
         app:layout_constraintStart_toStartOf="@+id/textView37"
         app:layout_constraintTop_toBottomOf="@+id/textView37" />
@@ -85,19 +101,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textColor="#000"
+        app:layout_constraintBottom_toBottomOf="@+id/textView39"
         app:layout_constraintEnd_toEndOf="@+id/narration_passbook"
         app:layout_constraintStart_toStartOf="@+id/narration_passbook"
         app:layout_constraintTop_toBottomOf="@+id/narration_passbook" />
 
-    <Button
+    <ImageView
         android:id="@+id/close_passbook"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button"
-        android:text="Close"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/traction_passbook"
-        app:layout_constraintStart_toStartOf="@+id/textView39"
-        app:layout_constraintTop_toBottomOf="@+id/traction_passbook" />
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_grey_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

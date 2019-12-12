@@ -1,6 +1,8 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +55,8 @@ public class AepsReportFragment extends Fragment implements DatePickerDialog.OnD
     private String fromString, toString;
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
+
+    private AlertDialog alertDialog;
 
     public AepsReportFragment() {
         // Required empty public constructor
@@ -153,19 +158,33 @@ public class AepsReportFragment extends Fragment implements DatePickerDialog.OnD
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getAepsReportByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getAepsReportByDate(fromString,toString);
+                    }
+                },2000);
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getAepsReportByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getAepsReportByDate(fromString,toString);
+                    }
+                },2000);
             }
         }
     }
@@ -209,7 +228,7 @@ public class AepsReportFragment extends Fragment implements DatePickerDialog.OnD
             public void onChanged(List<AepsReport> aepsReports) {
                 fromImageView.setEnabled(true);
                 toImageView.setEnabled(true);
-                loading.setVisibility(View.GONE);
+                alertDialog.dismiss();
                 if (aepsReports != null){
                     String s = aepsReports.get(0).getCreatedOn();
                     if (s != null){
@@ -225,5 +244,14 @@ public class AepsReportFragment extends Fragment implements DatePickerDialog.OnD
             }
         });
 
+    }
+
+    private AlertDialog createLoadingDialog(Context context){
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

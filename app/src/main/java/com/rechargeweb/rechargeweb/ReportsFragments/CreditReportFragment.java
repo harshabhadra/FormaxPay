@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.ReportsFragments;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,7 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
     OnCreditItemClickListner creditItemClickListner;
+    private AlertDialog alertDialog;
 
     public CreditReportFragment() {
         // Required empty public constructor
@@ -162,19 +165,34 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getCreditReportByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getCreditReportByDate(fromString,toString);
+                    }
+                },2000);
+
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                loading.setVisibility(View.VISIBLE);
+                alertDialog = createLoadingDialog(getContext());
+                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                getCreditReportByDate(fromString,toString);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getCreditReportByDate(fromString,toString);
+                    }
+                },2000);
             }
         }
     }
@@ -223,10 +241,9 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
         allReportViewModel.getCreditListByDate(id, authKey, fromString, toString).observe(this, new Observer<List<Passbook>>() {
             @Override
             public void onChanged(List<Passbook> passbookList) {
-
                 fromImageView.setEnabled(true);
                 toImageView.setEnabled(true);
-                loading.setVisibility(View.INVISIBLE);
+                alertDialog.dismiss();
                 if (passbookList != null) {
                     Log.e(TAG, "CreditReportFragment list is full");
                     loading.setVisibility(View.GONE);
@@ -243,7 +260,8 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
                         }
                     }
                 } else {
-                    loading.setVisibility(View.GONE);
+                    noRecordText.setText("No record Found");
+                    noRecordText.setVisibility(View.VISIBLE);
                     Log.e(TAG, "CreditReportFragment list is empty");
                 }
             }
@@ -262,5 +280,14 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
 
         Passbook passbook = passbookAdapter.getPassBook(position);
         creditItemClickListner.onCreditItemClick(passbook);
+    }
+
+    private AlertDialog createLoadingDialog(Context context){
+
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

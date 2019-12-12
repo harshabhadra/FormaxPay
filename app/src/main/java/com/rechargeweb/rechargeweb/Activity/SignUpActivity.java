@@ -6,15 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.google.android.material.tabs.TabLayout;
 import com.rechargeweb.rechargeweb.Adapters.ReportPagerAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.SignUpLogIn.LogInFragment;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.SignUpLogIn.SignUpFragment;
+import com.rechargeweb.rechargeweb.ZoomOutPageTransformer;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
