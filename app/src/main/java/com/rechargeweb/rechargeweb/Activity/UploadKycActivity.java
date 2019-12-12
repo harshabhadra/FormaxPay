@@ -112,7 +112,9 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         //Initializing ViewModel
         uploadKycViewModel = ViewModelProviders.of(this).get(UploadKycViewModel.class);
 
+        //Setting up toolbar as Support Action Bar
         setSupportActionBar(uploadKycBinding.kycToolbar);
+
         //Getting Intent
         Intent intent = getIntent();
         session_id = intent.getStringExtra(Constants.SESSION_ID);
@@ -353,6 +355,21 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
             }
         });
 
+        //Set onClickListener to saveImage button
+        uploadKycBinding.kycSaveImagesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (aadharImageBody != null && panImageBody != null) {
+                    uploadKycBinding.kycImageGroup.setVisibility(View.GONE);
+                    uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
+                    uploadKycBinding.kycSaveButton.setVisibility(View.VISIBLE);
+                    uploadKycBinding.kycSaveImagesButton.setVisibility(View.GONE);
+                }else {
+                    Toast.makeText(getApplicationContext(),"Please Upload Required Images", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //Add onClickListener to Dob textView
         uploadKycBinding.kycDobLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,8 +383,24 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         uploadKycBinding.kycSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadKycBinding.kycInputGroup.setVisibility(View.GONE);
-                uploadKycBinding.kycInputGroup2.setVisibility(View.VISIBLE);
+                if (uploadKycBinding.kycNameTextInput.getText().toString().isEmpty()) {
+                    uploadKycBinding.kycNameLayout.setError("Enter Name");
+                } else if (uploadKycBinding.kycShopNameTextInput.getText().toString().isEmpty()) {
+                    uploadKycBinding.kycShopNameLayout.setError("Enter Shop Name");
+                } else if (uploadKycBinding.kycDobLayout.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter Date Of Birth", Toast.LENGTH_SHORT).show();
+                } else if (uploadKycBinding.kycEmailTextInput.getText().toString().isEmpty()) {
+                    uploadKycBinding.kycEmailLayout.setError("Enter Email Address");
+                } else if (uploadKycBinding.kycAddressInputText.getText().toString().isEmpty()) {
+                    uploadKycBinding.kycAddressLayout.setError("Enter Address");
+                } else if (uploadKycBinding.kycPincodeInputText.getText().toString().isEmpty()) {
+                    uploadKycBinding.kycPincodeLayout.setError("Enter Pincode");
+                } else {
+                    uploadKycBinding.kycInputGroup.setVisibility(View.GONE);
+                    uploadKycBinding.kycSaveButton.setVisibility(View.GONE);
+                    uploadKycBinding.kycInputGroup2.setVisibility(View.VISIBLE);
+                    uploadKycBinding.submitKycButton.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -376,19 +409,23 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
             @Override
             public void onClick(View v) {
 
-                if (uploadKycBinding.kycNameTextInput.getText().toString().isEmpty()){
+                uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
+                uploadKycBinding.kycImageGroup.setVisibility(View.VISIBLE);
+                uploadKycBinding.kycInputGroup2.setVisibility(View.VISIBLE);
+
+                if (uploadKycBinding.kycNameTextInput.getText().toString().isEmpty()) {
                     uploadKycBinding.kycNameLayout.setError("Enter Name");
-                }else if (uploadKycBinding.kycShopNameTextInput.getText().toString().isEmpty()){
+                } else if (uploadKycBinding.kycShopNameTextInput.getText().toString().isEmpty()) {
                     uploadKycBinding.kycShopNameLayout.setError("Enter Shop Name");
-                }else if (uploadKycBinding.kycDobLayout.getText().toString().isEmpty()){
-                   Toast.makeText(getApplicationContext(),"Enter Date Of Birth",Toast.LENGTH_SHORT).show();
-                }else if (uploadKycBinding.kycEmailTextInput.getText().toString().isEmpty()){
+                } else if (uploadKycBinding.kycDobLayout.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Enter Date Of Birth", Toast.LENGTH_SHORT).show();
+                } else if (uploadKycBinding.kycEmailTextInput.getText().toString().isEmpty()) {
                     uploadKycBinding.kycEmailLayout.setError("Enter Email Address");
-                }else if (uploadKycBinding.kycAddressInputText.getText().toString().isEmpty()){
+                } else if (uploadKycBinding.kycAddressInputText.getText().toString().isEmpty()) {
                     uploadKycBinding.kycAddressLayout.setError("Enter Address");
-                }else if (uploadKycBinding.kycPincodeInputText.getText().toString().isEmpty()){
+                } else if (uploadKycBinding.kycPincodeInputText.getText().toString().isEmpty()) {
                     uploadKycBinding.kycPincodeLayout.setError("Enter Pincode");
-                }else if (uploadKycBinding.kycStateInputText.getText().toString().isEmpty()){
+                } else if (uploadKycBinding.kycStateInputText.getText().toString().isEmpty()){
                     uploadKycBinding.kycStateLayout.setError("Enter State Name");
                 }else if (uploadKycBinding.kycMobileInputText.getText().toString().isEmpty() || uploadKycBinding.kycMobileInputText.getText().toString().length()<10){
                     uploadKycBinding.kycMobileNumberLayout.setError("Enter Valid Mobile Number");
@@ -463,8 +500,6 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
                 Picasso.get().load(panUri).placeholder(R.drawable.add_cred_img2).into(uploadKycBinding.kycPanImageView);
                 File file = new File(FileUtils.getPath(adharUri, this));
                 panImageBody = RequestBody.create(MediaType.parse(getContentResolver().getType(panUri)), file);
-                uploadKycBinding.kycInputGroup.setVisibility(View.VISIBLE);
-                uploadKycBinding.kycImageGroup.setVisibility(View.GONE);
             }
         }else if (resultCode == RESULT_CANCELED){
             Log.e(TAG,"No image selected");
