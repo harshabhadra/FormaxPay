@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textView84"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/croissant_one"
+        android:text="Harsha Bhadra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView85"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="(Retailer)"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="@+id/textView84"
+        app:layout_constraintStart_toStartOf="@+id/textView84"
+        app:layout_constraintTop_toBottomOf="@+id/textView84" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_mobile_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView85">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_mobile_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Mobile Number"
+            android:text="@{profile.mobile}"
+            android:textColor="#000000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_pan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_mobile_number"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_mobile_number"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_mobile_number">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_pan_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:text="@{profile.pan_no}"
+            android:hint="Pan Number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_gst"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_pan"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_pan"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_pan">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_gst_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:text="@{profile.gst_no}"
+            android:hint="GST Number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_createDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_gst"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_gst"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_gst">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_create_date_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:text="@{profile.createdOn}"
+            android:hint="Profile Created On" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_createDate"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_createDate"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_createDate">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_address_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:text="@{profile.address}"
+            android:hint="Address" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_pincode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_address"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_address"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_address">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_pincode_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:text="@{profile.pincode}"
+            android:hint="Pincode" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_pincode"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout_pincode"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_pincode">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/profile_state_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textColor="#000000"
+            android:text="@{profile.location}"
+            android:hint="State" />
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
