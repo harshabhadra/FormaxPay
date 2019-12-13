@@ -91,6 +91,7 @@
         <activity
             android:name=".Activity.RechargeActivity"
             android:parentActivityName=".Activity.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

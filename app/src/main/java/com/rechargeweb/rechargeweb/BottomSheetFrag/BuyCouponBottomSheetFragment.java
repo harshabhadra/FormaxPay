@@ -64,7 +64,6 @@ public class BuyCouponBottomSheetFragment extends BottomSheetDialogFragment {
         psaIdTv.setText(psaId);
         nameET.setText(name);
         couponPriceTv.setText("Rs/- " + price);
-        couponPriceTv.setTextColor(Color.GREEN);
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -112,7 +111,7 @@ public class BuyCouponBottomSheetFragment extends BottomSheetDialogFragment {
         Button button = layout.findViewById(R.id.coupon_confirm_button);
         TextView totalPriceTv = layout.findViewById(R.id.coupon_confirm_total_price);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.walletDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.CustomDialog);
         builder.setView(layout);
 
         final AlertDialog dialog = builder.create();
@@ -120,8 +119,8 @@ public class BuyCouponBottomSheetFragment extends BottomSheetDialogFragment {
 
         nameTv.setText(name);
         quantityTv.setText(quantity);
-        priceTv.setText(price);
-        totalPriceTv.setText(totalPrice);
+        priceTv.setText("RS/- " + price);
+        totalPriceTv.setText("RS/- " + totalPrice);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

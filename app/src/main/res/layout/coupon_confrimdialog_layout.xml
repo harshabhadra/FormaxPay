@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="8dp">
 
     <TextView
@@ -22,9 +22,9 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView42"
+        app:layout_constraintStart_toEndOf="@+id/textView65"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
 
@@ -41,11 +41,11 @@
     <TextView
         android:id="@+id/cc_quantity"
         style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/cc_name"
-        app:layout_constraintStart_toStartOf="@+id/cc_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView65"
         app:layout_constraintTop_toBottomOf="@+id/cc_name"
         tools:text="TextView" />
 
@@ -56,18 +56,19 @@
         android:layout_height="wrap_content"
         android:text="Price"
         app:layout_constraintBottom_toBottomOf="@+id/cc_total_price"
-        app:layout_constraintEnd_toEndOf="@+id/textView42"
-        app:layout_constraintStart_toStartOf="@+id/textView42"
+        app:layout_constraintEnd_toEndOf="@+id/textView65"
+        app:layout_constraintStart_toStartOf="@+id/textView65"
         app:layout_constraintTop_toTopOf="@+id/cc_total_price" />
 
     <TextView
         android:id="@+id/cc_total_price"
         style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/cc_quantity"
-        app:layout_constraintStart_toStartOf="@+id/cc_quantity"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView65"
         app:layout_constraintTop_toBottomOf="@+id/cc_quantity"
         tools:text="TextView" />
 
@@ -75,12 +76,15 @@
         android:id="@+id/coupon_confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button"
-        android:padding="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btnformate"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="Buy Coupon"
         android:textColor="@color/white"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coupon_confirm_total_price" />
@@ -90,20 +94,21 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:text="Total Price"
         app:layout_constraintBottom_toBottomOf="@+id/coupon_confirm_total_price"
-        app:layout_constraintEnd_toEndOf="@+id/textView44"
-        app:layout_constraintStart_toStartOf="@+id/textView44"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coupon_confirm_total_price" />
 
     <TextView
         android:id="@+id/coupon_confirm_total_price"
         style="@style/TextAppearance.AppCompat.Body1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/cc_total_price"
-        app:layout_constraintStart_toStartOf="@+id/cc_total_price"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView65"
         app:layout_constraintTop_toBottomOf="@+id/cc_total_price"
         tools:text="TextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

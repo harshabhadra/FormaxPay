@@ -65,15 +65,17 @@ public interface ApiService {
                                            @Query("email") String email,
                                            @Query("pan_no") String pan);
 
-    @GET("view_credentials?")
-    Call<Credential> viewCredential(@Query("session_id") String session_id,
-                                    @Query("auth_key") String auth);
+    @POST("view_credentials")
+    @FormUrlEncoded
+    Call<Credential> viewCredential(@Field("session_id") String session_id,
+                                    @Field("auth_key") String auth);
 
-    @GET("buy_coupon?")
-    Call<Coupon>buyCoupon(@Query("auth_key")String auth,
-                          @Query("session_id")String id,
-                          @Query("vle_name")String name,
-                          @Query("quantity")String quantity);
+    @POST("buy_coupon")
+    @FormUrlEncoded
+    Call<Coupon>buyCoupon(@Field("auth_key") String auth,
+                          @Field("session_id") String id,
+                          @Field("vle_name") String name,
+                          @Field("quantity") String quantity);
     @GET("change_password?")
     Observable<Password>changePassword(@Query("session_id")String session_id,
                                  @Query("auth_key")String auth_key,

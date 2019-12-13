@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -58,7 +59,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         PostPaidSheet.OnPostPaidClickListener, DTHSheetFragment.OnDthSheetItemClickListener {
 
     String name;
-    FrameLayout mobileLayout;
 
     RechargeViewModel rechargeViewModel;
 
@@ -70,10 +70,10 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
     TextView providerText;
     ImageView providerImage;
     TextView selectType;
-    ImageView selectTypeImage;
 
     ImageView contactImage;
     TextView browseTextView;
+    private Toolbar rechargeToolbar;
 
     String auth;
     String token;
@@ -109,11 +109,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.gradientbakcthree));
-
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         auth = getResources().getString(R.string.auth_key);
         token = getResources().getString(R.string.token);
 
@@ -122,17 +117,17 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         rechargeButton = findViewById(R.id.recharge_button);
         providerText = findViewById(R.id.provider_name);
         providerImage = findViewById(R.id.provider_logo);
-        selectTypeImage = findViewById(R.id.select_type_image);
 
         contactImage = findViewById(R.id.contact_image);
         browseTextView = findViewById(R.id.browse_plans_text);
         selectType = findViewById(R.id.select_wallet);
 
+        rechargeToolbar = findViewById(R.id.recharge_toolbar);
+        setSupportActionBar(rechargeToolbar);
+        rechargeToolbar.setTitleTextColor(Color.WHITE);
+
         //Initializing ViewModel Class
         rechargeViewModel = ViewModelProviders.of(this).get(RechargeViewModel.class);
-
-        //Initializing Mobile Layout
-        mobileLayout = findViewById(R.id.mobile_recharge_layout);
 
         //Getting intent
         final Intent intent = getIntent();
@@ -144,35 +139,32 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             session_id = intent.getStringExtra(Constants.SESSION_ID);
 
             if (layoutName.equals("Mobile")) {
-                mobileLayout.setVisibility(View.VISIBLE);
                 selectType.setVisibility(View.VISIBLE);
-                selectTypeImage.setVisibility(View.VISIBLE);
-                if (intent.hasExtra(Constants.PLAN_DETAILS)){
+                getSupportActionBar().setTitle("Mobile Recharge");
+                if (intent.hasExtra(Constants.PLAN_DETAILS)) {
 
                     PlanDetails details = intent.getParcelableExtra(Constants.PLAN_DETAILS);
                     amountEditText.setText(details.getAmount());
-                    SharedPreferences sharedPreferences = getSharedPreferences("Save_Details",MODE_PRIVATE);
-                    mobileNumber = sharedPreferences.getString(Constants.USER_NUMBER,"");
+                    SharedPreferences sharedPreferences = getSharedPreferences("Save_Details", MODE_PRIVATE);
+                    mobileNumber = sharedPreferences.getString(Constants.USER_NUMBER, "");
                     numberEditText.setText(mobileNumber);
-                    circleId = sharedPreferences.getString(Constants.CIRCLE_ID,"");
-                    optId = sharedPreferences.getString(Constants.OPT_ID,"");
-                    checkNumber = Integer.parseInt(mobileNumber.substring(0,4));
-                    Log.e(TAG,"CNum is :" + checkNumber);
-                    getNumberInformation(token,checkNumber);
+                    circleId = sharedPreferences.getString(Constants.CIRCLE_ID, "");
+                    optId = sharedPreferences.getString(Constants.OPT_ID, "");
+                    checkNumber = Integer.parseInt(mobileNumber.substring(0, 4));
+                    Log.e(TAG, "CNum is :" + checkNumber);
+                    getNumberInformation(token, checkNumber);
 
 
                 }
             } else if (layoutName.equals("DTH")) {
-                mobileLayout.setVisibility(View.VISIBLE);
-                selectTypeImage.setVisibility(View.GONE);
                 selectType.setVisibility(View.GONE);
+                getSupportActionBar().setTitle("DTH Recharge");
             }
             if (intent.hasExtra(Constants.ITEM_POSITION)) {
                 Items items = intent.getParcelableExtra(Constants.ITEM_POSITION);
                 name = items.getName();
                 setTitle(name + " " + "Recharge");
             }
-
         }
 
         //Open alert dialog on select edit
@@ -231,12 +223,12 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                     mobileNumber = s.toString();
                     checkNumber = Integer.parseInt(s.toString().substring(0, 4));
                     getNumberInformation(token, checkNumber);
-                } else if (layoutName.equals("Mobile") && s.length() <4) {
+                } else if (layoutName.equals("Mobile") && s.length() < 4) {
 
                     providerText.setText(null);
                     providerText.setHint(getResources().getString(R.string.select_operator));
                     Picasso.get().load(R.mipmap.formax_icon).into(providerImage);
-                }else {
+                } else {
                     mobileNumber = s.toString().trim();
                 }
 
@@ -249,25 +241,25 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             public void onClick(View v) {
                 if (circleId != null && optId != null && mobileNumber != null) {
 
-                    SharedPreferences.Editor editor = getSharedPreferences("Save_Details",MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = getSharedPreferences("Save_Details", MODE_PRIVATE).edit();
                     editor.putString(Constants.USER_NUMBER, mobileNumber);
-                    editor.putInt(Constants.CHECK_NUMBER,checkNumber);
-                    editor.putString(Constants.CIRCLE_ID,circleId);
-                    editor.putString(Constants.OPT_ID,optId);
+                    editor.putInt(Constants.CHECK_NUMBER, checkNumber);
+                    editor.putString(Constants.CIRCLE_ID, circleId);
+                    editor.putString(Constants.OPT_ID, optId);
                     editor.apply();
 
                     Intent planIntent = new Intent(RechargeActivity.this, PlansActivity.class);
                     planIntent.putExtra(Constants.CIRCLE_ID, circleId);
-                    planIntent.putExtra(Constants.OPT_ID,optId);
-                    planIntent.putExtra(Constants.SESSION_ID,session_id);
+                    planIntent.putExtra(Constants.OPT_ID, optId);
+                    planIntent.putExtra(Constants.SESSION_ID, session_id);
                     startActivity(planIntent);
                     finish();
-                }else if (circleId == null){
-                    Toast.makeText(getApplicationContext(),"Circle id missing",Toast.LENGTH_SHORT).show();
-                }else if (optId == null){
-                    Toast.makeText(getApplicationContext(),"opt id missing",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getApplicationContext(),"number",Toast.LENGTH_SHORT).show();
+                } else if (circleId == null) {
+                    Toast.makeText(getApplicationContext(), "Circle id missing", Toast.LENGTH_SHORT).show();
+                } else if (optId == null) {
+                    Toast.makeText(getApplicationContext(), "opt id missing", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "number", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -574,8 +566,8 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                     }
                 }
             });
-        }else {
-            Toast.makeText(getApplicationContext(),mNum + ", amount: " + rAmount + ", provider: " + providerId,Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), mNum + ", amount: " + rAmount + ", provider: " + providerId, Toast.LENGTH_SHORT).show();
         }
     }
 

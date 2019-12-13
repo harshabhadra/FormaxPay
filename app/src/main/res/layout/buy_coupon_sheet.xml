@@ -83,6 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="@color/green"
         app:layout_constraintStart_toStartOf="@+id/quantity_bc"
         app:layout_constraintTop_toBottomOf="@+id/quantity_bc" />
 

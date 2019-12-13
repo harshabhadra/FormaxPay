@@ -1057,8 +1057,8 @@ public class Repository {
         couponCall.enqueue(new Callback<Coupon>() {
             @Override
             public void onResponse(Call<Coupon> call, Response<Coupon> response) {
+                Log.e(TAG, "Coupon REsponse: " + response.body().getMessage());
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "Coupon REsponse: " + response.body());
                     Coupon coupon = new Coupon(response.body().getMessage(), response.body().getTxn_id(), response.body().getStatus(), response.body().getPrice(),
                             response.body().getTotoal_price(), response.body().getCreated_on());
                     couponMutableLiveData.setValue(coupon);
