@@ -10,17 +10,14 @@
             type="com.rechargeweb.rechargeweb.Profile" />
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#e0e0ee">
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#e0e0ee"
             tools:context=".Ui.ProfileFragment">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/profile_app_bar"
                 style="@style/AppTheme.AppBarOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/app_bar_height"
@@ -36,12 +33,15 @@
                     android:layout_marginTop="16dp"
                     android:src="@drawable/nav_icon" />
             </com.google.android.material.appbar.AppBarLayout>
-
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="@dimen/app_bar_height"
+               >
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/app_bar_height"
                 android:layout_marginEnd="8dp"
                 app:cardElevation="6dp"
                 app:cardUseCompatPadding="true">
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/textView84"
+                        android:id="@+id/profile_user_name_tv"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -63,26 +63,27 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView85"
+                        android:id="@+id/profile_user_label_tv"
                         style="@style/TextAppearance.AppCompat.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="(Retailer)"
                         android:textColor="#000000"
-                        app:layout_constraintEnd_toEndOf="@+id/textView84"
-                        app:layout_constraintStart_toStartOf="@+id/textView84"
-                        app:layout_constraintTop_toBottomOf="@+id/textView84" />
+                        app:layout_constraintEnd_toEndOf="@+id/profile_user_name_tv"
+                        app:layout_constraintStart_toStartOf="@+id/profile_user_name_tv"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_user_name_tv" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_mobile_number"
+                        android:id="@+id/profile_textInputLayout_mobile_number"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView85">
+                        app:layout_constraintTop_toBottomOf="@+id/profile_user_label_tv">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_mobile_text_input"
@@ -95,13 +96,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_pan"
+                        android:id="@+id/profile_textInputLayout_pan"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_mobile_number"
-                        app:layout_constraintStart_toStartOf="@+id/textInputLayout_mobile_number"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_mobile_number">
+                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_mobile_number"
+                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_mobile_number"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_mobile_number">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_pan_input"
@@ -114,13 +115,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_gst"
+                        android:id="@+id/profile_textInputLayout_gst"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_pan"
-                        app:layout_constraintStart_toStartOf="@+id/textInputLayout_pan"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_pan">
+                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_pan"
+                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_pan"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_pan">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_gst_text_input"
@@ -133,13 +134,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_createDate"
+                        android:id="@+id/profile_textInputLayout_createDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_gst"
-                        app:layout_constraintStart_toStartOf="@+id/textInputLayout_gst"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_gst">
+                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_gst"
+                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_gst"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_gst">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_create_date_text_input"
@@ -152,13 +153,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_address"
+                        android:id="@+id/profile_textInputLayout_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_createDate"
-                        app:layout_constraintStart_toStartOf="@+id/textInputLayout_createDate"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_createDate">
+                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_createDate"
+                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_createDate"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_createDate">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_address_text_input"
@@ -171,13 +172,13 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_pincode"
+                        android:id="@+id/profile_textInputLayout_pincode"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_address"
-                        app:layout_constraintStart_toStartOf="@+id/textInputLayout_address"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_address">
+                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_address"
+                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_address"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_address">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_pincode_text_input"
@@ -190,15 +191,15 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayout_state"
+                        android:id="@+id/profile_textInputLayout_state"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/textInputLayout_pincode"
-                        app:layout_constraintStart_toStartOf="@+id/textInputLayout_pincode"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout_pincode">
+                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_pincode"
+                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_pincode"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_pincode">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_state_text_input"
@@ -209,8 +210,17 @@
                             android:text="@{profile.location}"
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </ScrollView>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_edit_white24dp"/>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

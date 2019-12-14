@@ -319,7 +319,7 @@ public class PanActivity extends AppCompatActivity {
         TextView credNameTv = layout.findViewById(R.id.view_credential_name);
         Button closeButton = layout.findViewById(R.id.credential_close_button);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.walletDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
         builder.setView(layout);
 
         final AlertDialog dialog = builder.create();

@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb;
+package com.rechargeweb.rechargeweb.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rechargeweb.rechargeweb.Model.Items;
-import com.squareup.picasso.Picasso;
+import com.rechargeweb.rechargeweb.R;
 
 import java.util.List;
 

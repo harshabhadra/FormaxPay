@@ -56,7 +56,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <!-- reference our hint & error styles -->
         <item name="hintTextAppearance">@style/HintText</item>
         <item name="errorTextAppearance">@style/ErrorText</item>

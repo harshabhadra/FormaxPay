@@ -16,6 +16,7 @@ import com.rechargeweb.rechargeweb.Model.Credential;
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 import com.rechargeweb.rechargeweb.Model.FundResponse;
 import com.rechargeweb.rechargeweb.Model.NumberDetect;
+import com.rechargeweb.rechargeweb.Model.Otp;
 import com.rechargeweb.rechargeweb.Model.Passbook;
 import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Model.PlanDetails;
@@ -25,6 +26,7 @@ import com.rechargeweb.rechargeweb.Model.RechargeDetails;
 import com.rechargeweb.rechargeweb.Model.Register;
 import com.rechargeweb.rechargeweb.Model.Remitter;
 import com.rechargeweb.rechargeweb.Model.RemitterLimit;
+import com.rechargeweb.rechargeweb.Model.SignUp;
 import com.rechargeweb.rechargeweb.Model.Support;
 import com.rechargeweb.rechargeweb.Model.Validate;
 import com.rechargeweb.rechargeweb.Network.ApiService;
@@ -176,9 +178,28 @@ public class Repository {
     //Store response after sending aeps details
     private MutableLiveData<String> aepssendResponseMutableLiveData = new MutableLiveData<>();
 
+    //Store Otp details
+    private MutableLiveData<Otp>otpMutableLiveData = new MutableLiveData<>();
+
+    //Store sign-up message
+    private MutableLiveData<String>signUpMutableLiveData = new MutableLiveData<>();
 
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    //Sign up user
+    public LiveData<String>signUpUser(String shopName, String userName, String email, String mobile,String password){
+
+        getSignUpMessage(shopName,userName,email,mobile,password);
+        return signUpMutableLiveData;
+    }
+
+    //Get Otp details
+    public LiveData<Otp>getOtpDetails(String authKey, String mobile, String email){
+
+        getOtp(authKey,mobile,email);
+        return otpMutableLiveData;
     }
 
     //Send aeps transaction details
@@ -2279,6 +2300,54 @@ public class Repository {
 
                 Log.e(TAG, "Aeps send response failure: " + t.getMessage());
                 aepssendResponseMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network request to get Otp and details
+    private void getOtp(String authKey, String mobile, String email) {
+
+        Call<Otp>otpCall = apiService.getOtpDetails(authKey,mobile,email);
+        otpCall.enqueue(new Callback<Otp>() {
+            @Override
+            public void onResponse(Call<Otp> call, Response<Otp> response) {
+
+                Log.e(TAG,"Otp response successfull");
+                if (response.isSuccessful() && response.body() != null){
+
+                    Log.e(TAG,"Otp is : " + response.body().getMessage() + "," + response.body().getOtp());
+                    otpMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Otp> call, Throwable t) {
+
+                Log.e(TAG,"Error getting Otp details: " + t.getMessage());
+            }
+        });
+    }
+
+    //Network call to sign up user
+    private void getSignUpMessage(String shopName, String userName, String email, String mobile,String password) {
+
+        Call<SignUp>call = apiService.signUpUser(shopName,userName,email,mobile,password);
+        call.enqueue(new Callback<SignUp>() {
+            @Override
+            public void onResponse(Call<SignUp> call, Response<SignUp> response) {
+
+                Log.e(TAG,"Sign up response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+
+                    signUpMutableLiveData.setValue(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignUp> call, Throwable t) {
+
+                Log.e(TAG,"Sing Up response is failed : " + t.getMessage());
+                signUpMutableLiveData.setValue(t.getMessage());
             }
         });
     }

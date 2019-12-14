@@ -18,15 +18,16 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             app:elevation="0dp" />
 
-        <FrameLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            app:cardCornerRadius="16dp"
             android:background="@drawable/sign_up_layout_back"
-            android:elevation="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="16dp"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|center">
 
@@ -54,6 +55,7 @@
                         android:hint="Enter Shop Name"
                         android:drawableStart="@drawable/ic_business_primary_24dp"
                         android:drawablePadding="16dp"
+                        android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,17 +129,15 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/sign_up_button"
+                    android:id="@+id/sign_up_next_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="24dp"
                     android:background="@drawable/btnformate"
-                    android:text="Submit"
+                    android:text="Next"
                     android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/sign_up_user_email_layout"
                     app:layout_constraintStart_toStartOf="@+id/sign_up_user_email_layout"
                     app:layout_constraintTop_toBottomOf="@+id/sign_up_user_email_layout" />
@@ -152,8 +152,79 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/logo" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sign_up_password_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:passwordToggleEnabled="true"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sign_up_next_button">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sign_up_password_input_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Enter Password" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sign_up_confirm_password_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:passwordToggleEnabled="true"
+                    app:layout_constraintEnd_toEndOf="@+id/sign_up_password_layout"
+                    app:layout_constraintStart_toStartOf="@+id/sign_up_password_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/sign_up_password_layout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sign_up_confirm_password_input_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Confirm Password" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/create_account_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@drawable/btnformate"
+                    android:text="Create Account"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/sign_up_confirm_password_layout"
+                    app:layout_constraintStart_toStartOf="@+id/sign_up_confirm_password_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/sign_up_confirm_password_layout" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/sign_up_group_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="sign_up_shop_name_layout,sign_up_user_name_layout
+                    ,sign_up_mobile_layout,sign_up_user_email_layout,sign_up_next_button"/>
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/sign_up_group_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="sign_up_password_layout,sign_up_confirm_password_layout
+                    ,create_account_button" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </FrameLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/swipe_log_in"

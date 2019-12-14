@@ -7,6 +7,8 @@ import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.FundResponse;
 import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Model.Post;
+import com.rechargeweb.rechargeweb.Model.Otp;
+import com.rechargeweb.rechargeweb.Model.SignUp;
 import com.rechargeweb.rechargeweb.Profile;
 
 import java.util.List;
@@ -92,4 +94,17 @@ public interface ApiService {
                                               @Field("auth_key")String auth_key,
                                               @Field("from_date")String from_date,
                                               @Field("to_date")String to_date);
+
+    @POST("otp_verification")
+    @FormUrlEncoded
+    Call<Otp>getOtpDetails(@Field("auth_key")String auth,
+                           @Field("mobile")String mobile,
+                           @Field("email")String email);
+    @POST("signup")
+    @FormUrlEncoded
+    Call<SignUp>signUpUser(@Field("business_name")String shopName,
+                           @Field("name")String userName,
+                           @Field("email")String email,
+                           @Field("mobile")String mobile,
+                           @Field("password")String password);
 }

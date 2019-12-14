@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
@@ -101,6 +102,10 @@ public class LogInFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null){
+                    inputMethodManager.hideSoftInputFromWindow(fragmentLoginlayoutBinding.logInButton.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                }
                 userId = fragmentLoginlayoutBinding.logInUserIdInput.getText().toString().trim().toUpperCase();
                 userPass = fragmentLoginlayoutBinding.logInPasswordInput.getText().toString().trim();
                 if (userId.isEmpty()) {
