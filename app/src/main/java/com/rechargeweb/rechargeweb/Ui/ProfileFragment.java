@@ -4,6 +4,8 @@ package com.rechargeweb.rechargeweb.Ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,9 @@ import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.ProfileViewModel;
 import com.rechargeweb.rechargeweb.databinding.FragmentProfileBinding;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -87,6 +92,137 @@ public class ProfileFragment extends Fragment {
         //Initializing isEdit
         isEdit = true;
 
+        //Adding text watcher to pan text input layout
+        fragmentProfileBinding.profilePanInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                fragmentProfileBinding.profileTextInputLayoutPan.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileTextInputLayoutPan.setErrorEnabled(true);
+            }
+        });
+
+        //Add text watcher to gst text input layout
+        fragmentProfileBinding.profileGstTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                fragmentProfileBinding.profileTextInputLayoutGst.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileTextInputLayoutGst.setErrorEnabled(true);
+            }
+        });
+
+        //Add text watcher to aadhar text input
+        fragmentProfileBinding.profileAadharNumberTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                fragmentProfileBinding.profileAadharNumberLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileAadharNumberLayout.setErrorEnabled(true);
+            }
+        });
+
+        //Adding Text Watcher to location text input layout
+        fragmentProfileBinding.profileLocationTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                fragmentProfileBinding.profileLocationTextInputLayout.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileLocationTextInputLayout.setErrorEnabled(true);
+            }
+        });
+
+        //Adding text watcher to address text input layout
+        fragmentProfileBinding.profileAddressTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                fragmentProfileBinding.profileTextInputLayoutAddress.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileTextInputLayoutAddress.setErrorEnabled(true);
+            }
+        });
+
+        //Add text watcher to pincode text input layout
+        fragmentProfileBinding.profilePincodeTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                fragmentProfileBinding.profileTextInputLayoutPincode.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileTextInputLayoutPincode.setErrorEnabled(true);
+            }
+        });
+
+        //Add text watcher to state text input layout
+        fragmentProfileBinding.profileStateTextInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                fragmentProfileBinding.profileTextInputLayoutState.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragmentProfileBinding.profileTextInputLayoutState.setErrorEnabled(true);
+            }
+        });
         //Set on Click listener to fab button
         fragmentProfileBinding.profileEditFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,31 +239,36 @@ public class ProfileFragment extends Fragment {
                     fragmentProfileBinding.profileEditFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_save_white_24dp));
                     isEdit = false;
                 }else {
-                    loadingDialog = createLoadingDialog(getContext());
-                    loadingDialog.show();
-                    fragmentProfileBinding.profilePanInput.setEnabled(false);
-                    fragmentProfileBinding.profileGstTextInput.setEnabled(false);
-                    fragmentProfileBinding.profileAadharNumberTextInput.setEnabled(false);
-                    fragmentProfileBinding.profileLocationTextInput.setEnabled(false);
-                    fragmentProfileBinding.profileAddressTextInput.setEnabled(false);
-                    fragmentProfileBinding.profilePincodeTextInput.setEnabled(false);
-                    fragmentProfileBinding.profileStateTextInput.setEnabled(false);
-
                     //getting user information
                     businessName = fragmentProfileBinding.profileUserNameTv.getText().toString();
                     address = fragmentProfileBinding.profileAddressTextInput.getText().toString();
                     state = fragmentProfileBinding.profileStateTextInput.getText().toString();
                     location = fragmentProfileBinding.profileLocationTextInput.getText().toString();
                     pincode = fragmentProfileBinding.profilePincodeTextInput.getText().toString().trim();
-                    panNo = fragmentProfileBinding.profilePanInput.getText().toString().trim();
-                    gstNo = fragmentProfileBinding.profileGstTextInput.getText().toString().trim();
+                    panNo = fragmentProfileBinding.profilePanInput.getText().toString().trim().toUpperCase();
+                    gstNo = fragmentProfileBinding.profileGstTextInput.getText().toString().trim().toUpperCase();
                     aadharNo = fragmentProfileBinding.profileAadharNumberTextInput.getText().toString().trim();
 
-                    //Update user profile
-                    updateProfile(id,businessName,name,address,state,location,pincode,auth,panNo,gstNo,aadharNo);
-
-                    fragmentProfileBinding.profileEditFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_white24dp));
-                    isEdit = true;
+                    if (!panNo.isEmpty() && !panCheck(panNo)){
+                        fragmentProfileBinding.profileTextInputLayoutPan.setError("Enter Valid PAN Number");
+                    }else if (!gstNo.isEmpty() && !gstNoCheck(gstNo)){
+                        fragmentProfileBinding.profileTextInputLayoutGst.setError("Enter Valid gst no");
+                    }
+                    else {
+                        fragmentProfileBinding.profilePanInput.setEnabled(false);
+                        fragmentProfileBinding.profileGstTextInput.setEnabled(false);
+                        fragmentProfileBinding.profileAadharNumberTextInput.setEnabled(false);
+                        fragmentProfileBinding.profileLocationTextInput.setEnabled(false);
+                        fragmentProfileBinding.profileAddressTextInput.setEnabled(false);
+                        fragmentProfileBinding.profilePincodeTextInput.setEnabled(false);
+                        fragmentProfileBinding.profileStateTextInput.setEnabled(false);
+                        loadingDialog = createLoadingDialog(getContext());
+                        loadingDialog.show();
+                        //Update user profile
+                        updateProfile(id, businessName, name, address, state, location, pincode, auth, panNo, gstNo, aadharNo);
+                        fragmentProfileBinding.profileEditFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_white24dp));
+                        isEdit = true;
+                    }
                 }
             }
         });
@@ -190,5 +331,20 @@ public class ProfileFragment extends Fragment {
         builder.setView(layout);
         builder.setCancelable(false);
         return builder.create();
+    }
+
+    //Check if the pan no is correct
+    private boolean panCheck(String s) {
+        Pattern pattern = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]{1}");
+
+        Matcher matcher = pattern.matcher(s);
+        return matcher.matches();
+    }
+
+    //Check if the GST no is valid or not
+    private boolean gstNoCheck(String s){
+        Pattern pattern = Pattern.compile("[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9a-zA-Z]{1}");
+        Matcher matcher = pattern.matcher(s);
+        return matcher.matches();
     }
 }

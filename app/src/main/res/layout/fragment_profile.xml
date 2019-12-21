@@ -70,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="(Retailer)"
+                        android:text="@{profile.user_type}"
                         android:textColor="#000000"
                         app:layout_constraintEnd_toEndOf="@+id/profile_user_name_tv"
                         app:layout_constraintStart_toStartOf="@+id/profile_user_name_tv"
@@ -111,6 +111,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
+                            android:textAllCaps="true"
                             android:hint="Pan Number"
                             android:text="@{profile.pan_no}"
                             android:textColor="#000000" />
@@ -131,6 +132,7 @@
                             android:layout_height="wrap_content"
                             android:enabled="false"
                             android:hint="GST Number"
+                            android:textAllCaps="true"
                             android:text="@{profile.gst_no}"
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -175,6 +177,8 @@
                             android:layout_height="wrap_content"
                             android:enabled="false"
                             android:hint="Address"
+                            android:inputType="text"
+                            android:maxLines="1"
                             android:text="@{profile.address}"
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -194,6 +198,8 @@
                             android:layout_height="wrap_content"
                             android:enabled="false"
                             android:hint="Pincode"
+                            android:inputType="number"
+                            android:maxLines="1"
                             android:text="@{profile.pincode}"
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -213,6 +219,7 @@
                             android:layout_height="wrap_content"
                             android:enabled="false"
                             android:hint="State"
+                            android:inputType="text"
                             android:text="@{profile.location}"
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -233,6 +240,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
+                            android:maxLength="12"
+                            android:inputType="number"
                             android:hint="Aadhar Number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -252,6 +261,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
+                            android:inputType="text"
+                            android:maxLines="1"
                             android:hint="location" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

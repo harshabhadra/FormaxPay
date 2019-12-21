@@ -168,6 +168,7 @@ public class PanActivity extends AppCompatActivity {
 
                         status = credential.getStatus();
                         remark = credential.getRemark();
+
                         if (status.equals("Approved")){
                             Toast.makeText(getApplicationContext(),status,Toast.LENGTH_SHORT).show();
                             showCredentialDialog(credential);
@@ -295,7 +296,7 @@ public class PanActivity extends AppCompatActivity {
                     else {
                         credentialPageLayout.setVisibility(View.GONE);
                         credentialFormlayout.setVisibility(View.VISIBLE);
-                        if ( remark != null && remark.equals("empty remark")) {
+                        if ( remark != null && !remark.equals("empty remark")) {
                             remarkText.setVisibility(View.VISIBLE);
                             remarkText.setText("Rejected Due to " + remark);
                             remarkText.setTextColor(Color.RED);
