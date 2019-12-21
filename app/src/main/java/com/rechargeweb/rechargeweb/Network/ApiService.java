@@ -5,11 +5,12 @@ import com.rechargeweb.rechargeweb.Model.Coupon;
 import com.rechargeweb.rechargeweb.Model.Credential;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.FundResponse;
+import com.rechargeweb.rechargeweb.Model.Otp;
 import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Model.Post;
-import com.rechargeweb.rechargeweb.Model.Otp;
 import com.rechargeweb.rechargeweb.Model.SignUp;
 import com.rechargeweb.rechargeweb.Profile;
+import com.rechargeweb.rechargeweb.UpdateProfie;
 
 import java.util.List;
 
@@ -20,7 +21,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-
 
 
 public interface ApiService {
@@ -74,37 +74,55 @@ public interface ApiService {
 
     @POST("buy_coupon")
     @FormUrlEncoded
-    Call<Coupon>buyCoupon(@Field("auth_key") String auth,
-                          @Field("session_id") String id,
-                          @Field("vle_name") String name,
-                          @Field("quantity") String quantity);
+    Call<Coupon> buyCoupon(@Field("auth_key") String auth,
+                           @Field("session_id") String id,
+                           @Field("vle_name") String name,
+                           @Field("quantity") String quantity);
+
     @GET("change_password?")
-    Observable<Password>changePassword(@Query("session_id")String session_id,
-                                 @Query("auth_key")String auth_key,
-                                 @Query("current_password")String cPassword,
-                                 @Query("new_password")String nPassword,
-                                 @Query("confrim_new_password")String conNewPassword);
+    Observable<Password> changePassword(@Query("session_id") String session_id,
+                                        @Query("auth_key") String auth_key,
+                                        @Query("current_password") String cPassword,
+                                        @Query("new_password") String nPassword,
+                                        @Query("confrim_new_password") String conNewPassword);
+
     @POST("aeps_report")
     @FormUrlEncoded
-    Call<List<AepsReport>>getAepsReport(@Field("user_id")String session_id,
-                                        @Field("auth_key")String auth_key);
+    Call<List<AepsReport>> getAepsReport(@Field("user_id") String session_id,
+                                         @Field("auth_key") String auth_key);
+
     @POST("aeps_report")
     @FormUrlEncoded
-    Call<List<AepsReport>>getAepsReportByDate(@Field("user_id")String session_id,
-                                              @Field("auth_key")String auth_key,
-                                              @Field("from_date")String from_date,
-                                              @Field("to_date")String to_date);
+    Call<List<AepsReport>> getAepsReportByDate(@Field("user_id") String session_id,
+                                               @Field("auth_key") String auth_key,
+                                               @Field("from_date") String from_date,
+                                               @Field("to_date") String to_date);
 
     @POST("otp_verification")
     @FormUrlEncoded
-    Call<Otp>getOtpDetails(@Field("auth_key")String auth,
-                           @Field("mobile")String mobile,
-                           @Field("email")String email);
+    Call<Otp> getOtpDetails(@Field("auth_key") String auth,
+                            @Field("mobile") String mobile,
+                            @Field("email") String email);
+
     @POST("signup")
     @FormUrlEncoded
-    Call<SignUp>signUpUser(@Field("business_name")String shopName,
-                           @Field("name")String userName,
-                           @Field("email")String email,
-                           @Field("mobile")String mobile,
-                           @Field("password")String password);
+    Call<SignUp> signUpUser(@Field("business_name") String shopName,
+                            @Field("name") String userName,
+                            @Field("email") String email,
+                            @Field("mobile") String mobile,
+                            @Field("password") String password);
+
+    @POST("profile_update")
+    @FormUrlEncoded
+    Call<UpdateProfie> updateProfile(@Field("session_id") String session_id,
+                                     @Field("business_name") String business_name,
+                                     @Field("name") String name,
+                                     @Field("address") String address,
+                                     @Field("state") String state,
+                                     @Field("location") String location,
+                                     @Field("pincode") String pincode,
+                                     @Field("auth_key") String authKey,
+                                     @Field("pan_no") String panNo,
+                                     @Field("gstin") String gstNo,
+                                     @Field("aadhar_no") String aadharNo);
 }

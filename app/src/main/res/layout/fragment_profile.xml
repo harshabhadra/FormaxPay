@@ -10,35 +10,37 @@
             type="com.rechargeweb.rechargeweb.Profile" />
     </data>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e0e0ee"
+        tools:context=".Ui.ProfileFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/profile_app_bar"
+            style="@style/AppTheme.AppBarOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:background="@drawable/log_in_background"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/nav_icon" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#e0e0ee"
-            tools:context=".Ui.ProfileFragment">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/app_bar_height">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/profile_app_bar"
-                style="@style/AppTheme.AppBarOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/app_bar_height"
-                android:background="@drawable/log_in_background"
-                android:fitsSystemWindows="true"
-                app:elevation="0dp">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/nav_icon" />
-            </com.google.android.material.appbar.AppBarLayout>
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="@dimen/app_bar_height"
-               >
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +50,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/profile_user_name_tv"
@@ -57,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/croissant_one"
-                        android:text="Harsha Bhadra"
+                        android:text="@{profile.businessName}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -99,7 +101,7 @@
                         android:id="@+id/profile_textInputLayout_pan"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_mobile_number"
                         app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_mobile_number"
                         app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_mobile_number">
@@ -118,7 +120,7 @@
                         android:id="@+id/profile_textInputLayout_gst"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_pan"
                         app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_pan"
                         app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_pan">
@@ -137,10 +139,13 @@
                         android:id="@+id/profile_textInputLayout_createDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_gst"
-                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_gst"
-                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_gst">
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_aadhar_number_layout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_create_date_text_input"
@@ -156,10 +161,13 @@
                         android:id="@+id/profile_textInputLayout_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_createDate"
-                        app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_createDate"
-                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_createDate">
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_location_textInputLayout">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/profile_address_text_input"
@@ -175,7 +183,7 @@
                         android:id="@+id/profile_textInputLayout_pincode"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_address"
                         app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_address"
                         app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_address">
@@ -194,9 +202,7 @@
                         android:id="@+id/profile_textInputLayout_state"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="8dp"
                         app:layout_constraintEnd_toEndOf="@+id/profile_textInputLayout_pincode"
                         app:layout_constraintStart_toStartOf="@+id/profile_textInputLayout_pincode"
                         app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_pincode">
@@ -211,16 +217,55 @@
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/profile_aadhar_number_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_gst">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/profile_aadhar_number_text_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="Aadhar Number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/profile_location_textInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_textInputLayout_createDate">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/profile_location_textInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="location" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-    </ScrollView>
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_edit_white24dp"/>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/profile_edit_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_edit_white24dp" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

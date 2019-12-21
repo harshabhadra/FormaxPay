@@ -3,20 +3,26 @@ package com.rechargeweb.rechargeweb.SignUpLogIn;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.atom.mpsdklibrary.PayActivity;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.OtpFragment;
@@ -24,6 +30,10 @@ import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.SignUpViewModel;
 import com.rechargeweb.rechargeweb.databinding.FragmentSignUpBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,8 +43,11 @@ import java.util.regex.Pattern;
 public class SignUpFragment extends Fragment{
 
     private static final String TAG = SignUpFragment.class.getSimpleName();
+
     private String shopName, userName, mobileNumber, userEmail;
+
     private String uPassword, uConfirmPassword;
+
     private AlertDialog loadingDialog;
     private SignUpViewModel signUpViewModel;
     private String mOtp;
@@ -60,6 +73,7 @@ public class SignUpFragment extends Fragment{
 
         //Initializing Auth key
         authKey = getResources().getString(R.string.auth_key);
+
 
         endProcess = false;
 
@@ -229,6 +243,7 @@ public class SignUpFragment extends Fragment{
                     inputMethodManager.hideSoftInputFromWindow(signUpBinding.createAccountButton.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                 }
 
+                //Getting password
                 uPassword = signUpBinding.signUpPasswordInputText.getText().toString().trim();
                 uConfirmPassword = signUpBinding.signUpConfirmPasswordInputText.getText().toString().trim();
 

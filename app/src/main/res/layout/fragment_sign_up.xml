@@ -201,7 +201,7 @@
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="32dp"
                     android:background="@drawable/btnformate"
-                    android:text="Create Account"
+                    android:text="Pay Rs/- 499 to Sign Up"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/sign_up_confirm_password_layout"

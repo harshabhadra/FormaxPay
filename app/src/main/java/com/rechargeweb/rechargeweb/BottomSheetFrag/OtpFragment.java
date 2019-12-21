@@ -8,17 +8,20 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.atom.mpsdklibrary.PayActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
@@ -30,6 +33,11 @@ import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.SignUpViewModel;
 import com.rechargeweb.rechargeweb.databinding.EnterOtpLayoutBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -40,14 +48,16 @@ import io.reactivex.schedulers.Schedulers;
 public class OtpFragment extends BottomSheetDialogFragment {
 
     private static final String TAG = OtpFragment.class.getSimpleName();
+
+    private static final int RC_PAYMENT_GATEWAY = 123;
     EnterOtpLayoutBinding otpLayoutBinding;
     private String authKey, mobile, email, password, shopName, userName;
     private SignUpViewModel signUpViewModel;
 
     private String mOtp;
     private String userOtp;
+    private String currentDate, txnId, customerAcc,clientCode;
     private int resend = 0;
-
     private ApiService apiService;
 
     public OtpFragment() {
@@ -75,6 +85,11 @@ public class OtpFragment extends BottomSheetDialogFragment {
 
         //Initializing ApiServices
         apiService = ApiUtills.getApiService();
+
+        currentDate = getCurrentTime();
+        txnId = getTxnId();
+        customerAcc = getCustomerAcc();
+        clientCode = "001";
 
         //Getting Otp
         getOtp(authKey,mobile,email);
@@ -117,11 +132,8 @@ public class OtpFragment extends BottomSheetDialogFragment {
 
                 userOtp = otpLayoutBinding.signUpOtpInputText.getText().toString().trim();
                 if (userOtp.equals(mOtp)){
-
                     Toast.makeText(getContext(),"Your Mobile Number is Verified",Toast.LENGTH_LONG).show();
-                    signUpUser(shopName,userName,email,mobile,password);
-                    otpLayoutBinding.otpLayoutGroup.setVisibility(View.INVISIBLE);
-                    otpLayoutBinding.otpProgressBar.setVisibility(View.VISIBLE);
+                    startPaymentGateway(currentDate,59.00,customerAcc,clientCode,txnId);
                 }else {
                     otpLayoutBinding.signUpOtpInputText.setError("Enter Valid OTP");
                 }
@@ -151,6 +163,30 @@ public class OtpFragment extends BottomSheetDialogFragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_PAYMENT_GATEWAY) {
+            System.out.println("---------INSIDE-------");
+            if (data != null) {
+                String message = data.getStringExtra("status");
+                String[] resKey = data.getStringArrayExtra("responseKeyArray");
+                String[] resValue = data.getStringArrayExtra("responseValueArray");
+                if (resKey != null && resValue != null) {
+                    for (int i = 0; i < resKey.length; i++)
+                        Log.e(TAG, "  " + i + " resKey : " + resKey[i] + " resValue : " + resValue[i]);
+                }
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                Log.e(TAG, "RECEIVED BACK--->" + message);
+                if (message.equals("Transaction Successful!")) {
+                    signUpUser(shopName,userName,email,mobile,password);
+                    otpLayoutBinding.otpLayoutGroup.setVisibility(View.INVISIBLE);
+                    otpLayoutBinding.otpProgressBar.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    }
+
     //Get Otp
     private void getOtp(String auth, String mobile, String emailId) {
 
@@ -159,24 +195,29 @@ public class OtpFragment extends BottomSheetDialogFragment {
             public void onChanged(Otp otp) {
 
                 mOtp = otp.getOtp();
+                Log.e(TAG,"Otp is :" + mOtp);
+                if (mOtp.isEmpty()){
+                    dismiss();
+                    Toast.makeText(getContext(),"Error: " + otp.getMessage(),Toast.LENGTH_LONG).show();
+                }else {
+                    otpLayoutBinding.otpLayoutGroup.setVisibility(View.VISIBLE);
+                    otpLayoutBinding.otpProgressBar.setVisibility(View.GONE);
+                    new CountDownTimer(60000, 1000) {
 
-                otpLayoutBinding.otpLayoutGroup.setVisibility(View.VISIBLE);
-                otpLayoutBinding.otpProgressBar.setVisibility(View.GONE);
-                new CountDownTimer(60000,1000){
+                        @Override
+                        public void onTick(long millisUntilFinished) {
 
-                    @Override
-                    public void onTick(long millisUntilFinished) {
+                            otpLayoutBinding.resendOtpTv.setText("Resend OTP in " + millisUntilFinished / 1000);
+                        }
 
-                        otpLayoutBinding.resendOtpTv.setText("Resend OTP in " +  millisUntilFinished/1000);
-                    }
+                        @Override
+                        public void onFinish() {
 
-                    @Override
-                    public void onFinish() {
-
-                        otpLayoutBinding.resendOtpTv.setText("Resend OTP");
-                        otpLayoutBinding.resendOtpTv.setEnabled(true);
-                    }
-                }.start();
+                            otpLayoutBinding.resendOtpTv.setText("Resend OTP");
+                            otpLayoutBinding.resendOtpTv.setEnabled(true);
+                        }
+                    }.start();
+                }
             }
         });
     }
@@ -254,6 +295,64 @@ public class OtpFragment extends BottomSheetDialogFragment {
                         Log.e(TAG,"Log in request complete");
                     }
                 });
+    }
+
+    //Encode the clientCode
+    public String encodeBase64(String encode) {
+        String decode = null;
+
+        try {
+            decode = Base64.encodeToString(encode.getBytes(), Base64.DEFAULT);
+        } catch (Exception e) {
+            System.out.println("Unable to decode : " + e);
+        }
+        return decode;
+    }
+    //Method to start payment Gateway
+    private void startPaymentGateway(String pDatem, Double pAmount, String cusAcc,String id,String tranId) {
+        Intent newPayIntent = new Intent(getContext(), PayActivity.class);
+        newPayIntent.putExtra("merchantId", "98617");
+        //txnscamt Fixed. Must be 0
+        newPayIntent.putExtra("txnscamt", "0");
+        newPayIntent.putExtra("loginid", "98617");
+        newPayIntent.putExtra("password", "074da5a7");
+        newPayIntent.putExtra("prodid", "FORMAX");
+        //txncurr Fixed. Must be �INR�
+        newPayIntent.putExtra("txncurr", "INR");
+        newPayIntent.putExtra("clientcode", encodeBase64(id));
+        newPayIntent.putExtra("custacc", cusAcc);
+        newPayIntent.putExtra("channelid", "INT");
+        //amt  Should be 2 decimal number i.e 1.00
+        newPayIntent.putExtra("amt", pAmount.toString());
+        newPayIntent.putExtra("txnid", tranId);
+        newPayIntent.putExtra("date", pDatem);
+        newPayIntent.putExtra("signature_request", "910a5d112c4793154e");
+        newPayIntent.putExtra("signature_response", "ba9dfcedd0c45dd02b");
+        newPayIntent.putExtra("discriminator", "All");
+        newPayIntent.putExtra("isLive", true);
+        startActivityForResult(newPayIntent, RC_PAYMENT_GATEWAY);
+    }
+
+    //Generate customer account
+    private String getCustomerAcc(){
+        long timeS = System.currentTimeMillis()/1000;
+        Random random = new Random();
+        int r = random.nextInt(100);
+        return  Long.toString(timeS) + String.valueOf(r);
+    }
+
+    //Generate txnId
+    private String getTxnId(){
+        long timeS = System.currentTimeMillis()/1000;
+        Random random = new Random();
+        int r = random.nextInt(100);
+        return "FP" + timeS + r;
+    }
+
+    //Generate current date and time
+    private String getCurrentTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+        return simpleDateFormat.format(new Date());
     }
 }
 

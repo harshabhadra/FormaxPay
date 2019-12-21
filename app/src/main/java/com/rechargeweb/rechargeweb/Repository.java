@@ -133,9 +133,6 @@ public class Repository {
     //Store List of beneficiary
     private MutableLiveData<List<Beneficiary>> beneficiaryListMutableLiveData = new MutableLiveData<>();
 
-    //Store total limit
-    private MutableLiveData<RemitterLimit> remitterLimitMutableLiveData = new MutableLiveData<>();
-
     //Store remitter message
     private MutableLiveData<String> messageMutableLiveData = new MutableLiveData<>();
 
@@ -184,8 +181,19 @@ public class Repository {
     //Store sign-up message
     private MutableLiveData<String>signUpMutableLiveData = new MutableLiveData<>();
 
+    //Store update profile message
+    private MutableLiveData<String>updateProfileMutableLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    //Update profile
+    public LiveData<String> updateProfile(String session_id, String businessName, String name, String address, String state, String location, String pincode,
+                                           String authKey, String panNo, String gstNo, String aadharNo){
+
+        updateUserProfile(session_id,businessName,name,address,state,location,pincode,authKey,panNo,gstNo,aadharNo);
+        return updateProfileMutableLiveData;
     }
 
     //Sign up user
@@ -2315,7 +2323,7 @@ public class Repository {
                 Log.e(TAG,"Otp response successfull");
                 if (response.isSuccessful() && response.body() != null){
 
-                    Log.e(TAG,"Otp is : " + response.body().getMessage() + "," + response.body().getOtp());
+                    Log.e(TAG,"Otp is : " + response.body().getMessage() + "," + "Otp is: " + response.body().getOtp());
                     otpMutableLiveData.setValue(response.body());
                 }
             }
@@ -2348,6 +2356,30 @@ public class Repository {
 
                 Log.e(TAG,"Sing Up response is failed : " + t.getMessage());
                 signUpMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network call to update user profile
+    private void updateUserProfile(String session_id,String businessName, String name, String address, String state, String location,
+                                   String pincode, String authKey, String panNo, String gstNo, String aadharNo) {
+
+        Call<UpdateProfie>call = apiService.updateProfile(session_id,businessName,name,address,state,location,pincode,authKey,panNo,gstNo,aadharNo);
+
+        call.enqueue(new Callback<UpdateProfie>() {
+            @Override
+            public void onResponse(Call<UpdateProfie> call, Response<UpdateProfie> response) {
+
+                String message = response.body().getMessage();
+                Log.e(TAG,"Update profile response is :" + message);
+                updateProfileMutableLiveData.setValue(message);
+            }
+
+            @Override
+            public void onFailure(Call<UpdateProfie> call, Throwable t) {
+
+                Log.e(TAG, "Update profile response failure: " + t.getMessage());
+                updateProfileMutableLiveData.setValue(t.getMessage());
             }
         });
     }
