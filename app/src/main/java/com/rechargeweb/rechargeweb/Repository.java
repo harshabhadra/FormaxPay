@@ -25,7 +25,6 @@ import com.rechargeweb.rechargeweb.Model.Recharge;
 import com.rechargeweb.rechargeweb.Model.RechargeDetails;
 import com.rechargeweb.rechargeweb.Model.Register;
 import com.rechargeweb.rechargeweb.Model.Remitter;
-import com.rechargeweb.rechargeweb.Model.RemitterLimit;
 import com.rechargeweb.rechargeweb.Model.SignUp;
 import com.rechargeweb.rechargeweb.Model.Support;
 import com.rechargeweb.rechargeweb.Model.Validate;
@@ -98,7 +97,7 @@ public class Repository {
     private MutableLiveData<Credential> credentialMutableLiveData;
 
     //Store psa registration response
-    private MutableLiveData<String> psaRegistrationMutableLiveData;
+    private MutableLiveData<String> psaRegistrationMutableLiveData = new MutableLiveData<>();
 
     //Store coupon details
     private MutableLiveData<Coupon> couponMutableLiveData = new MutableLiveData<>();
@@ -176,13 +175,13 @@ public class Repository {
     private MutableLiveData<String> aepssendResponseMutableLiveData = new MutableLiveData<>();
 
     //Store Otp details
-    private MutableLiveData<Otp>otpMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Otp> otpMutableLiveData = new MutableLiveData<>();
 
     //Store sign-up message
-    private MutableLiveData<String>signUpMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> signUpMutableLiveData = new MutableLiveData<>();
 
     //Store update profile message
-    private MutableLiveData<String>updateProfileMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> updateProfileMutableLiveData = new MutableLiveData<>();
 
     public static Repository getInstance() {
         return new Repository();
@@ -190,23 +189,23 @@ public class Repository {
 
     //Update profile
     public LiveData<String> updateProfile(String session_id, String businessName, String name, String address, String state, String location, String pincode,
-                                           String authKey, String panNo, String gstNo, String aadharNo){
+                                          String authKey, String panNo, String gstNo, String aadharNo) {
 
-        updateUserProfile(session_id,businessName,name,address,state,location,pincode,authKey,panNo,gstNo,aadharNo);
+        updateUserProfile(session_id, businessName, name, address, state, location, pincode, authKey, panNo, gstNo, aadharNo);
         return updateProfileMutableLiveData;
     }
 
     //Sign up user
-    public LiveData<String>signUpUser(String shopName, String userName, String email, String mobile,String password){
+    public LiveData<String> signUpUser(String shopName, String userName, String email, String mobile, String password) {
 
-        getSignUpMessage(shopName,userName,email,mobile,password);
+        getSignUpMessage(shopName, userName, email, mobile, password);
         return signUpMutableLiveData;
     }
 
     //Get Otp details
-    public LiveData<Otp>getOtpDetails(String authKey, String mobile, String email){
+    public LiveData<Otp> getOtpDetails(String authKey, String mobile, String email) {
 
-        getOtp(authKey,mobile,email);
+        getOtp(authKey, mobile, email);
         return otpMutableLiveData;
     }
 
@@ -389,11 +388,8 @@ public class Repository {
 
     //Get Psa reg response
     public LiveData<String> getPsaRegResponse(String id, String auth, String name, String shop, String locality, String pincode, String state, String mobile, String email, String panNo) {
-        if (psaRegistrationMutableLiveData == null) {
-            psaRegistrationMutableLiveData = new MutableLiveData<>();
-            getPsaResponse(id, auth, name, shop, locality, pincode, state, mobile, email, panNo);
-        }
 
+        getPsaResponse(id, auth, name, shop, locality, pincode, state, mobile, email, panNo);
         return psaRegistrationMutableLiveData;
     }
 
@@ -1227,19 +1223,19 @@ public class Repository {
             @Override
             public void onResponse(Call<FundResponse> call, Response<FundResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG,"Fund requrest response is successful");
+                    Log.e(TAG, "Fund requrest response is successful");
                     String message = response.body().getMessage();
 
                     fundResponseMutableLiveData.setValue(message);
-                }else {
-                    Log.e(TAG,"Fund request response is null");
+                } else {
+                    Log.e(TAG, "Fund request response is null");
                 }
             }
 
             @Override
             public void onFailure(Call<FundResponse> call, Throwable t) {
 
-                Log.e(TAG,"Fund Request response is failed : " + t.getMessage());
+                Log.e(TAG, "Fund Request response is failed : " + t.getMessage());
             }
         });
     }
@@ -1251,6 +1247,7 @@ public class Repository {
         call.enqueue(new Callback<FundResponse>() {
             @Override
             public void onResponse(Call<FundResponse> call, Response<FundResponse> response) {
+                Log.e(TAG,"Psa Response: " + response.body().getMessage());
                 if (response.isSuccessful() && response.body() != null) {
 
                     String message = response.body().getMessage();
@@ -1261,6 +1258,7 @@ public class Repository {
             @Override
             public void onFailure(Call<FundResponse> call, Throwable t) {
 
+                Log.e(TAG,"Psa response failure: " + t.getMessage());
             }
         });
     }
@@ -2315,15 +2313,15 @@ public class Repository {
     //Network request to get Otp and details
     private void getOtp(String authKey, String mobile, String email) {
 
-        Call<Otp>otpCall = apiService.getOtpDetails(authKey,mobile,email);
+        Call<Otp> otpCall = apiService.getOtpDetails(authKey, mobile, email);
         otpCall.enqueue(new Callback<Otp>() {
             @Override
             public void onResponse(Call<Otp> call, Response<Otp> response) {
 
-                Log.e(TAG,"Otp response successfull");
-                if (response.isSuccessful() && response.body() != null){
+                Log.e(TAG, "Otp response successfull");
+                if (response.isSuccessful() && response.body() != null) {
 
-                    Log.e(TAG,"Otp is : " + response.body().getMessage() + "," + "Otp is: " + response.body().getOtp());
+                    Log.e(TAG, "Otp is : " + response.body().getMessage() + "," + "Otp is: " + response.body().getOtp());
                     otpMutableLiveData.setValue(response.body());
                 }
             }
@@ -2331,21 +2329,21 @@ public class Repository {
             @Override
             public void onFailure(Call<Otp> call, Throwable t) {
 
-                Log.e(TAG,"Error getting Otp details: " + t.getMessage());
+                Log.e(TAG, "Error getting Otp details: " + t.getMessage());
             }
         });
     }
 
     //Network call to sign up user
-    private void getSignUpMessage(String shopName, String userName, String email, String mobile,String password) {
+    private void getSignUpMessage(String shopName, String userName, String email, String mobile, String password) {
 
-        Call<SignUp>call = apiService.signUpUser(shopName,userName,email,mobile,password);
+        Call<SignUp> call = apiService.signUpUser(shopName, userName, email, mobile, password);
         call.enqueue(new Callback<SignUp>() {
             @Override
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
 
-                Log.e(TAG,"Sign up response is : " + response.body());
-                if (response.isSuccessful() && response.body() != null){
+                Log.e(TAG, "Sign up response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null) {
 
                     signUpMutableLiveData.setValue(response.body().getMessage());
                 }
@@ -2354,24 +2352,24 @@ public class Repository {
             @Override
             public void onFailure(Call<SignUp> call, Throwable t) {
 
-                Log.e(TAG,"Sing Up response is failed : " + t.getMessage());
+                Log.e(TAG, "Sing Up response is failed : " + t.getMessage());
                 signUpMutableLiveData.setValue(t.getMessage());
             }
         });
     }
 
     //Network call to update user profile
-    private void updateUserProfile(String session_id,String businessName, String name, String address, String state, String location,
+    private void updateUserProfile(String session_id, String businessName, String name, String address, String state, String location,
                                    String pincode, String authKey, String panNo, String gstNo, String aadharNo) {
 
-        Call<UpdateProfie>call = apiService.updateProfile(session_id,businessName,name,address,state,location,pincode,authKey,panNo,gstNo,aadharNo);
+        Call<UpdateProfie> call = apiService.updateProfile(session_id, businessName, name, address, state, location, pincode, authKey, panNo, gstNo, aadharNo);
 
         call.enqueue(new Callback<UpdateProfie>() {
             @Override
             public void onResponse(Call<UpdateProfie> call, Response<UpdateProfie> response) {
 
                 String message = response.body().getMessage();
-                Log.e(TAG,"Update profile response is :" + message);
+                Log.e(TAG, "Update profile response is :" + message);
                 updateProfileMutableLiveData.setValue(message);
             }
 

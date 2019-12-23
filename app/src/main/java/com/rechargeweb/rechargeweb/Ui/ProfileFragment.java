@@ -236,6 +236,7 @@ public class ProfileFragment extends Fragment {
                     fragmentProfileBinding.profileAddressTextInput.setEnabled(true);
                     fragmentProfileBinding.profilePincodeTextInput.setEnabled(true);
                     fragmentProfileBinding.profileStateTextInput.setEnabled(true);
+                    fragmentProfileBinding.profileUserNameTv.setEnabled(true);
                     fragmentProfileBinding.profileEditFab.setImageDrawable(getResources().getDrawable(R.drawable.ic_save_white_24dp));
                     isEdit = false;
                 }else {
@@ -262,6 +263,7 @@ public class ProfileFragment extends Fragment {
                         fragmentProfileBinding.profileAddressTextInput.setEnabled(false);
                         fragmentProfileBinding.profilePincodeTextInput.setEnabled(false);
                         fragmentProfileBinding.profileStateTextInput.setEnabled(false);
+                        fragmentProfileBinding.profileUserNameTv.setEnabled(false);
                         loadingDialog = createLoadingDialog(getContext());
                         loadingDialog.show();
                         //Update user profile

@@ -133,7 +133,7 @@ public class OtpFragment extends BottomSheetDialogFragment {
                 userOtp = otpLayoutBinding.signUpOtpInputText.getText().toString().trim();
                 if (userOtp.equals(mOtp)){
                     Toast.makeText(getContext(),"Your Mobile Number is Verified",Toast.LENGTH_LONG).show();
-                    startPaymentGateway(currentDate,59.00,customerAcc,clientCode,txnId);
+                    startPaymentGateway(currentDate,499.00,customerAcc,clientCode,txnId);
                 }else {
                     otpLayoutBinding.signUpOtpInputText.setError("Enter Valid OTP");
                 }

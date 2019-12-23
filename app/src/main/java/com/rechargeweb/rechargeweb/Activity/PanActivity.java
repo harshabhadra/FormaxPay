@@ -51,6 +51,7 @@ public class PanActivity extends AppCompatActivity {
     MainViewModel mainViewModel;
     String session_id, auth;
 
+    private AlertDialog loadingDialog;
     private boolean isPanCorrect, isMobileCorrect, isEmailCorrect;
 
     private LocationManager locationManager;
@@ -358,7 +359,9 @@ public class PanActivity extends AppCompatActivity {
 
             //Check if mobile, email and pan is correct
             if (isPanCorrect && isMobileCorrect && isEmailCorrect) {
-                Toast.makeText(getApplicationContext(), "correct:  " + pan + "," + mobile + ", " + email, Toast.LENGTH_SHORT).show();
+                Log.e(TAG,"correct:  " + pan + "," + mobile + ", " + email);
+                loadingDialog = createLoadingDialog(this);
+                loadingDialog.show();
                 getPsaResponse(session_id,auth,name,shop,locality,pincode,state,mobile,email,pan);
             } else if (!isMobileCorrect) {
                 credMobileEt.setText("");
@@ -414,37 +417,51 @@ public class PanActivity extends AppCompatActivity {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
+    //Get response if user has account or not
     private void getPsaResponse(String session_id, String auth, String name, String shop, String locality, String pincode, String state, String mobile, String email, String pan) {
 
         mainViewModel.getPsaRegResponse(session_id, auth, name, shop, locality, pincode, state, mobile, email, pan).observe(PanActivity.this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
 
+                loadingDialog.dismiss();
                 if (s.equals("Success")) {
-                    credentialFormlayout.setVisibility(View.GONE);
-                    credentialPageLayout.setVisibility(View.VISIBLE);
+//                    credentialFormlayout.setVisibility(View.GONE);
+//                    credentialPageLayout.setVisibility(View.VISIBLE);
+                    finish();
                     Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(),s,Toast.LENGTH_SHORT).show();
-                    credNameEt.setText("");
-                    credNameEt.setHint("Full Name");
-                    credShopNameEt.setText("");
-                    credShopNameEt.setHint("Shop Name");
-                    credLocalityEt.setText("");
-                    credLocalityEt.setHint("Locality");
-                    credPincodeEt.setHint("Pin code");
-                    credPincodeEt.setText("");
-                    credStateEt.setText("");
-                    credStateEt.setHint("State");
-                    credMobileEt.setHint("Mobile Number");
-                    credMobileEt.setText("");
-                    credEmailEt.setText("");
-                    credEmailEt.setHint("Email Address");
-                    credPanNoEt.setHint("Pan Number");
-                    credPanNoEt.setText("");
+//                    credNameEt.setText("");
+//                    credNameEt.setHint("Full Name");
+//                    credShopNameEt.setText("");
+//                    credShopNameEt.setHint("Shop Name");
+//                    credLocalityEt.setText("");
+//                    credLocalityEt.setHint("Locality");
+//                    credPincodeEt.setHint("Pin code");
+//                    credPincodeEt.setText("");
+//                    credStateEt.setText("");
+//                    credStateEt.setHint("State");
+//                    credMobileEt.setHint("Mobile Number");
+//                    credMobileEt.setText("");
+//                    credEmailEt.setText("");
+//                    credEmailEt.setHint("Email Address");
+//                    credPanNoEt.setHint("Pan Number");
+//                    credPanNoEt.setText("");
+                    finish();
                 }
             }
         });
+    }
+
+    //Create Loading Dialog
+    private AlertDialog createLoadingDialog(Context context){
+
+        View view = getLayoutInflater().inflate(R.layout.loading_dialog,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(view);
+        return builder.create();
     }
 
     public String getSession_id() {
