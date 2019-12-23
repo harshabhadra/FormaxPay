@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:padding="8dp">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/fund_button"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/button"
+        android:backgroundTint="@color/colorAccent"
         android:text="@string/fund_submit_button"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/fund_transaction_id_layout"

@@ -55,17 +55,18 @@ public interface ApiService {
                                        @Query("transaction_id") String transaction_id,
                                        @Query("wallet_type") String walletType);
 
-    @GET("psa_registration?")
-    Call<FundResponse> getPsaResgistration(@Query("session_id") String id,
-                                           @Query("auth_key") String auth,
-                                           @Query("name") String name,
-                                           @Query("shop_name") String shop,
-                                           @Query("location") String location,
-                                           @Query("pincode") String pincode,
-                                           @Query("state") String state,
-                                           @Query("mobile") String mobile,
-                                           @Query("email") String email,
-                                           @Query("pan_no") String pan);
+    @POST("psa_registration?")
+    @FormUrlEncoded
+    Call<FundResponse> getPsaResgistration(@Field("session_id") String id,
+                                           @Field("auth_key") String auth,
+                                           @Field("name") String name,
+                                           @Field("shop_name") String shop,
+                                           @Field("location") String location,
+                                           @Field("pincode") String pincode,
+                                           @Field("state") String state,
+                                           @Field("mobile") String mobile,
+                                           @Field("email") String email,
+                                           @Field("pan_no") String pan);
 
     @POST("view_credentials")
     @FormUrlEncoded

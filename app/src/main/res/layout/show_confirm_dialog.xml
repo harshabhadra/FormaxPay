@@ -19,28 +19,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirm_ifsc_tv" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/charge_confirm"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/support_btn_back"
+        app:backgroundTint="@color/colorAccent"
         android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView69"
         app:layout_constraintTop_toBottomOf="@+id/textView69" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/charge_cancel"
         android:layout_width="wrap_content"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/support_btn_back"
         android:text="Cancel"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView69"
         app:layout_constraintTop_toBottomOf="@+id/textView69" />

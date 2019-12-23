@@ -176,7 +176,7 @@
     <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
@@ -185,13 +185,14 @@
         android:paddingRight="20dp"
         android:paddingBottom="8dp"
         android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/billamount"
         app:layout_constraintTop_toBottomOf="@+id/billamount"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="@color/colorPrimaryDark"
-        fancy:fb_focusColor="@color/colorPrimaryDark"
+        fancy:fb_defaultColor="@color/colorAccent"
+        fancy:fb_focusColor="@color/colorAccent"
         fancy:fb_radius="30dp" />
 
     <mehdi.sakout.fancybuttons.FancyButton
@@ -211,7 +212,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView30"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="@color/colorPrimaryDark"
-        fancy:fb_focusColor="@color/colorPrimaryDark"
+        fancy:fb_defaultColor="@color/colorAccent"
+        fancy:fb_focusColor="@color/colorAccent"
         fancy:fb_radius="30dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

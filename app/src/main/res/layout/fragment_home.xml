@@ -307,7 +307,7 @@
                     android:drawablePadding="40dp"
                     android:paddingStart="16dp"
                     android:paddingEnd="8dp"
-                    android:text="AEPS"
+                    android:text="AEPS Now"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

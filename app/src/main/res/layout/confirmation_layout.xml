@@ -102,8 +102,8 @@
             android:text="Cancel"
             fancy:fb_borderColor="#FFFFFF"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="@color/colorPrimaryDark"
-            fancy:fb_focusColor="@color/colorPrimaryDark"
+            fancy:fb_defaultColor="@color/colorAccent"
+            fancy:fb_focusColor="@color/colorAccent"
             fancy:fb_radius="30dp"
             tools:layout_editor_absoluteX="120dp"
             tools:layout_editor_absoluteY="185dp" />
@@ -121,8 +121,8 @@
             android:text="Confirm"
             fancy:fb_borderColor="#FFFFFF"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="@color/colorPrimaryDark"
-            fancy:fb_focusColor="@color/colorPrimaryDark"
+            fancy:fb_defaultColor="@color/colorAccent"
+            fancy:fb_focusColor="@color/colorAccent"
             fancy:fb_radius="30dp"
             tools:layout_editor_absoluteX="309dp"
             tools:layout_editor_absoluteY="185dp" />

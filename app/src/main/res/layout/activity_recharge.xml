@@ -38,7 +38,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/btnformate"
             android:padding="16dp"
             android:text="@string/recharge"
             android:textColor="#FFFFFF"

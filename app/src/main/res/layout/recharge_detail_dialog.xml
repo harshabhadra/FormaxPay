@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -22,10 +23,11 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/details_balance"
+        app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <TextView
@@ -43,11 +45,12 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:gravity="center"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textView20"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/details_balance"
+        app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toTopOf="@+id/textView20"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -66,6 +69,7 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/textView22"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,6 +91,7 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:gravity="center"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/textView24"
@@ -109,26 +114,25 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:ems="8"
         android:gravity="center"
         android:maxEms="8"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="TextViewoiwjfowjfojwofjowjfojofwjofjwofjwojfowjfowjfw"
+        tools:text="TextViewoiwjfowjfojwofjowjfojofwjofjwofjwojfowjfowjfw"
         app:layout_constraintBottom_toBottomOf="@+id/textView26"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/details_balance"
         app:layout_constraintTop_toTopOf="@+id/textView26" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/detail_close"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/button"
+        app:backgroundTint="@color/colorAccent"
         android:text="Close"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

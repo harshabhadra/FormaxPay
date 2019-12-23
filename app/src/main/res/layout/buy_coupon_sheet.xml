@@ -64,15 +64,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buy_coupon_submit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/button"
         android:text="Buy Coupon"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/colorAccent"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/quantity_bc"
         app:layout_constraintStart_toStartOf="@+id/imageView29"
@@ -93,6 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView29"
         app:layout_constraintTop_toBottomOf="@+id/quantity_bc" />

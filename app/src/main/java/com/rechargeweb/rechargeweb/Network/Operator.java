@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.Network;
 
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
+import com.rechargeweb.rechargeweb.Model.FetchOperator;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -17,6 +18,8 @@ public interface Operator {
     String BASE_URL = "https://rechargewebs.com/web/api/";
 
     String RECH_URL = "https://api.rechapi.com/";
+
+    String PLAN_URL = "http://planapi.in/api/Mobile/";
 
     @GET("mob_details.php?")
     Call<String> getNumberDetails(@Query("format") String format,
@@ -194,32 +197,6 @@ public interface Operator {
                            @Part("pan_img\";filename=\"myPan.jpg\"") RequestBody panImageUrl,
                            @Part("service_type") String service);
 
-    @POST("aeps_login")
-    @FormUrlEncoded
-    Call<String>paisanikalaepslogin(@Field("user_id") String session_id,
-                                    @Field("service_type") String service_type,
-                                    @Field("auth_key") String auth_key);
-
-
-    @POST("aeps_kyc")
-    @Multipart
-    Call<String> submitPaisanikalKyc(@Part("user_id") String session_id,
-                           @Part("auth_key") String auth,
-                           @Part("name") String name,
-                           @Part("shop_name") String shop_name,
-                           @Part("dob") String dob,
-                           @Part("email") String email,
-                           @Part("address") String address,
-                           @Part("pincode") String pincode,
-                           @Part("state") String state,
-                           @Part("mobile") String mobile,
-                           @Part("city") String city,
-                           @Part("aadhaar_no") String adhar,
-                           @Part("pan_no") String panNo,
-                           @Part("aadhaar_img\";filename=\"myaadhar.jpg\"") RequestBody aadharImageUrl,
-                           @Part("pan_img\";filename=\"myPan.jpg\"") RequestBody panImageUrl,
-                           @Part("service_type") String service);
-
     @POST("insert_aeps_log")
     @FormUrlEncoded
     Call<String>sendAepsDetails(@Field("user_id")String session_id,
@@ -228,4 +205,30 @@ public interface Operator {
                                 @Field("amount")String amount,
                                 @Field("order_id")String orderId,
                                 @Field("mobile")String mobile);
+    @GET("Operatorplan?")
+    Call<String> getPlanDetails(@Query("apimember_id") String apiMemberId,
+                                @Query("api_password") String apiPassword,
+                                @Query("cricle") String circleCode,
+                                @Query("operatorcode")String operatorCode);
+
+    @GET("RofferCheck?")
+    Call<String> getSpecialOffer(@Query("apimember_id") String apiMemberId,
+                                 @Query("api_password") String apiPassword,
+                                 @Query("mobile_no") String mobile,
+                                 @Query("operator_code") String operatorCode);
+
+    @GET("dth_plans.php?")
+    Call<String> getDthPlans(@Query("apikey") String apiKey,
+                             @Query("operator") String operator);
+
+    @GET("DTHINFOCheck?")
+    Call<String>getDthCustomerInfo(@Query("apimember_id")String apiMemberId,
+                                   @Query("api_password")String api_password,
+                                   @Query("Opcode")String operatorCode,
+                                   @Query("mobile_no")String mobile);
+
+    @GET("OperatorFetch?")
+    Call<FetchOperator>fetchOperator(@Query("apimember_id")String apimemberId,
+                                     @Query("api_password")String apiPassword,
+                                     @Query("Mobileno")String mobileNumber);
 }

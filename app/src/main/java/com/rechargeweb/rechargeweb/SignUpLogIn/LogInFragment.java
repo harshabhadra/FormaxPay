@@ -127,6 +127,7 @@ public class LogInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ForgetPassSheetFragment passSheetFragment = new ForgetPassSheetFragment();
+                passSheetFragment.setCancelable(false);
                 passSheetFragment.show(getFragmentManager(),passSheetFragment.getTag());
             }
         });

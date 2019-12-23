@@ -72,18 +72,19 @@
         app:layout_constraintTop_toBottomOf="@+id/cc_quantity"
         tools:text="TextView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/coupon_confirm_button"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/btnformate"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:text="Buy Coupon"
         android:textColor="@color/white"
         android:textSize="12sp"
+        app:cornerRadius="8dp"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

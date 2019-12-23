@@ -70,28 +70,28 @@
         app:layout_constraintTop_toBottomOf="@+id/textView56"
         tools:text="TextView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/dialog_change_pass_button"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button"
+        android:backgroundTint="@color/colorAccent"
         android:text="Confirm"
         android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dialog_new_password"
         app:layout_constraintTop_toBottomOf="@+id/dialog_new_password" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/dialog_cancel_pass_button"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button"
         android:text="Cancel"
         android:textColor="#FFF"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/dialog_new_password"
         app:layout_constraintTop_toBottomOf="@+id/dialog_new_password" />

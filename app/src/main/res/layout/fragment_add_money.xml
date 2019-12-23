@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#e0e0ee"
         android:layout_gravity="center">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -29,13 +30,13 @@
                 android:maxLength="5" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/add_money_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/btnformate"
+            android:backgroundTint="@color/colorAccent"
             android:drawableStart="@drawable/ic_add_white_24dp"
             android:enabled="false"
             android:paddingStart="8dp"
@@ -70,43 +71,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fiveThouButton" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/hundredButton"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/money_amount_back"
             android:text="+100"
+            app:backgroundTint="@color/white"
             android:textColor="@color/green"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout_add_money"
             app:layout_constraintTop_toBottomOf="@+id/textView81" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/thousandButton"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="@drawable/money_amount_back"
+            android:backgroundTint="@color/white"
             android:text="+1000"
             android:textColor="@color/green"
             app:layout_constraintStart_toEndOf="@+id/fiveHunButton"
             app:layout_constraintTop_toTopOf="@+id/fiveHunButton" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fiveHunButton"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="@drawable/money_amount_back"
+            app:backgroundTint="@color/white"
             android:text="+500"
             android:textColor="@color/green"
             app:layout_constraintStart_toEndOf="@+id/hundredButton"
             app:layout_constraintTop_toTopOf="@+id/hundredButton" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/twoThouButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,12 +115,12 @@
             android:text="+2000"
             style="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/green"
-            android:background="@drawable/money_amount_back"
+            app:backgroundTint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/hundredButton"
             app:layout_constraintStart_toStartOf="@+id/hundredButton"
             app:layout_constraintTop_toBottomOf="@+id/hundredButton" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fiveThouButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,17 +128,17 @@
             android:text="+5000"
             android:textColor="@color/green"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:background="@drawable/money_amount_back"
+            app:backgroundTint="@color/white"
             app:layout_constraintStart_toStartOf="@+id/fiveHunButton"
             app:layout_constraintTop_toBottomOf="@+id/fiveHunButton" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/tenThouButton"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/money_amount_back"
+            android:backgroundTint="@color/white"
             android:text="+10000"
             android:textColor="@color/green"
             app:layout_constraintStart_toStartOf="@+id/thousandButton"

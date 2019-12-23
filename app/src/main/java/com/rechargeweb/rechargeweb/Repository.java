@@ -14,6 +14,7 @@ import com.rechargeweb.rechargeweb.Model.Coupon;
 import com.rechargeweb.rechargeweb.Model.CouponReport;
 import com.rechargeweb.rechargeweb.Model.Credential;
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
+import com.rechargeweb.rechargeweb.Model.FetchOperator;
 import com.rechargeweb.rechargeweb.Model.FundResponse;
 import com.rechargeweb.rechargeweb.Model.NumberDetect;
 import com.rechargeweb.rechargeweb.Model.Otp;
@@ -183,8 +184,38 @@ public class Repository {
     //Store update profile message
     private MutableLiveData<String> updateProfileMutableLiveData = new MutableLiveData<>();
 
+    //Store mobile number details fetch from api
+    private MutableLiveData<FetchOperator>fetchOperatorMutableLiveData = new MutableLiveData<>();
+
+    //Store List of mobile recharge plans
+    private MutableLiveData<List<Plans>>planListMutableLiveData = new MutableLiveData<>();
+
+    //Store list of special offer
+    private MutableLiveData<List<Roffer>>specialOfferListLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    //Get list of special offer for a mobile number
+    public LiveData<List<Roffer>>getSpecialOfferList(String mobile,String operatorName){
+
+        getRofferList(mobile,operatorName);
+        return specialOfferListLiveData;
+    }
+
+    //Get Mobile Recharge plans
+    public LiveData<List<Plans>>getMobileRechargePlans(String circleId, String operatorId, String type){
+
+        getMobileNumberRechargePlans(circleId,operatorId,type);
+        return planListMutableLiveData;
+    }
+
+    //Get Mobile Number Details
+    public LiveData<FetchOperator>fectchMobileDetails(String mobileNumber){
+
+        getMobileNumberDetails(mobileNumber);
+        return fetchOperatorMutableLiveData;
     }
 
     //Update profile
@@ -1249,7 +1280,7 @@ public class Repository {
             public void onResponse(Call<FundResponse> call, Response<FundResponse> response) {
                 Log.e(TAG,"Psa Response: " + response.body().getMessage());
                 if (response.isSuccessful() && response.body() != null) {
-
+                    Log.e(TAG,"Psa Response: " + response.body().getMessage());
                     String message = response.body().getMessage();
                     psaRegistrationMutableLiveData.setValue(message);
                 }
@@ -2378,6 +2409,155 @@ public class Repository {
 
                 Log.e(TAG, "Update profile response failure: " + t.getMessage());
                 updateProfileMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network call to get Mobile Number Details
+    private void getMobileNumberDetails(String mobileNumber) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.PLAN_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+        Call<FetchOperator>call = operator.fetchOperator("3368","12345",mobileNumber);
+        call.enqueue(new Callback<FetchOperator>() {
+            @Override
+            public void onResponse(Call<FetchOperator> call, Response<FetchOperator> response) {
+
+                if (response.body() != null && response.isSuccessful()){
+
+                    Log.e(TAG,"Mobile operator fetch successful: " +response.body().getCircle());
+                    fetchOperatorMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchOperator> call, Throwable t) {
+
+                Log.e(TAG,"Mobile operator fetch failure: " + t.getMessage());
+                fetchOperatorMutableLiveData.setValue(new FetchOperator(t.getMessage()));
+            }
+        });
+    }
+
+    //Network Request to get Mobile Recharge Plans
+    private void getMobileNumberRechargePlans(String circleId, String operatorId, String type) {
+
+        final List<Plans>fullTtList = new ArrayList<>();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.PLAN_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator api = retrofit.create(Operator.class);
+        Call<String>call = api.getPlanDetails("3368","12345",circleId,operatorId);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                Log.e(TAG,"response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+
+                    Log.e(TAG,"Response is not null");
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        JSONObject recordObject = jsonObject.optJSONObject("RDATA");
+                        if (recordObject != null) {
+                            JSONArray fttArray = recordObject.optJSONArray(type);
+
+                            if (fttArray != null) {
+                                for (int i = 0; i < fttArray.length(); i++) {
+
+                                    JSONObject object = fttArray.getJSONObject(i);
+                                    String rs = object.optString("rs");
+                                    String desc = object.getString("desc");
+                                    String validity = object.optString("validity");
+                                    String last_updated = object.getString("last_update");
+
+                                    Plans fullTt = new Plans(rs, desc, validity, last_updated);
+                                    fullTtList.add(fullTt);
+                                    planListMutableLiveData.setValue(fullTtList);
+                                }
+                            } else {
+                                fullTtList.add(new Plans("No Plans Available"));
+                                planListMutableLiveData.setValue(fullTtList);
+                            }
+                        }else {
+                            fullTtList.add(new Plans("No Plans Available"));
+                            planListMutableLiveData.setValue(fullTtList);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Failure response: " + t.getMessage());
+                fullTtList.add(new Plans(t.getMessage()));
+                planListMutableLiveData.setValue(fullTtList);
+            }
+        });
+    }
+
+    //Network request to get list of special offer for mobile numbers
+    private void getRofferList(String mobile, String operatorName) {
+
+        final List<Roffer>rofferList = new ArrayList<>();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.PLAN_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+
+        Call<String>call = operator.getSpecialOffer("3368","12345",mobile,operatorName);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                Log.e(TAG,"Special offer response : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        JSONArray recordArray = jsonObject.optJSONArray("RDATA");
+
+                        if (recordArray != null) {
+                            for (int i = 0; i < recordArray.length(); i++) {
+
+                                JSONObject object = recordArray.getJSONObject(i);
+                                String rs = object.optString("price");
+                                String desc = object.optString("ofrtext");
+
+                                Roffer roffer = new Roffer(rs, desc);
+                                rofferList.add(roffer);
+                                specialOfferListLiveData.setValue(rofferList);
+                            }
+                        }else {
+                            Roffer roffer = new Roffer("No Plans Available");
+                            rofferList.add(roffer);
+                            specialOfferListLiveData.setValue(rofferList);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Special offer response is failure: " + t.getMessage());
+                rofferList.add(new Roffer(t.getMessage()));
+
             }
         });
     }

@@ -13,8 +13,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.rechargeweb.rechargeweb.Activity.HomeActivity;
-import com.rechargeweb.rechargeweb.Activity.MainActivity;
+import com.rechargeweb.rechargeweb.Activity.SignUpActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 
 public class MyFirebaseMessegingService extends FirebaseMessagingService {
@@ -61,7 +60,7 @@ public class MyFirebaseMessegingService extends FirebaseMessagingService {
 
     //Creating Pending Intent
     private static PendingIntent contentIntent(Context context) {
-        Intent startContent = new Intent(context, MainActivity.class);
+        Intent startContent = new Intent(context, SignUpActivity.class);
         return PendingIntent.getActivity(
                 context,
                 Constants.PENDING_INTENT_ID,

@@ -53,7 +53,7 @@
         android:text="Close"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="@color/colorPrimaryDark"
+        fancy:fb_defaultColor="@color/colorAccent"
         fancy:fb_focusColor="@color/colorPrimaryDark"
         fancy:fb_radius="30dp"
         tools:layout_editor_absoluteX="309dp"

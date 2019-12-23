@@ -186,7 +186,7 @@ public class ChangePassActivity extends AppCompatActivity {
                             Log.e(TAG, "Password Change Success: " + password.getMessage());
                             Toast.makeText(getApplicationContext(), password.getMessage(), Toast.LENGTH_SHORT).show();
                             if (password.getMessage().equals("Success")) {
-                                Intent intent = new Intent(ChangePassActivity.this, MainActivity.class);
+                                Intent intent = new Intent(ChangePassActivity.this, SignUpActivity.class);
                                 intent.putExtra("logout", true);
                                 startActivity(intent);
                                 finish();
