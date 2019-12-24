@@ -193,8 +193,28 @@ public class Repository {
     //Store list of special offer
     private MutableLiveData<List<Roffer>>specialOfferListLiveData = new MutableLiveData<>();
 
+    //Store list of DTH plans
+    private MutableLiveData<List<DTH>>dthListMutableLiveData = new MutableLiveData<>();
+
+    //Store DTH Customer information
+    private MutableLiveData<DthCustomerInfo>dthCustomerInfoMutableLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    //Get Dth Customer Information
+    public LiveData<DthCustomerInfo>getDthCusomerInfo(String number, String operator){
+
+        getDthCusInfo(number,operator);
+        return dthCustomerInfoMutableLiveData;
+    }
+
+    //Get List of Dth plans
+    public LiveData<List<DTH>>getDthPlansList(String apiKey, String operator){
+
+        getDthPlans(apiKey,operator);
+        return dthListMutableLiveData;
     }
 
     //Get list of special offer for a mobile number
@@ -2557,6 +2577,110 @@ public class Repository {
 
                 Log.e(TAG,"Special offer response is failure: " + t.getMessage());
                 rofferList.add(new Roffer(t.getMessage()));
+
+            }
+        });
+    }
+
+    //Network call the Dth plans list
+    private void getDthPlans(String apiKey, String operatorName) {
+
+        final List<DTH>dthList = new ArrayList<>();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.PLAN_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+        Call<String>call = operator.getDthPlans(apiKey,operatorName);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                Log.e(TAG,"Dth response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body());
+
+                        JSONObject recordObject = jsonObject.getJSONObject("records");
+                        JSONArray planArray = recordObject.optJSONArray("Plan");
+
+                        if (planArray != null) {
+                            for (int i = 0; i < planArray.length(); i++) {
+
+                                JSONObject plan = planArray.getJSONObject(i);
+                                JSONObject rsObject = plan.getJSONObject("rs");
+                                String description = plan.optString("desc");
+                                String amount = rsObject.optString("1 MONTHS");
+
+                                DTH dth = new DTH(amount, description);
+                                dthList.add(dth);
+                                dthListMutableLiveData.setValue(dthList);
+                            }
+                        }else {
+                            String desc = recordObject.optString("desc");
+                            dthList.add(new DTH(desc));
+                            dthListMutableLiveData.setValue(dthList);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Dth response is failure: " + t.getMessage());
+                dthList.add(new DTH(t.getMessage()));
+                dthListMutableLiveData.setValue(dthList);
+            }
+        });
+    }
+
+    private void getDthCusInfo(String number, String operatorName) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.PLAN_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        Operator operator = retrofit.create(Operator.class);
+        Call<String>call = operator.getDthCustomerInfo("3368","12345",operatorName,number);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                Log.e(TAG,"Dth Customer info resposne is: " + response.body());
+                if (response.body()!= null && response.isSuccessful()){
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body());
+
+                        JSONObject object = jsonObject.optJSONObject("DATA");
+                        if (object!=null) {
+                            String balance = object.optString("Balance");
+                            String cusotmerName = object.optString("Name");
+                            String nextRechargeDate = object.optString("Next Recharge Date");
+                            String Status = object.optString("Address");
+                            String planname = object.optString("Plan");
+                            String monthlyRecharge = object.optString("Monthly");
+
+                            DthCustomerInfo dthCustomerInfo = new DthCustomerInfo(balance, cusotmerName, nextRechargeDate, Status, planname, monthlyRecharge);
+                            dthCustomerInfoMutableLiveData.setValue(dthCustomerInfo);
+                        }else {
+                            dthCustomerInfoMutableLiveData.setValue(new DthCustomerInfo("Service For This operator is Unavailable"));
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e(TAG,"Dth customer response failure: " + e.getMessage());
+                        dthCustomerInfoMutableLiveData.setValue(new DthCustomerInfo(e.getMessage()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
 
             }
         });

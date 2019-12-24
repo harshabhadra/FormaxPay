@@ -250,7 +250,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 Intent rechargeIntent = new Intent(HomeActivity.this, RechargeActivity.class);
                 rechargeIntent.putExtra(Constants.RECHARGE, "recharge");
                 rechargeIntent.putExtra(Constants.ITEM_POSITION, items);
-                rechargeIntent.putExtra(Constants.MOBILE, items.getName());
+                rechargeIntent.putExtra(Constants.LAYOUT_NAME, items.getName());
                 rechargeIntent.putExtra(Constants.SESSION_ID, session_id);
                 startActivity(rechargeIntent);
                 break;

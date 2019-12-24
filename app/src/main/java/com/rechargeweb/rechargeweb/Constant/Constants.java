@@ -7,6 +7,7 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String ITEM_POSITION = "position";
     public static final String MOBILE = "mobile_recharge";
+    public static final String LAYOUT_NAME = "layout_name";
     public static final String SESSION_ID = "session_id";
     public static final String BOTTOM_SHEET = "bottom_sheet";
     public static final String RECHARGE = "recharge_activity";
@@ -33,6 +34,8 @@ public class Constants {
     public static final String PLAN_DETAILS = "plan_details";
     public static final String USER_NUMBER = "user_number";
     public static final String CHECK_NUMBER = "check_number";
+    public static final String OPERATOR_NAME = "operator_name";
+    public static final String CIRCLE_NAME = "circle_name";
 
     public static final String REMITTER_MOBILE = "remitter_mobile";
     public static final String MESSAGE = "message";
