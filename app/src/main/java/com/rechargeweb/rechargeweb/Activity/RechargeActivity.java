@@ -147,6 +147,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                 selectType.setVisibility(View.VISIBLE);
             } else if (layoutName.equals("DTH")) {
                 selectType.setVisibility(View.GONE);
+                browseTextView.setText("Customer Info");
             }
             if (intent.hasExtra(Constants.ITEM_POSITION)) {
                 Items items = intent.getParcelableExtra(Constants.ITEM_POSITION);
@@ -224,13 +225,15 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             @Override
             public void onClick(View v) {
 
-                if (mobileNumber != null) {
-                    browsePlan(circleName, providerName);
-                }else {
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Number", Snackbar.LENGTH_SHORT);
-                    View view = snackbar.getView();
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
-                    snackbar.show();
+                if (layoutName.equals("Mobile")) {
+                    if (mobileNumber != null) {
+                        browsePlan(circleName, providerName);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Number", Snackbar.LENGTH_SHORT);
+                        View view = snackbar.getView();
+                        view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
+                        snackbar.show();
+                    }
                 }
             }
         });
