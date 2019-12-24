@@ -4,6 +4,7 @@ package com.rechargeweb.rechargeweb.PlanFragment;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -17,12 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rechargeweb.rechargeweb.Activity.PlansActivity;
 import com.rechargeweb.rechargeweb.Plans;
-import com.rechargeweb.rechargeweb.PlansAdapter;
+import com.rechargeweb.rechargeweb.Adapters.PlansAdapter;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.PlanViewModel;
 
@@ -42,11 +42,15 @@ public class FullTTFragment extends Fragment implements PlansAdapter.OnPlanItemC
 
     private String operatorCode;
     private String circleCode;
+    private OnFullTTItemClickListener fullTTItemClickListener;
 
     public FullTTFragment() {
         // Required empty public constructor
     }
 
+    public interface OnFullTTItemClickListener{
+        void onFullTTItemClick(Plans plans);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -130,7 +134,16 @@ public class FullTTFragment extends Fragment implements PlansAdapter.OnPlanItemC
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        fullTTItemClickListener = (OnFullTTItemClickListener)context;
+    }
+
+    @Override
     public void onPlanItemClick(int position) {
 
+        Plans plans = plansAdapter.getPlans(position);
+        fullTTItemClickListener.onFullTTItemClick(plans);
     }
 }

@@ -1,15 +1,18 @@
-package com.rechargeweb.rechargeweb;
+package com.rechargeweb.rechargeweb.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.rechargeweb.rechargeweb.Plans;
+import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.databinding.PlanDetailsBinding;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import java.util.List;
 
 public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlandViewHolder> {
 
+    private static final String TAG = PlansAdapter.class.getSimpleName();
     private Context context;
     private List<Plans> plansList = new ArrayList<>();
     OnPlanItemClickListener planItemClickListener;
@@ -27,7 +31,7 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlandViewHol
     }
 
     //Interface to add click behaviour
-    public interface OnPlanItemClickListener{
+    public interface OnPlanItemClickListener {
         void onPlanItemClick(int position);
     }
 
@@ -61,11 +65,11 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlandViewHol
     }
 
     //Get Plan
-    public Plans getPlans(int posoition){
+    public Plans getPlans(int posoition) {
         return plansList.get(posoition);
     }
 
-    class PlandViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class PlandViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         PlanDetailsBinding planDetailsBinding;
 
@@ -81,6 +85,7 @@ public class PlansAdapter extends RecyclerView.Adapter<PlansAdapter.PlandViewHol
 
             int position = getAdapterPosition();
             planItemClickListener.onPlanItemClick(position);
+            Log.e(TAG,"Items Position: " + position);
         }
     }
 }

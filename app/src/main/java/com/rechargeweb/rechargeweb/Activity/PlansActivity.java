@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.rechargeweb.rechargeweb.Adapters.PlanPagerAdapter;
@@ -16,12 +17,18 @@ import com.rechargeweb.rechargeweb.PlanFragment.FullTTFragment;
 import com.rechargeweb.rechargeweb.PlanFragment.RateCutterFragment;
 import com.rechargeweb.rechargeweb.PlanFragment.RoamingFragment;
 import com.rechargeweb.rechargeweb.PlanFragment.SmsFragment;
+import com.rechargeweb.rechargeweb.PlanFragment.SpecialOfferFragment;
 import com.rechargeweb.rechargeweb.PlanFragment.ThreeGFourGFragment;
 import com.rechargeweb.rechargeweb.PlanFragment.TopUpFragment;
 import com.rechargeweb.rechargeweb.PlanFragment.TwoGFragment;
+import com.rechargeweb.rechargeweb.Plans;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.Roffer;
 
-public class PlansActivity extends AppCompatActivity {
+public class PlansActivity extends AppCompatActivity implements ComboFragment.OnComBoItemClickListener,
+        FullTTFragment.OnFullTTItemClickListener,RateCutterFragment.OnRateCutterItemClickListener,
+        RoamingFragment.OnRoamingItemClikcListener,SmsFragment.OnSmsItemClickListener, SpecialOfferFragment.OnSpecialOfferItemClickListener
+        ,ThreeGFourGFragment.OnThreeGForuGItemClickListener,TopUpFragment.OnTopupItemClickListener,TwoGFragment.OnTwoGFragmentClickListener{
 
     private static final String TAG = PlansActivity.class.getSimpleName();
     private String opertor;
@@ -80,14 +87,15 @@ public class PlansActivity extends AppCompatActivity {
     //Set up ViewPager With Fragment
     private void setUpPlansPagerAdapter(ViewPager viewPager){
 
-        pagerAdapter.addFragment(new ComboFragment(),"Combo Plans",0);
-        pagerAdapter.addFragment(new ThreeGFourGFragment(),"3G/4G Plans",1);
-        pagerAdapter.addFragment(new TwoGFragment(),"2G Plans",2);
-        pagerAdapter.addFragment(new FullTTFragment(),"Full Talk time Plans",3);
-        pagerAdapter.addFragment(new TopUpFragment(),"Top UP Plans",4);
-        pagerAdapter.addFragment(new RateCutterFragment(),"Rate Cutter Plans",5);
-        pagerAdapter.addFragment(new RoamingFragment(),"Roaming Plans",6);
-        pagerAdapter.addFragment(new SmsFragment(),"SMS Plans",7);
+        pagerAdapter.addFragment(new SpecialOfferFragment(),"Only For You",0);
+        pagerAdapter.addFragment(new ComboFragment(),"Combo Plans",1);
+        pagerAdapter.addFragment(new ThreeGFourGFragment(),"3G/4G Plans",2);
+        pagerAdapter.addFragment(new TwoGFragment(),"2G Plans",3);
+        pagerAdapter.addFragment(new FullTTFragment(),"Full Talk time Plans",4);
+        pagerAdapter.addFragment(new TopUpFragment(),"Top UP Plans",5);
+        pagerAdapter.addFragment(new RateCutterFragment(),"Rate Cutter Plans",6);
+        pagerAdapter.addFragment(new RoamingFragment(),"Roaming Plans",7);
+        pagerAdapter.addFragment(new SmsFragment(),"SMS Plans",8);
         pagerAdapter.notifyDataSetChanged();
         viewPager.setAdapter(pagerAdapter);
     }
@@ -193,5 +201,101 @@ public class PlansActivity extends AppCompatActivity {
 
     public String getCircleCode() {
         return circleCode;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    @Override
+    public void onComBoItemClick(Plans plans) {
+
+        isSelected = true;
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onFullTTItemClick(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onRateCutterItemclick(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onRoamingItemclick(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onSmsItemClick(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onSpecialOfferItemClikc(Roffer roffer) {
+        amount = roffer.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onThreeGForuGItemClick(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+    }
+
+    @Override
+    public void onTopUpItemClikc(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onTwoGItemClick(Plans plans) {
+        amount = plans.getRs();
+        Intent intent = new Intent();
+        intent.putExtra(Constants.RECHARGE_AMOUNT, amount);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isSelected){
+            Toast.makeText(getApplicationContext(),"Select A Plan or Press Back again to Exit",Toast.LENGTH_SHORT).show();
+            isSelected = true;
+        }else {
+            super.onBackPressed();
+        }
     }
 }

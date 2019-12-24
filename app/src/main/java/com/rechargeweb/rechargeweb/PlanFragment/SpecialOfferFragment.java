@@ -18,12 +18,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rechargeweb.rechargeweb.Activity.PlansActivity;
-import com.rechargeweb.rechargeweb.Plans;
 import com.rechargeweb.rechargeweb.Adapters.PlansAdapter;
+import com.rechargeweb.rechargeweb.Adapters.RofferAdapter;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.Roffer;
 import com.rechargeweb.rechargeweb.ViewModels.PlanViewModel;
 
 import java.util.List;
@@ -31,25 +33,25 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SmsFragment extends Fragment implements PlansAdapter.OnPlanItemClickListener{
+public class SpecialOfferFragment extends Fragment implements RofferAdapter.OnRofferItmeclickListener{
 
-    private static final String TAG = SmsFragment.class.getSimpleName();
+    private static final String TAG = TwoGFragment.class.getSimpleName();
     private RecyclerView planRecyclerView;
-    private PlansAdapter plansAdapter;
+    private RofferAdapter rofferAdapter;
     private PlanViewModel planViewModel;
 
     private AlertDialog alertDialog;
 
     private String operatorCode;
-    private String circleCode;
-    private OnSmsItemClickListener smsItemClickListener;
+    private String mobileNumber;
+    private OnSpecialOfferItemClickListener specialOfferItemClickListener;
 
-    public SmsFragment() {
+    public SpecialOfferFragment() {
         // Required empty public constructor
     }
 
-    public interface OnSmsItemClickListener{
-        void onSmsItemClick(Plans plans);
+    public interface OnSpecialOfferItemClickListener{
+        void onSpecialOfferItemClikc(Roffer roffer);
     }
 
     @Override
@@ -67,11 +69,21 @@ public class SmsFragment extends Fragment implements PlansAdapter.OnPlanItemClic
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        PlansActivity plansActivity = (PlansActivity)(getActivity());
+        if (plansActivity != null){
+            mobileNumber = plansActivity.getMobileNumber();
+            operatorCode = plansActivity.getOperatorCode();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        //Initializing adapter
-        plansAdapter = new PlansAdapter(getContext(),SmsFragment.this);
+        rofferAdapter = new RofferAdapter(getContext(),SpecialOfferFragment.this);
         planRecyclerView.setHasFixedSize(true);
 
         //Adding layout manager to the recyclerView
@@ -79,43 +91,32 @@ public class SmsFragment extends Fragment implements PlansAdapter.OnPlanItemClic
         planRecyclerView.setLayoutManager(linearLayoutManager);
 
         //Attach recyclerView with adapter
-        planRecyclerView.setAdapter(plansAdapter);
+        planRecyclerView.setAdapter(rofferAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),linearLayoutManager.getOrientation());
         planRecyclerView.addItemDecoration(dividerItemDecoration);
-        getRechargePlans(circleCode,operatorCode,"SMS");
+        getRechargeOffer(mobileNumber,operatorCode);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        PlansActivity plansActivity = (PlansActivity)(getActivity());
-        if (plansActivity != null){
-            operatorCode = plansActivity.getOperatorCode();
-            circleCode = plansActivity.getCircleCode();
-            Log.e(TAG,"Operator Code: " + operatorCode + "circle code: " + circleCode);
-        }
-    }
-
-    //Method to get recharge plans
-    private void getRechargePlans(String circleId, String operator,String type) {
+    //Get special offer list
+    private void getRechargeOffer(String number, String operator){
 
         alertDialog = createLoadingDialog(getContext());
-        //Show alert dialog
         alertDialog.show();
-
-        planViewModel.getMobileRechargePlanList(circleId,operator,type).observe(getViewLifecycleOwner(), new Observer<List<Plans>>() {
+        planViewModel.specialOfferList(number,operator).observe(getViewLifecycleOwner(), new Observer<List<Roffer>>() {
             @Override
-            public void onChanged(List<Plans> plans) {
+            public void onChanged(List<Roffer> roffers) {
 
                 alertDialog.dismiss();
-                if (plans != null){
+                if (roffers != null){
 
-                    if (plans.get(0).getDesc()!= null) {
-                        Log.e(TAG, "Plan list is not null");
-                        plansAdapter.setPlansList(plans);
+                    Log.e(TAG,"List is not null");
+                    Roffer roffer = roffers.get(0);
+
+                    if (roffer.getDesc() == null){
+                        Toast.makeText(getContext(),roffer.getRs(),Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(getContext(),plans.get(0).getRs(),Toast.LENGTH_SHORT).show();
+                        rofferAdapter.setRofferList(roffers);
                     }
                 }else {
                     Log.e(TAG,"List is null");
@@ -137,13 +138,13 @@ public class SmsFragment extends Fragment implements PlansAdapter.OnPlanItemClic
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        smsItemClickListener = (OnSmsItemClickListener)context;
+        specialOfferItemClickListener = (OnSpecialOfferItemClickListener)context;
     }
 
     @Override
-    public void onPlanItemClick(int position) {
+    public void onOfferItemClick(int position) {
 
-        Plans plans = plansAdapter.getPlans(position);
-        smsItemClickListener.onSmsItemClick(plans);
+        Roffer roffer = rofferAdapter.getOfferItem(position);
+        specialOfferItemClickListener.onSpecialOfferItemClikc(roffer);
     }
 }

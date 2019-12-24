@@ -603,6 +603,10 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                 }
                 cursor.close();
             }
+        }else if (requestCode == RC_PLAN_DETAILS && resultCode == RESULT_OK){
+
+            amount = data.getStringExtra(Constants.RECHARGE_AMOUNT);
+            amountEditText.setText(amount);
         }
     }
 
