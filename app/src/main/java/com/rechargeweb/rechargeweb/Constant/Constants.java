@@ -18,6 +18,7 @@ public class Constants {
     public static final String SAVE_LOCATION = "save_location";
     public static final String REPORT = "report";
     public static final String PROFILE = "profile";
+    public static final String MOBILE_NUMBER = "mobile_number";
 
     // Name of Notification Channel for verbose notifications of background work
     public static final CharSequence NOTIFICATION_CHANNEL_NAME =

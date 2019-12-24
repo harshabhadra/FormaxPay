@@ -224,9 +224,17 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             @Override
             public void onClick(View v) {
 
-                browsePlan(circleName,providerName);
+                if (mobileNumber != null) {
+                    browsePlan(circleName, providerName);
+                }else {
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Number", Snackbar.LENGTH_SHORT);
+                    View view = snackbar.getView();
+                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
+                    snackbar.show();
+                }
             }
         });
+
         //Process recharge request on Recharge button click
         rechargeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,6 +273,8 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         public void onClick(View v) {
                             Log.e(TAG, mobileNumber);
                             Log.e(TAG, amount);
+
+                            //Do recharge
                             doRecharge(mobileNumber, amount);
                             dialog.dismiss();
                         }
@@ -382,6 +392,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             plansIntent.putExtra(Constants.OPERATOR_NAME, operator);
             plansIntent.putExtra(Constants.LAYOUT_NAME, layoutName);
             plansIntent.putExtra(Constants.CIRCLE_NAME, circle);
+            plansIntent.putExtra(Constants.MOBILE_NUMBER,mobileNumber);
             startActivityForResult(plansIntent, RC_PLAN_DETAILS);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         } else if (circle == null) {
