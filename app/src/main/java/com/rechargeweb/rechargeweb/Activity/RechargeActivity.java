@@ -231,20 +231,21 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         snackbar.show();
                     }
                 }else {
-                    if (mobileNumber == null){
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout),"Enter DTH Number",Snackbar.LENGTH_SHORT);
-                        snackbar.getView().setBackgroundColor(Color.RED);
-                        snackbar.show();
-                    }else if (providerName == null){
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout),"Select An Operator",Snackbar.LENGTH_SHORT);
-                        snackbar.getView().setBackgroundColor(Color.RED);
-                        snackbar.show();
-                    }else {
-                        //Show the BottomSheet
-                        String dthOpertorCode = getDTHOperatorCode(providerName);
-                        DthCustomerInfoBottomSheet dthCustomerInfoBottomSheet = new DthCustomerInfoBottomSheet(mobileNumber,dthOpertorCode);
-                        dthCustomerInfoBottomSheet.show(getSupportFragmentManager(),dthCustomerInfoBottomSheet.getTag());
-                    }
+//                    if (mobileNumber == null){
+//                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout),"Enter DTH Number",Snackbar.LENGTH_SHORT);
+//                        snackbar.getView().setBackgroundColor(Color.RED);
+//                        snackbar.show();
+//                    }else if (providerName == null){
+//                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout),"Select An Operator",Snackbar.LENGTH_SHORT);
+//                        snackbar.getView().setBackgroundColor(Color.RED);
+//                        snackbar.show();
+//                    }else {
+//                        //Show the BottomSheet
+//                        String dthOpertorCode = getDTHOperatorCode(providerName);
+//                        DthCustomerInfoBottomSheet dthCustomerInfoBottomSheet = new DthCustomerInfoBottomSheet(mobileNumber,dthOpertorCode);
+//                        dthCustomerInfoBottomSheet.show(getSupportFragmentManager(),dthCustomerInfoBottomSheet.getTag());
+//                    }
+                    Toast.makeText(getApplicationContext(),"Coming Soon",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -306,7 +307,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                             finish();
                         }
                     });
-                } else if (TextUtils.isEmpty(number)) {
+                } else if (mobileNumber == null) {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Number", Snackbar.LENGTH_LONG);
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
@@ -318,11 +319,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                     snackbar.show();
                 } else if (TextUtils.isEmpty(amount)) {
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Amount", Snackbar.LENGTH_LONG);
-                    View view = snackbar.getView();
-                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
-                    snackbar.show();
-                } else {
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), "Please Enter Number", Snackbar.LENGTH_LONG);
                     View view = snackbar.getView();
                     view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
                     snackbar.show();
@@ -367,7 +363,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         circleName = fetchOperator.getCircle().toUpperCase();
                         providerName = fetchOperator.getOperator().toUpperCase();
                         Log.e(TAG, "Circle: " + fetchOperator.getCircle() + " Operator: " + fetchOperator.getOperator());
-                        providerText.setText(providerName + "\t" + circleName);
+                        providerText.setText(providerName + ", " + circleName);
                         if (!providerName.isEmpty()) {
                             setOperatorLogoAndId(providerName);
                         }

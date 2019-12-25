@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,13 +36,14 @@ public class ChangePassActivity extends AppCompatActivity {
 
     EditText cureentPass, newPass, confirmNewPass;
     Button changePasswordButton;
-    ProgressBar loading;
 
     String pass, newP, conNewP;
 
     String session_id,auth;
 
     ApiService apiService;
+
+    private AlertDialog alertDialog;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -66,7 +68,6 @@ public class ChangePassActivity extends AppCompatActivity {
         cureentPass = findViewById(R.id.current_password);
         newPass = findViewById(R.id.new_password);
         confirmNewPass = findViewById(R.id.confirm_new_password);
-        loading = findViewById(R.id.change_pass_progress);
 
         cureentPass.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -149,8 +150,8 @@ public class ChangePassActivity extends AppCompatActivity {
 
                 dialog.dismiss();
                 Log.e(TAG,"Auth is : " + auth);
-                loading.setVisibility(View.VISIBLE);
-                changePasswordButton.setVisibility(View.GONE);
+                alertDialog = createAlertDialog(ChangePassActivity.this);
+                alertDialog.show();
                 changeCurrentPassword(session_id,auth,passw,nPassw);
             }
         });
@@ -180,28 +181,24 @@ public class ChangePassActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Password password) {
-                        changePasswordButton.setVisibility(View.VISIBLE);
-                        loading.setVisibility(View.GONE);
+                        alertDialog.dismiss();
                         if (password != null) {
                             Log.e(TAG, "Password Change Success: " + password.getMessage());
-                            Toast.makeText(getApplicationContext(), password.getMessage(), Toast.LENGTH_SHORT).show();
                             if (password.getMessage().equals("Success")) {
-                                Intent intent = new Intent(ChangePassActivity.this, SignUpActivity.class);
-                                intent.putExtra("logout", true);
-                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Password Reset Successful", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }else {
-                            Toast.makeText(getApplicationContext(),"Password is null", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Password reset Failed", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        alertDialog.dismiss();
                         Log.e(TAG,"Password Change error: " + e.getMessage());
                         Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                        changePasswordButton.setVisibility(View.VISIBLE);
-                        loading.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -209,5 +206,14 @@ public class ChangePassActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    //Create Loading Dialog
+    private AlertDialog createAlertDialog(Context context){
+        View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

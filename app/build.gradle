@@ -116,7 +116,9 @@ dependencies {
     implementation 'com.github.smarteist:autoimageslider:1.3.2'
     implementation 'com.github.smarteist:autoimageslider:1.3.2-appcompat'
 
+    //Custom Drawer
     implementation 'com.infideap.drawerbehavior:drawer-behavior:0.2.2'
 
+    implementation 'com.github.AppIntro:AppIntro:5.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

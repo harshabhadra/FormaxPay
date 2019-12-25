@@ -752,10 +752,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 builder.setPositiveButton("Log Out", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(HomeActivity.this, SignUpActivity.class);
-                        intent.putExtra("logout", true);
-                        startActivity(intent);
-                        finish();
+
+                        //Call Log out user
+                        logOutUser();
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -780,7 +779,15 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
+    //Log out user
+    private void logOutUser(){
+        Intent intent = new Intent(HomeActivity.this, SignUpActivity.class);
+        intent.putExtra("logout", true);
+        startActivity(intent);
+        finish();
+    }
 
+    //Method to open PlayStore  for rating
     public static void openAppRating(Context context) {
         // you can also use BuildConfig.APPLICATION_ID
         String appId = context.getPackageName();

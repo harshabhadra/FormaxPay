@@ -26,17 +26,20 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name,android:label">
+        <activity android:name=".Activity.IntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Activity.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.FinoAepsActivity"
             android:screenOrientation="portrait"
@@ -44,9 +47,9 @@
         <activity
             android:name=".Activity.UploadKycActivity"
             android:label="KYC Details"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.ValidateActivity"
             android:parentActivityName=".Activity.HomeActivity"
@@ -77,9 +80,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.FundRequestActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.PanActivity"
             android:parentActivityName=".Activity.HomeActivity"
@@ -92,8 +95,8 @@
         <activity
             android:name=".Activity.RechargeActivity"
             android:parentActivityName=".Activity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeActivity" />

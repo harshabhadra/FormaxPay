@@ -80,12 +80,13 @@ public interface ApiService {
                            @Field("vle_name") String name,
                            @Field("quantity") String quantity);
 
-    @GET("change_password?")
-    Observable<Password> changePassword(@Query("session_id") String session_id,
-                                        @Query("auth_key") String auth_key,
-                                        @Query("current_password") String cPassword,
-                                        @Query("new_password") String nPassword,
-                                        @Query("confrim_new_password") String conNewPassword);
+    @POST("change_password")
+    @FormUrlEncoded
+    Observable<Password> changePassword(@Field("session_id") String session_id,
+                                        @Field("auth_key") String auth_key,
+                                        @Field("current_password") String cPassword,
+                                        @Field("new_password") String nPassword,
+                                        @Field("confrim_new_password") String conNewPassword);
 
     @POST("aeps_report")
     @FormUrlEncoded

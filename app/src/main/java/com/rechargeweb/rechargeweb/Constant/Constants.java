@@ -20,6 +20,7 @@ public class Constants {
     public static final String PROFILE = "profile";
     public static final String MOBILE_NUMBER = "mobile_number";
     public static final String RECHARGE_AMOUNT = "recharge_amount";
+    public static final String CHANGE_PASSWORD = "change_password";
 
     // Name of Notification Channel for verbose notifications of background work
     public static final CharSequence NOTIFICATION_CHANNEL_NAME =
@@ -46,4 +47,6 @@ public class Constants {
     public static final String AEPS_TYPE =  "aeps_type";
     public static final String PASSBOOK = "passbook";
 
+    public static final String FIRST_TIME_USER = "first_time_user";
+    public static final String IS_FIRST_TIEM = "is_first_time";
 }

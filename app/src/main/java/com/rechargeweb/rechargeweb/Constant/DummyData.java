@@ -32,9 +32,9 @@ public class DummyData {
         List<Items> itemsList = new ArrayList<>();
         itemsList.add(new Items(R.drawable.mobile_icon, "Recharge"));
         itemsList.add(new Items(R.drawable.aeps_icon,"AEPS"));
-        itemsList.add(new Items(R.drawable.coupon, "Coupon"));
-        itemsList.add(new Items(R.drawable.credit, "Credit"));
-        itemsList.add(new Items(R.drawable.debit, "Debit"));
+        itemsList.add(new Items(R.drawable.coupon_icon, "Coupon"));
+        itemsList.add(new Items(R.drawable.credit_icon, "Credit"));
+        itemsList.add(new Items(R.drawable.debit_icon, "Debit"));
 
         return itemsList;
     }
