@@ -40,6 +40,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.snackbar.Snackbar;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BottomSheetFragment;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.DTHSheetFragment;
+import com.rechargeweb.rechargeweb.BottomSheetFrag.DthCustomerInfoBottomSheet;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.PostPaidSheet;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Model.FetchOperator;
@@ -86,12 +87,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
     String mobileNumber;
     String number;
     private String circleName;
-    private String operatorName;
-    int checkNumber;
 
-    String serviceOperator;
-    String circleId;
-    String optId;
     String amount;
 
     private boolean isPostPaid = false;
@@ -233,6 +229,21 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         View view = snackbar.getView();
                         view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBarRed));
                         snackbar.show();
+                    }
+                }else {
+                    if (mobileNumber == null){
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout),"Enter DTH Number",Snackbar.LENGTH_SHORT);
+                        snackbar.getView().setBackgroundColor(Color.RED);
+                        snackbar.show();
+                    }else if (providerName == null){
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout),"Select An Operator",Snackbar.LENGTH_SHORT);
+                        snackbar.getView().setBackgroundColor(Color.RED);
+                        snackbar.show();
+                    }else {
+                        //Show the BottomSheet
+                        String dthOpertorCode = getDTHOperatorCode(providerName);
+                        DthCustomerInfoBottomSheet dthCustomerInfoBottomSheet = new DthCustomerInfoBottomSheet(mobileNumber,dthOpertorCode);
+                        dthCustomerInfoBottomSheet.show(getSupportFragmentManager(),dthCustomerInfoBottomSheet.getTag());
                     }
                 }
             }
@@ -657,6 +668,26 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         } else {
             getContact();
         }
+    }
+
+    //Get DTH operator code
+    private String getDTHOperatorCode(String name) {
+
+        String dName = "";
+        if (name.equals("DISH TV DTH")) {
+            dName = "25";
+        } else if (name.equals("SUN TV DTH")) {
+            dName = "27";
+        } else if (name.equals("TATA SKY DTH")) {
+            dName = "28";
+        } else if (name.equals("VIDEOCON DTH")) {
+            dName = "29";
+        } else if (name.equals("AIRTEL DTH")) {
+            dName = "24";
+        }else if (name.equals("BIG TV DTH")){
+            dName = "26";
+        }
+        return dName;
     }
 
     //Open Contacts to get Mobile Number
