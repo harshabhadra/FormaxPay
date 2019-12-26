@@ -1,4 +1,4 @@
-package com.rechargeweb.rechargeweb;
+package com.rechargeweb.rechargeweb.IntroFragments;
 
 
 import android.os.Bundle;
@@ -9,14 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rechargeweb.rechargeweb.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Intro_home extends Fragment {
+public class IntroDmtFragment extends Fragment {
 
 
-    public Intro_home() {
+    public IntroDmtFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +27,7 @@ public class Intro_home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_intro_home, container, false);
+        return inflater.inflate(R.layout.fragment_intro_dmt, container, false);
     }
 
 }

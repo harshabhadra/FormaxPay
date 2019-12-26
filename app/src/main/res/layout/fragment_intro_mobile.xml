@@ -35,21 +35,35 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <FrameLayout
+        android:id="@+id/imageView12"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="64dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView84"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32">
 
         <ImageView
-            android:id="@+id/imageView12"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/fp_home" />
+            android:src="@drawable/fp_moile_recharge" />
+
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView84"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="64dp"
+        android:fontFamily="@font/archivo_black"
+        android:gravity="center"
+        android:text="Mobile Recharge And DTH Recharge"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

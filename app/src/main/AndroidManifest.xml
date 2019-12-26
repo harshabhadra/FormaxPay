@@ -43,6 +43,7 @@
         <activity
             android:name=".Activity.FinoAepsActivity"
             android:screenOrientation="portrait"
+            android:label="AEPS"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.UploadKycActivity"

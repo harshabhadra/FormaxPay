@@ -67,7 +67,6 @@ public class FinoAepsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fino_aeps);
 
-
         auth = getResources().getString(R.string.auth_key);
 
         Intent intent = getIntent();
@@ -86,6 +85,9 @@ public class FinoAepsActivity extends AppCompatActivity {
         isBalanceCheck = true;
         //Initializing dataBinding
         finoAepsBinding = DataBindingUtil.setContentView(this, R.layout.activity_fino_aeps);
+
+        //Setting Up Tool Bar
+        setSupportActionBar(finoAepsBinding.aepsToolbar);
 
         //Choose what user want to do
         finoAepsBinding.balanceInfoTv.setOnClickListener(new View.OnClickListener() {

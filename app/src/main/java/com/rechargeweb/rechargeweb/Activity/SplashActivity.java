@@ -12,7 +12,7 @@ import com.rechargeweb.rechargeweb.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private boolean isFirstTime;
+    private boolean isFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,6 @@ public class SplashActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
 
-        Intent intent = getIntent();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -38,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(intent1);
                     finish();
                     SharedPreferences.Editor editor = getSharedPreferences(Constants.FIRST_TIME_USER,MODE_PRIVATE).edit();
-                    editor.putBoolean(Constants.IS_FIRST_TIEM,true);
+                    editor.putBoolean(Constants.IS_FIRST_TIEM,false);
                     editor.apply();
                 }
             }
