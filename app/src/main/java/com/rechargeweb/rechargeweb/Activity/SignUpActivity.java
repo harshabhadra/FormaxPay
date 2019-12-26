@@ -45,12 +45,12 @@ public class SignUpActivity extends AppCompatActivity {
         viewPager.setPageTransformer(true,new ZoomOutPageTransformer());
     }
 
-    public void onSwipeCreateAccount(View view) {
-        viewPager.setCurrentItem(1,true);
+    public void onLogInTextClick(View view) {
+        viewPager.setCurrentItem(0,true);
     }
 
-    public void onSwipeLoginClick(View view) {
-        viewPager.setCurrentItem(0,true);
+    public void onCreateAccountTextClick(View view) {
+        viewPager.setCurrentItem(1,true);
     }
 }
 

@@ -13,7 +13,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/app_bar_height"
             android:background="@drawable/log_in_background"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
@@ -42,6 +42,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/log_in_create_account_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="New User? Create Account"
+                    android:gravity="center"
+                    android:onClick="onCreateAccountTextClick"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/forgetPass_tv_logIn" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/log_in_user_id_layout"
@@ -129,9 +146,7 @@
                     android:id="@+id/view4"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="32dp"
                     android:background="@android:color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/forgetPass_tv_logIn"
                     app:layout_constraintStart_toStartOf="@+id/forgetPass_tv_logIn"
                     app:layout_constraintTop_toBottomOf="@+id/forgetPass_tv_logIn" />
@@ -139,18 +154,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <TextView
-            android:id="@+id/swipe_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/swipe_right_background"
-            android:onClick="onSwipeCreateAccount"
-            android:padding="16dp"
-            android:text="Swipe to Create Account"
-            android:textColor="#000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

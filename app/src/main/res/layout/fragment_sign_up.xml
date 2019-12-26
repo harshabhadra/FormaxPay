@@ -12,7 +12,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/app_bar_height"
             android:background="@drawable/log_in_background"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
@@ -35,6 +35,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/sign_up_log_in_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Already User? Log In"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorAccent"
+                    android:gravity="center"
+                    android:onClick="onLogInTextClick"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/create_account_button" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/sign_up_shop_name_layout"
@@ -63,12 +80,10 @@
                     android:id="@+id/sign_up_user_name_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
                     android:theme="@style/TextInputLayoutAppearance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/sign_up_shop_name_layout"
+                    app:layout_constraintStart_toStartOf="@+id/sign_up_shop_name_layout"
                     app:layout_constraintTop_toBottomOf="@+id/sign_up_shop_name_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -86,12 +101,10 @@
                     android:id="@+id/sign_up_mobile_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
                     android:theme="@style/TextInputLayoutAppearance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/sign_up_user_name_layout"
+                    app:layout_constraintStart_toStartOf="@+id/sign_up_user_name_layout"
                     app:layout_constraintTop_toBottomOf="@+id/sign_up_user_name_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -109,12 +122,10 @@
                     android:id="@+id/sign_up_user_email_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
                     android:theme="@style/TextInputLayoutAppearance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/sign_up_mobile_layout"
+                    app:layout_constraintStart_toStartOf="@+id/sign_up_mobile_layout"
                     app:layout_constraintTop_toBottomOf="@+id/sign_up_mobile_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -199,11 +210,9 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="32dp"
                     android:background="@drawable/btnformate"
                     android:text="Pay Rs/- 499 to Sign Up"
                     android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/sign_up_confirm_password_layout"
                     app:layout_constraintStart_toStartOf="@+id/sign_up_confirm_password_layout"
                     app:layout_constraintTop_toBottomOf="@+id/sign_up_confirm_password_layout" />
@@ -226,15 +235,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <TextView
-            android:id="@+id/swipe_log_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/swipe_left_background"
-            android:padding="16dp"
-            android:onClick="onSwipeLoginClick"
-            android:text="Swipe to LogIn"
-            android:textColor="#000" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

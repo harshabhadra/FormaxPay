@@ -301,7 +301,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                             Intent intent1 = new Intent(RechargeActivity.this, RechargeActivity.class);
                             intent1.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                             intent1.putExtra(Constants.RECHARGE, "recharge");
-                            intent1.putExtra(Constants.MOBILE, layoutName);
+                            intent1.putExtra(Constants.LAYOUT_NAME, layoutName);
                             intent1.putExtra(Constants.SESSION_ID, session_id);
                             startActivity(intent1);
                             finish();

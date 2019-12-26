@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.Activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -57,6 +58,7 @@ import com.rechargeweb.rechargeweb.Ui.AddMoneyFragment;
 import com.rechargeweb.rechargeweb.Ui.HomeFragment;
 import com.rechargeweb.rechargeweb.Ui.ProfileFragment;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -199,6 +201,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         return user_id;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onBackPressed() {
 
@@ -208,38 +211,30 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             disPlaySelectedScreen(R.id.nav_home);
         }
         else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            View exitLayout = getLayoutInflater().inflate(R.layout.exit_dialog_layout, null);
-            FancyButton cancel = exitLayout.findViewById(R.id.cancel_confirm);
-            FancyButton confirm = exitLayout.findViewById(R.id.exit_confirm);
+            MaterialDialog materialDialog = new MaterialDialog.Builder(HomeActivity.this)
+                    .setTitle("Do You want to exit?")
+                    .setCancelable(false)
+                    .setAnimation(R.raw.exit)
+                    .setPositiveButton("Yes", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
 
-            builder.setTitle("Do you want to Exit?");
-            builder.setIcon(R.mipmap.formax_round_icon);
-            builder.setView(exitLayout);
-            final AlertDialog dialog = builder.create();
-            dialog.show();
+                            dialogInterface.dismiss();
+                            HomeActivity.super.onBackPressed();
+                        }
+                    }).setNegativeButton("No", new MaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
 
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
 
-                    dialog.dismiss();
-                }
-            });
-
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog.dismiss();
-                    HomeActivity.super.onBackPressed();
-                }
-            });
+            materialDialog.show();
+            }
         }
-
-    }
-
     @Override
     public void onHomeItemclick(Items items) {
 
@@ -697,6 +692,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         return true;
     }
 
+    @SuppressLint("RestrictedApi")
     private void disPlaySelectedScreen(int itemId) {
 
         fragment = null;
@@ -746,27 +742,28 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 startActivity(Intent.createChooser(shareIntent, "Share Via"));
                 break;
             case R.id.nav_logout:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Do you want to Log Out?");
-                builder.setIcon(R.mipmap.formax_round_icon);
-                builder.setPositiveButton("Log Out", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        //Call Log out user
-                        logOutUser();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                MaterialDialog materialDialog = new MaterialDialog.Builder(this)
+                        .setTitle(" Log Out?")
+                        .setMessage("Are you sure want to Log out?")
+                        .setCancelable(false)
+                        .setAnimation(R.raw.logout)
+                        .setPositiveButton("Log Out", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                break;
+                                dialogInterface.dismiss();
+                                logOutUser();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new MaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
+
+                                dialogInterface.dismiss();
+                            }
+                        }).build();
+                materialDialog.show();
         }
 
         if (fragment != null) {
