@@ -215,7 +215,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             MaterialDialog materialDialog = new MaterialDialog.Builder(HomeActivity.this)
                     .setTitle("Do You want to exit?")
                     .setCancelable(false)
-                    .setAnimation(R.raw.exit)
+                    .setAnimation(R.raw.confirmation)
                     .setPositiveButton("Yes", new MaterialDialog.OnClickListener() {
                         @Override
                         public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {
@@ -377,6 +377,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         }
     }
 
+    //Create Aeps success dialog
     private void showAepsDialog() {
 
         View layout = getLayoutInflater().inflate(R.layout.aeps_dialog, null);
@@ -747,7 +748,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                         .setTitle(" Log Out?")
                         .setMessage("Are you sure want to Log out?")
                         .setCancelable(false)
-                        .setAnimation(R.raw.logout)
+                        .setAnimation(R.raw.confirmation)
                         .setPositiveButton("Log Out", new MaterialDialog.OnClickListener() {
                             @Override
                             public void onClick(com.shreyaspatil.MaterialDialog.interfaces.DialogInterface dialogInterface, int which) {

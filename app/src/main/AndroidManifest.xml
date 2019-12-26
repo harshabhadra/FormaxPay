@@ -70,6 +70,7 @@
             android:name=".Activity.PlansActivity"
             android:label="Search Plans"
             android:parentActivityName=".Activity.RechargeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.SupportActivity"
