@@ -71,10 +71,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
     //Firebase Cloud messaging
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     //Firebase Remote config
-    implementation 'com.google.firebase:firebase-config:19.0.3'
+    implementation 'com.google.firebase:firebase-config:19.1.0'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -124,9 +124,6 @@ dependencies {
 
     // Material Dialog Library
     implementation 'com.shreyaspatil:MaterialDialog:2.0'
-
-    // Material Design Library
-    implementation 'com.google.android.material:material:1.0.0'
 
     // Lottie Animation Library
     implementation 'com.airbnb.android:lottie:3.3.1'

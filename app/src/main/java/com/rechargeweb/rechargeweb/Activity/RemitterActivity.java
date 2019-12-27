@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -205,6 +207,7 @@ public class RemitterActivity extends AppCompatActivity {
         final TextView getNameTv = layout.findViewById(R.id.get_name_tv);
 
         final Button submitBeneficiaryButton = layout.findViewById(R.id.submit_beneficiary_button);
+        ImageView closeDialog = layout.findViewById(R.id.close_add_ben_dialog);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AddBeneficiaryDialog);
         builder.setView(layout);
@@ -213,6 +216,13 @@ public class RemitterActivity extends AppCompatActivity {
         dialog.show();
 
 
+        //Set onClickListener to close image
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         //Adding Text Watcher to all text input Edit text
         confirmAccont.addTextChangedListener(new TextWatcher() {
             @Override

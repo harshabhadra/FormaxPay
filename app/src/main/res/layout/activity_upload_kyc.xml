@@ -58,6 +58,7 @@
                     android:id="@+id/kyc_name_text_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:hint="Enter Name(As Aadhaar)" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,6 +75,7 @@
                     android:id="@+id/kyc_shop_name_text_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:hint="Enter Shop Name" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,6 +117,7 @@
                     android:id="@+id/kyc_email_text_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
                     android:hint="Enter Email" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,6 +134,7 @@
                     android:id="@+id/kyc_address_input_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
                     android:hint="Enter Address (As Aadhaar)" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,6 +171,8 @@
                     android:id="@+id/kyc_state_input_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:hint="Enter  State" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,6 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_mobile_number"
+                    android:maxLength="10"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -200,6 +207,8 @@
                     android:id="@+id/kyc_city_input_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:hint="Enter City" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -217,6 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter Aadhaar No."
+                    android:maxLength="12"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -233,6 +243,8 @@
                     android:id="@+id/kyc_pan_number_input_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="10"
                     android:hint="Enter Pan No." />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -274,7 +286,7 @@
             <ImageView
                 android:id="@+id/kyc_aadhaar_image_view"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
@@ -326,7 +338,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Aadhaar Image"
+                android:text="Add Aadhaar Image"
                 app:layout_constraintEnd_toEndOf="@+id/kyc_aadhaar_image_view"
                 app:layout_constraintStart_toStartOf="@+id/kyc_aadhaar_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/kyc_aadhaar_image_view" />
@@ -340,7 +352,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Pan Image"
+                android:text="Add Pan Image"
                 app:layout_constraintEnd_toEndOf="@+id/kyc_pan_image_view"
                 app:layout_constraintStart_toStartOf="@+id/kyc_pan_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/kyc_pan_image_view" />

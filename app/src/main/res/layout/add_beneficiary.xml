@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -20,7 +21,8 @@
             android:id="@+id/enter_name_ben_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Name" />
+            android:hint="Enter Name"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -38,7 +40,9 @@
             android:id="@+id/ifsc_code_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter IFSC Code" />
+            android:hint="Enter IFSC Code"
+            android:inputType="text"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -54,7 +58,8 @@
             android:id="@+id/account_number_input_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Account Number" />
+            android:hint="Enter Account Number"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -70,20 +75,20 @@
             android:id="@+id/confirm_account_input_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Account Number" />
+            android:hint="Confirm Account Number"
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/submit_beneficiary_button"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:padding="16dp"
         android:text="Submit"
-        app:cornerRadius="32dp"
         android:textColor="@color/white"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/confirm_account_ben_layout"
         app:layout_constraintStart_toStartOf="@+id/confirm_account_ben_layout"
         app:layout_constraintTop_toBottomOf="@+id/get_name_tv" />
@@ -140,4 +145,14 @@
         app:layout_constraintEnd_toEndOf="@+id/enter_name_ben_layout"
         app:layout_constraintStart_toStartOf="@+id/enter_name_ben_layout"
         app:layout_constraintTop_toBottomOf="@+id/submit_beneficiary_button" />
+
+    <ImageView
+        android:id="@+id/close_add_ben_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_white_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
