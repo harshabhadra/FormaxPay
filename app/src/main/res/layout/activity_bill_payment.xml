@@ -17,10 +17,11 @@
             android:id="@+id/current_state_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView30"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView31">
 
             <EditText
@@ -31,7 +32,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:drawableStart="@drawable/ic_add_location_black_24dp"
                 android:ems="10"
+                android:drawablePadding="8dp"
                 android:hint="State"
                 android:inputType="text"
                 android:textColor="#000000"
@@ -49,7 +52,9 @@
             android:layout_marginEnd="8dp"
             android:hint="@string/select_board"
             android:maxEms="10"
+            android:drawablePadding="8dp"
             android:padding="8dp"
+            android:drawableStart="@drawable/ic_account_balance_black_24dp"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/current_state_layout"
@@ -96,12 +101,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/btnformate"
             android:paddingLeft="20dp"
             android:paddingTop="8dp"
             android:paddingRight="20dp"
             android:paddingBottom="8dp"
             android:text="Fetch Bill"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/code_edit_two"
@@ -110,18 +117,6 @@
             fancy:fb_defaultColor="@color/colorPrimary"
             fancy:fb_focusColor="@color/colorPrimaryDark"
             fancy:fb_radius="30dp" />
-
-        <ImageView
-            android:id="@+id/imageView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/profile_icon_back"
-            android:padding="8dp"
-            android:src="@drawable/ic_add_location_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/current_state_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/current_state_layout" />
 
         <ImageView
             android:id="@+id/imageView31"
@@ -133,17 +128,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/bbps_logo" />
-
-        <ImageView
-            android:id="@+id/imageView32"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/profile_icon_back"
-            android:padding="8dp"
-            android:src="@drawable/ic_account_balance_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/current_board"
-            app:layout_constraintStart_toStartOf="@+id/imageView30"
-            app:layout_constraintTop_toTopOf="@+id/current_board" />
 
         <View
             android:layout_width="0dp"

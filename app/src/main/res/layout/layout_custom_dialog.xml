@@ -23,7 +23,9 @@
             android:id="@+id/forget_pass_enter_user_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/user_id"
+            android:inputType="text"
+            android:maxLines="1"
+            android:hint="User Id/ Mobile Number"
             android:padding="16dp" />
 
         <com.github.ybq.android.spinkit.SpinKitView

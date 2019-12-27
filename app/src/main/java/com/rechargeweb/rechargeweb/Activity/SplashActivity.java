@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.R;
@@ -41,6 +44,6 @@ public class SplashActivity extends AppCompatActivity {
                     editor.apply();
                 }
             }
-        },3000);
+        },5000);
     }
 }

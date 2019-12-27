@@ -53,7 +53,7 @@
                     android:gravity="center"
                     android:onClick="onCreateAccountTextClick"
                     android:textColor="@color/colorAccent"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/user_id"
                         android:drawablePadding="8dp"
-                        android:hint="Enter User Id"
+                        android:hint="User Id/ Mobile/ Email"
                         android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>

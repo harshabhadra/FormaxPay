@@ -136,10 +136,6 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
                 public void onClick(DialogInterface dialog, int which) {
 
                     dialog.dismiss();
-                    Intent homeIntent = new Intent(UploadKycActivity.this,HomeActivity.class);
-                    homeIntent.putExtra(Constants.SESSION_ID,session_id);
-                    homeIntent.putExtra(Constants.USER_ID,user_id);
-                    startActivity(homeIntent);
                     finish();
                 }
             });

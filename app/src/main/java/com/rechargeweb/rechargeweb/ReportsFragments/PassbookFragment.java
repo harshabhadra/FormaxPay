@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -55,9 +56,15 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
     private AlertDialog alertDialog;
+    private OnPassBookItemClickListener passBookItemClickListener;
 
     public PassbookFragment() {
         // Required empty public constructor
+    }
+
+    public interface OnPassBookItemClickListener{
+
+        void onPassbookClick(Passbook passbook);
     }
 
 
@@ -142,8 +149,17 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        passBookItemClickListener = (OnPassBookItemClickListener)context;
+    }
+
+    @Override
     public void onPassBookItemClick(int position) {
 
+        Passbook passbook = passbookAdapter.getPassBook(position);
+        passBookItemClickListener.onPassbookClick(passbook);
     }
 
     //Setting up the date picker

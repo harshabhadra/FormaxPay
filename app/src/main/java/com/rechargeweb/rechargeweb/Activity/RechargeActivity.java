@@ -37,6 +37,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BottomSheetFragment;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.DTHSheetFragment;
@@ -169,10 +170,12 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                         if ((which == position)) {
                             isPostPaid = false;
                             selectType.setText(typeList[0]);
+                            browseTextView.setVisibility(View.VISIBLE);
                             dialog.dismiss();
                         } else {
                             isPostPaid = true;
                             selectType.setText(typeList[1]);
+                            browseTextView.setVisibility(View.INVISIBLE);
                             dialog.dismiss();
                         }
                     }
@@ -198,20 +201,23 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (layoutName.equals("Mobile") && s.length() > 10) {
+                if (!isPostPaid) {
+                    if (layoutName.equals("Mobile") && s.length() > 10) {
 
-                    number = numberEditText.getText().toString().trim();
-                    mobileNumber = number.substring(3);
-                    numberEditText.setText(mobileNumber);
-                } else if (layoutName.equals("Mobile") && s.length() == 10) {
-                    mobileNumber = s.toString();
-                    getNumberInformation(mobileNumber);
-                } else if (layoutName.equals("Mobile") && s.length() < 10) {
-                    providerText.setText(null);
-                    providerText.setHint(getResources().getString(R.string.select_operator));
-                    Picasso.get().load(R.mipmap.formax_icon).into(providerImage);
-                } else {
-                    mobileNumber = s.toString().trim();
+                        number = numberEditText.getText().toString().trim();
+                        mobileNumber = number.substring(3);
+                        numberEditText.setText(mobileNumber);
+                    } else if (layoutName.equals("Mobile") && s.length() == 10) {
+                        mobileNumber = s.toString();
+                        getNumberInformation(mobileNumber);
+                    } else if (layoutName.equals("Mobile") && s.length() < 10) {
+                        providerText.setText(null);
+                        rechargeButton.setEnabled(false);
+                        providerText.setHint(getResources().getString(R.string.select_operator));
+                        Picasso.get().load(R.mipmap.formax_icon).into(providerImage);
+                    } else {
+                        mobileNumber = s.toString().trim();
+                    }
                 }
             }
         });
@@ -353,6 +359,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             @Override
             public void onChanged(FetchOperator fetchOperator) {
 
+                rechargeButton.setEnabled(true);
                 //Check if FetchOperator is not null
                 if (fetchOperator != null) {
 
@@ -428,7 +435,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         TextView txnId = statusLayout.findViewById(R.id.txn_id);
         TextView optTxnId = statusLayout.findViewById(R.id.opt_txn_id);
         FancyButton button = statusLayout.findViewById(R.id.close_status);
-        ImageView logoImage = statusLayout.findViewById(R.id.recharge_confirm_logo);
+        LottieAnimationView logoImage = statusLayout.findViewById(R.id.recharge_confirm_logo);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
         builder.setView(statusLayout);
@@ -436,13 +443,13 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         final AlertDialog dialog = builder.create();
         dialog.show();
 
-        Picasso.get().load(recharge.getLogo()).placeholder(R.mipmap.formax_round_icon).error(R.mipmap.formax_icon).into(logoImage);
+
         textView.setText(recharge.getMessage());
         num.setText(":    " + recharge.getNumber());
-        amount.setText(":    " + recharge.getAmount());
+        amount.setText("INR" + recharge.getAmount());
         date.setText(":    " + recharge.getCreated_on());
         status.setText(":    " + recharge.getStatus());
-        txnId.setText(":    " + recharge.getTxn_id());
+        txnId.setText(":    " + recharge.getOperator_name());
         String opt = recharge.getOpt_txn_id();
         if (opt.isEmpty()) {
             optTxnId.setText(":    " + "N/A");
@@ -467,14 +474,17 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_processing_24dp));
             textView.setTextColor(getResources().getColor(R.color.processing));
             status.setTextColor(getResources().getColor(R.color.processing));
+            logoImage.setAnimation(R.raw.force_update);
         } else if (stat.equals("SUCCESS")) {
-            textView.setTextColor(Color.GREEN);
-            status.setTextColor(Color.GREEN);
+            textView.setTextColor(Color.parseColor("#009624"));
+            status.setTextColor(Color.parseColor("#009624"));
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_recharge_done));
+            logoImage.setAnimation(R.raw.done);
         } else {
             textView.setTextColor(Color.RED);
             status.setTextColor(Color.RED);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_recharge_failed));
+            logoImage.setAnimation(R.raw.failed);
         }
     }
 

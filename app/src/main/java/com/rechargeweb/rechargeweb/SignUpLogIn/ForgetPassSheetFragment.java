@@ -80,6 +80,9 @@ public class ForgetPassSheetFragment extends BottomSheetDialogFragment {
                         if (s.equals("Success")){
                             Toast.makeText(getContext(),"New Password has been sent to your registered Mobile Number",Toast.LENGTH_LONG).show();
                             dismiss();
+                        }else {
+                            Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
+                            dismiss();
                         }
                     }
                 });

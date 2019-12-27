@@ -33,7 +33,7 @@ import com.rechargeweb.rechargeweb.ReportsFragments.RechargeReportFragment;
 public class ReportActivity extends AppCompatActivity implements
         RechargeReportFragment.OnRecharReportItemClickListener,
         CreditReportFragment.OnCreditItemClickListner,
-        DebitReportFragment.OnDebitItemClickListener{
+        DebitReportFragment.OnDebitItemClickListener,PassbookFragment.OnPassBookItemClickListener{
 
     private ReportPagerAdapter reportPagerAdapter;
     private String session_id;
@@ -61,50 +61,35 @@ public class ReportActivity extends AppCompatActivity implements
 
         //Initializing ReportPagerAdapter
         reportPagerAdapter = new ReportPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,this);
-
+        setReportPagerAdapter(viewPager);
         if (intent.hasExtra(Constants.REPORT)){
             Items items = intent.getParcelableExtra(Constants.REPORT);
-            tabLayout.setVisibility(View.GONE);
             title = items.getName();
            switch (title){
                case "Recharge":
-                   setSingleReportPager(viewPager,new RechargeReportFragment(),title);
-                   getSupportActionBar().setTitle("Recharge Report");
+                   viewPager.setCurrentItem(0,true);
                    break;
                case "Credit":
-                   setSingleReportPager(viewPager, new CreditReportFragment(),title);
-                   getSupportActionBar().setTitle("Credit Report");
+                   viewPager.setCurrentItem(3,true);
                    break;
                case "Debit":
-                   setSingleReportPager(viewPager,new DebitReportFragment(),title);
-                   getSupportActionBar().setTitle("Debit Report");
+                   viewPager.setCurrentItem(4,true);
                    break;
                case "Coupon":
-                   setSingleReportPager(viewPager, new CouponReportFragment(),title);
-                   getSupportActionBar().setTitle("Coupon Report");
+                   viewPager.setCurrentItem(1);
                    break;
                case "AEPS":
-                   setSingleReportPager(viewPager,new AepsReportFragment(),title);
-                   getSupportActionBar().setTitle("AEPS Report");
+                   viewPager.setCurrentItem(2,true);
                    break;
            }
         }else if (intent.hasExtra(Constants.PASSBOOK)){
-            tabLayout.setVisibility(View.GONE);
-            setSingleReportPager(viewPager,new PassbookFragment(),"Passbook");
-            getSupportActionBar().setTitle("Passbook");
-        }
-        else {
-            setReportPagerAdapter(viewPager);
+            viewPager.setCurrentItem(5,true);
+        }else {
+            viewPager.setCurrentItem(0,true);
         }
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    //Set up view pager for single element
-    private void setSingleReportPager(ViewPager viewPager, Fragment fragment, String title){
-        reportPagerAdapter.addFraqment(fragment,title,0);
-        reportPagerAdapter.notifyDataSetChanged();
-        viewPager.setAdapter(reportPagerAdapter);
-    }
     //Set up View Pager for all
     private void setReportPagerAdapter(ViewPager viewPager){
         reportPagerAdapter.addFraqment(new RechargeReportFragment(),"Recharge Report",0);
@@ -161,10 +146,11 @@ public class ReportActivity extends AppCompatActivity implements
         TextView optTxnTv = layout.findViewById(R.id.details_opt_txn_id);
         TextView balanceTv = layout.findViewById(R.id.details_balance);
         TextView responseTv = layout.findViewById(R.id.details_api_response);
-        Button closeButton = layout.findViewById(R.id.detail_close);
+        ImageView closeButton = layout.findViewById(R.id.close_recharge_dialog_iv);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ReportActivity.this, R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ReportActivity.this);
         builder.setView(layout);
+        builder.setCancelable(false);
 
         final AlertDialog dialog = builder.create();
         dialog.show();
@@ -195,8 +181,9 @@ public class ReportActivity extends AppCompatActivity implements
         TextView transaction = layout.findViewById(R.id.traction_passbook);
         ImageView button = layout.findViewById(R.id.close_passbook);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(layout);
+        builder.setCancelable(false);
 
         final AlertDialog dialog = builder.create();
         dialog.show();
@@ -212,5 +199,11 @@ public class ReportActivity extends AppCompatActivity implements
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onPassbookClick(Passbook passbook) {
+
+        createPassBookDialog(passbook);
     }
 }

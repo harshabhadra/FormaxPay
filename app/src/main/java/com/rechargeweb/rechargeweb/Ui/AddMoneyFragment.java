@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.atom.mpsdklibrary.PayActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.AddMoneyTermsAdapters;
@@ -299,6 +300,7 @@ public class AddMoneyFragment extends Fragment{
         TextView messageTv = layout.findViewById(R.id.add_money_message_tv);
         TextView amountTv = layout.findViewById(R.id.add_money_amount_tv);
         Button button = layout.findViewById(R.id.add_money_dialog_button);
+        LottieAnimationView animationView = layout.findViewById(R.id.add_money_lottieAnimationView);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.CustomDialog);
         builder.setView(layout);
@@ -314,6 +316,13 @@ public class AddMoneyFragment extends Fragment{
                 dialog.dismiss();
             }
         });
+
+        if (message.equals("Transaction Successful!")) {
+            animationView.setAnimation(R.raw.done);
+        }else {
+            animationView.setAnimation(R.raw.force_update);
+            messageTv.setTextColor(getResources().getColor(R.color.snackBarRed));
+        }
     }
 
     //Generate customer account

@@ -182,6 +182,8 @@ public class OtpFragment extends BottomSheetDialogFragment {
                     signUpUser(shopName,userName,email,mobile,password);
                     otpLayoutBinding.otpLayoutGroup.setVisibility(View.INVISIBLE);
                     otpLayoutBinding.otpProgressBar.setVisibility(View.VISIBLE);
+                }else {
+                    dismiss();
                 }
             }
         }

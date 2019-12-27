@@ -533,11 +533,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra(Constants.SESSION_ID, session_id);
-                intent.putExtra(Constants.STATE, name);
-                startActivity(intent);
+              finish();
             }
         });
     }
