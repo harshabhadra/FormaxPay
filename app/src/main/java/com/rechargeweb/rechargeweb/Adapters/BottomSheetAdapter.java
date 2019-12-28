@@ -50,7 +50,11 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
                         .error(R.mipmap.formax_icon)
                         .into(holder.imageView);
             }
-            holder.textView.setText(itemsList.get(position).getOperatorName());
+            if (itemsList.get(position).getOperatorName().equals("")) {
+                holder.textView.setText("No Operator Available");
+            } else {
+                holder.textView.setText(itemsList.get(position).getOperatorName());
+            }
         }
     }
 

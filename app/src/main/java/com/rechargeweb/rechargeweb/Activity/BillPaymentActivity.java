@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import com.rechargeweb.rechargeweb.Model.BillPay;
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 import com.rechargeweb.rechargeweb.Model.Prepaid;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.StateListFragment;
 
 
 import java.io.IOException;
@@ -46,7 +48,7 @@ import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class BillPaymentActivity extends AppCompatActivity implements OperatorByStateSheet.OnOperatorByStateClickListener {
+public class BillPaymentActivity extends AppCompatActivity implements OperatorByStateSheet.OnOperatorByStateClickListener, StateListFragment.OnStateItemClickListener {
 
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -79,6 +81,8 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
     //Show other information
     EditText codeEditText;
     EditText codeEditTextTWo;
+
+    private ImageView statePickerImage;
 
     //Button to fetch bill
     FancyButton billFetchButton;
@@ -114,9 +118,21 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
         codeEditText = findViewById(R.id.code_edit);
         codeEditTextTWo = findViewById(R.id.code_edit_two);
         billFetchButton = findViewById(R.id.cancel_button);
+        statePickerImage = findViewById(R.id.state_picker_iv);
 
+        //Initializing ViewModel class
         billPaymentViewModel = ViewModelProviders.of(this).get(BillPaymentViewModel.class);
 
+        //Set onClickListener to statePickerImageView
+        statePickerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StateListFragment stateListFragment = new StateListFragment();
+                stateListFragment.show(getSupportFragmentManager(),stateListFragment.getTag());
+            }
+        });
+
+        //Set onClickListener to currentBoardTextView
         currentBoard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +164,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                     final AlertDialog mDialog = builder.create();
                     mDialog.show();
 
+                    Log.e(TAG,"Custoemr Id: " + customer_id + ", code: " + code);
                     billPaymentViewModel.getElectricBillStatus(auth_key, customer_id, code).observe(BillPaymentActivity.this, new Observer<ElectricStatus>() {
                         @Override
                         public void onChanged(ElectricStatus electricStatus) {
@@ -680,5 +697,11 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
         codeEditText.setVisibility(View.VISIBLE);
 
         Log.e(TAG, "Code is : " + code);
+    }
+
+    @Override
+    public void onStateItemClick(String state) {
+
+        currentState.setText(state);
     }
 }

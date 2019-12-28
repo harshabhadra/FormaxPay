@@ -48,24 +48,27 @@ public interface Operator {
     @GET("support?")
     Call<String> getSupport(@Query("auth_key") String auth);
 
-    @GET("ebill_fetch?")
-    Call<ElectricStatus> getElectricBillStatus(@Query("auth_key") String auth,
-                                               @Query("customer_id") String consumer_id,
-                                               @Query("operator_id") String operator_id);
+    @POST("ebill_fetch")
+    @FormUrlEncoded
+    Call<ElectricStatus> getElectricBillStatus(@Field("auth_key") String auth,
+                                               @Field("customer_id") String consumer_id,
+                                               @Field("operator_id") String operator_id);
 
-    @GET("ebill_fetch?")
-    Call<ElectricStatus> getElectricBillStatus(@Query("auth_key") String auth,
-                                               @Query("customer_id") String consumer_id,
-                                               @Query("operator_id") String operator_id,
-                                               @Query("parameter2") String parameter2);
+    @POST("ebill_fetch")
+    @FormUrlEncoded
+    Call<ElectricStatus> getElectricBillStatus(@Field("auth_key") String auth,
+                                               @Field("customer_id") String consumer_id,
+                                               @Field("operator_id") String operator_id,
+                                               @Field("parameter2") String parameter2);
 
-    @GET("bill_pay?")
-    Call<String> getElectricBillPayDetails(@Query("auth_key") String key,
-                                           @Query("user_id") String session_id,
-                                           @Query("number") String consumer_id,
-                                           @Query("operator_id") String code,
-                                           @Query("amount") int amount,
-                                           @Query("ref_id") String ref_id);
+    @POST("bill_pay")
+    @FormUrlEncoded
+    Call<String> getElectricBillPayDetails(@Field("auth_key") String key,
+                                           @Field("user_id") String session_id,
+                                           @Field("number") String consumer_id,
+                                           @Field("operator_id") String code,
+                                           @Field("amount") int amount,
+                                           @Field("ref_id") String ref_id);
 
     @GET("accounts_statement?")
     Call<String> getPassbookDetails(@Query("user_id") String user_id,

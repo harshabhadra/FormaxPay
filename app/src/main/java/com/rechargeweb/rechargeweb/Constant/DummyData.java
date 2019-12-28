@@ -4,6 +4,7 @@ import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DummyData {
@@ -62,5 +63,40 @@ public class DummyData {
         paymentList.add("CASH DEPOSIT");
         paymentList.add("BANK TRANSFER");
         return paymentList;
+    }
+
+    //List of States
+    public List<String>getStateList(){
+        List<String>stateList = new ArrayList<>();
+        stateList.add("Maharashtra");
+        stateList.add("Rajasthan");
+        stateList.add("Karnataka");
+        stateList.add("Delhi");
+        stateList.add("West Bengal");
+        stateList.add("Odisha");
+        stateList.add("Chhattisgarh");
+        stateList.add("Daman and Diu");
+        stateList.add("Gujarat");
+        stateList.add("Haryana");
+        stateList.add("Nagaland");
+        stateList.add("Dadra and Nagar Haveli");
+        stateList.add("Andhra Pradesh");
+        stateList.add("Goa");
+        stateList.add("Himachal Pradesh");
+        stateList.add("Bihar");
+        stateList.add("Jharkhand");
+        stateList.add("Uttar Pradesh");
+        stateList.add("Kerala");
+        stateList.add("Meghalaya");
+        stateList.add("Madhya Pradesh");
+        stateList.add("Mizoram");
+        stateList.add("Punjab");
+        stateList.add("Sikkim");
+        stateList.add("Tamil Nadu");
+        stateList.add("Tripura");
+        stateList.add("Haryana");
+        stateList.add("Uttarakhand");
+        Collections.sort(stateList,String.CASE_INSENSITIVE_ORDER);
+        return stateList;
     }
 }
