@@ -77,7 +77,6 @@ public class DummyData {
         stateList.add("Chhattisgarh");
         stateList.add("Daman and Diu");
         stateList.add("Gujarat");
-        stateList.add("Haryana");
         stateList.add("Nagaland");
         stateList.add("Dadra and Nagar Haveli");
         stateList.add("Andhra Pradesh");

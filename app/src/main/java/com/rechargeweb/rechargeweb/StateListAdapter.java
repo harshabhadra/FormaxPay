@@ -13,30 +13,32 @@ import java.util.List;
 
 public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.StateListViewHolder> {
 
-    private List<String>stateList;
+
+    private List<String> stateList;
     private LayoutInflater inflater;
     OnStateClickListener stateClickListener;
 
-    public StateListAdapter(Context context, List<String> stateList,OnStateClickListener stateClickListener) {
+    public StateListAdapter(Context context, List<String> stateList, OnStateClickListener stateClickListener) {
 
         inflater = LayoutInflater.from(context);
         this.stateList = stateList;
         this.stateClickListener = stateClickListener;
     }
 
-    public interface OnStateClickListener{
+    public interface OnStateClickListener {
         void onStateListClick(int position);
     }
+
     @NonNull
     @Override
     public StateListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StateListViewHolder(inflater.inflate(R.layout.state_list_item,parent,false));
+        return new StateListViewHolder(inflater.inflate(R.layout.state_list_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull StateListViewHolder holder, int position) {
 
-        if (stateList != null){
+        if (stateList != null) {
             holder.textView.setText(stateList.get(position));
         }
     }
@@ -50,7 +52,7 @@ public class StateListAdapter extends RecyclerView.Adapter<StateListAdapter.Stat
         return stateList.get(position);
     }
 
-    public class StateListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class StateListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textView;
 
