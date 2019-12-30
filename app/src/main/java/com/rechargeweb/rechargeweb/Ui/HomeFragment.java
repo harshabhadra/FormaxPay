@@ -227,6 +227,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
                                 uploadIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
                                 uploadIntent.putExtra(Constants.AEPS_TYPE, serviceType);
                                 startActivity(uploadIntent);
+                                getActivity().finish();
 
                             } else {
                                 String agentCode = aepsLogIn.getAgentId();

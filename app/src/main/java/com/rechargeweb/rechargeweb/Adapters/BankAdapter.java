@@ -40,7 +40,8 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.BankViewHolder
     public void onBindViewHolder(@NonNull BankViewHolder holder, int position) {
 
         if (bankList!= null){
-            holder.bankName.setText(bankList.get(position).getBankName());
+            String bankName = bankList.get(position).getBankName()+" (" + bankList.get(position).getAccountNumber() + ")";
+            holder.bankName.setText(bankName);
             holder.ifscCode.setText(bankList.get(position).getIfscCode());
         }
     }

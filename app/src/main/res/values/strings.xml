@@ -171,4 +171,5 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="image_to_close_the_bottom_sheet">Image to close the bottom sheet</string>
 </resources>

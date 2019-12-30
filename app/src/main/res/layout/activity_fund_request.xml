@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#e0e0ee"
     tools:context=".Activity.FundRequestActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/fund_request_appbar"
         android:layout_width="match_parent"
-        app:elevation="0dp"
         android:layout_height="@dimen/app_bar_height"
-        android:background="@drawable/log_in_background"/>
+        android:background="@drawable/log_in_background"
+        app:elevation="0dp" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/fund_request_appbar"
-        app:layout_anchorGravity="center"
-        android:layout_marginTop="110dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/sign_up_layout_back"
-        android:layout_marginBottom="16dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="110dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/white"
+            android:layout_marginBottom="16dp"
             android:padding="8dp">
 
             <com.google.android.material.button.MaterialButton
@@ -36,8 +35,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
                 android:text="@string/fund_submit_button"
-                app:cornerRadius="16dp"
                 android:textColor="@color/white"
+                app:cornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/fund_transaction_id_layout"
                 app:layout_constraintStart_toStartOf="@+id/fund_transaction_id_layout"
@@ -111,8 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:drawableStart="@drawable/ic_account_balance_black_24dp"
-                android:drawablePadding="8dp"
                 android:drawableEnd="@drawable/ic_pick_operator"
+                android:drawablePadding="8dp"
                 android:hint="--Select Bank--"
                 android:padding="8dp"
                 android:textColor="#000000"
@@ -137,8 +136,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:drawableStart="@drawable/ic_payment_white_24dp"
-                android:drawablePadding="8dp"
                 android:drawableEnd="@drawable/ic_pick_operator"
+                android:drawablePadding="8dp"
                 android:hint=" Payment Method"
                 android:padding="8dp"
                 android:textColor="#000000"
@@ -172,8 +171,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:drawableStart="@drawable/profile_date_white_24dp"
-                android:drawablePadding="8dp"
                 android:drawableEnd="@drawable/ic_pick_operator"
+                android:drawablePadding="8dp"
                 android:hint=" Select Date"
                 android:padding="8dp"
                 android:textColor="#000000"
@@ -209,7 +208,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/choose_wallet" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </ScrollView>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>

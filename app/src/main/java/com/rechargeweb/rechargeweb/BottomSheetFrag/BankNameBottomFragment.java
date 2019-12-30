@@ -1,25 +1,34 @@
 package com.rechargeweb.rechargeweb.BottomSheetFrag;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.rechargeweb.rechargeweb.Adapters.BankAdapter;
 import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -31,17 +40,26 @@ public class BankNameBottomFragment extends BottomSheetDialogFragment implements
     MainViewModel mainViewModel;
     private OnClickListener clickListener;
 
+    private BottomSheetBehavior bottomSheetBehavior;
+
     public interface OnClickListener {
         void onItemClick(Bank bank);
     }
 
     private static final String TAG = BankNameBottomFragment.class.getSimpleName();
 
-    @Nullable
+    @NotNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_bottom_sheet_dialog, container, false);
+        BottomSheetDialog dialog = (BottomSheetDialog)super.onCreateDialog(savedInstanceState);
+
+        View view = View.inflate(getContext(),R.layout.fragment_bottom_sheet_dialog,null);
+
+        ConstraintLayout rootLayout = view.findViewById(R.id.bank_root);
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)rootLayout.getLayoutParams();
+        layoutParams.height = getScreenHeight();
+        rootLayout.setLayoutParams(layoutParams);
 
         bottomSheetRecycler = view.findViewById(R.id.operators_recyclerView);
         bottomSheetRecycler.setHasFixedSize(true);
@@ -73,13 +91,24 @@ public class BankNameBottomFragment extends BottomSheetDialogFragment implements
                 }
             }
         });
-        return view;
+
+        ImageView closeImage = view.findViewById(R.id.close_bottom_sheet_iv);
+        closeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        dialog.setContentView(view);
+        bottomSheetBehavior = BottomSheetBehavior.from((View)view.getParent());
+        return dialog;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        clickListener = (OnClickListener)getActivity();
+        clickListener = (OnClickListener)context;
     }
 
     @Override
@@ -89,5 +118,16 @@ public class BankNameBottomFragment extends BottomSheetDialogFragment implements
         clickListener.onItemClick(bank);
         dismiss();
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    //Get Screen Height
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 }

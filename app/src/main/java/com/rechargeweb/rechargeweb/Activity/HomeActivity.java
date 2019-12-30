@@ -47,8 +47,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.infideap.drawerbehavior.Advance3DDrawerLayout;
+import com.rechargeweb.rechargeweb.BottomSheetFrag.BankNameBottomFragment;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
+import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Network.ApiService;
@@ -74,7 +76,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
         LocationListener,
-        NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnReportItemClickListener {
+        NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnReportItemClickListener ,BankNameBottomFragment.OnClickListener{
 
     //Remote config values
     private static final String VERSION_NAME_KEY = "version_name";
@@ -304,6 +306,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                                 uploadIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
                                 uploadIntent.putExtra(Constants.AEPS_TYPE, service_type2);
                                 startActivity(uploadIntent);
+                                finish();
 
                             } else {
                                 agentCode = aepsLogIn.getAgentId();
@@ -765,6 +768,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                             }
                         }).build();
                 materialDialog.show();
+                break;
+            case R.id.nav_bank_detials:
+                BankNameBottomFragment bankNameBottomFragment = new BankNameBottomFragment();
+                bankNameBottomFragment.show(getSupportFragmentManager(),bankNameBottomFragment.getTag());
+                break;
         }
 
         if (fragment != null) {
@@ -869,5 +877,10 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
 
                     }
                 });
+    }
+
+    @Override
+    public void onItemClick(Bank bank) {
+
     }
 }

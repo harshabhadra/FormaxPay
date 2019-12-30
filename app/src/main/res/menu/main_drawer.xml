@@ -26,6 +26,9 @@
             android:id="@+id/nav_passbook"
             android:icon="@mipmap/passbook_icontwo"
             android:title="Passbook" />
+        <item android:id="@+id/nav_bank_detials"
+            android:icon="@drawable/ic_bank_detials_grey_24dp"
+            android:title="Bank Details"/>
     </group>
     <group
         android:id="@+id/secondary_group"
