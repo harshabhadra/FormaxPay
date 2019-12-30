@@ -118,6 +118,7 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
         simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         toString = simpleDateFormat.format(calendar.getTime());
+        fromString = toString;
         fromTextView.setText(toString);
         toTextView.setText(toString);
 

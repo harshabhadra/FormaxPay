@@ -30,6 +30,7 @@ import com.rechargeweb.rechargeweb.Model.Post;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.ViewModels.SignUpViewModel;
 import com.rechargeweb.rechargeweb.databinding.EnterOtpLayoutBinding;
 
@@ -60,6 +61,11 @@ public class OtpFragment extends BottomSheetDialogFragment {
     private int resend = 0;
     private ApiService apiService;
 
+    private MainViewModel mainViewModel;
+
+    private String mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode,bank_name,
+            authCode,ipg_txn_id,merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2, udf3, udf4, udf5, signature;
+
     public OtpFragment() {
         // Required empty public constructor
     }
@@ -82,6 +88,9 @@ public class OtpFragment extends BottomSheetDialogFragment {
 
         //Initializing SignUpViewModel
         signUpViewModel = ViewModelProviders.of(this).get(SignUpViewModel.class);
+
+        //Initializing MainViewModel
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         //Initializing ApiServices
         apiService = ApiUtills.getApiService();
@@ -173,6 +182,38 @@ public class OtpFragment extends BottomSheetDialogFragment {
                 String[] resKey = data.getStringArrayExtra("responseKeyArray");
                 String[] resValue = data.getStringArrayExtra("responseValueArray");
                 if (resKey != null && resValue != null) {
+                    resdate = resValue[0];
+                    surcharge = resValue[1];
+                    cardNumber = resValue[2];
+                    prob = resValue[3];
+                    resclientCode = resValue[4];
+                    mmp_txn = resValue[5];
+                    signature = resValue[6];
+                    udf5 = resValue[7];
+                    resamount = resValue[8];
+                    udf9 = resValue[19];
+                    udf3 = resValue[10];
+                    merchant_id = resValue[11];
+                    udf4 = resValue[12];
+                    udf1 = resValue[13];
+                    udf2 = resValue[14];
+                    authCode = resValue[15];
+                    discriminator = resValue[16];
+                    mer_txn = resValue[17];
+                    bank_txn = resValue[18];
+                    ipg_txn_id = resValue[20];
+                    bank_name = resValue[21];
+                    desc = resValue[22];
+                    f_code = resValue[23];
+
+                    if (f_code.equals("success_00")){
+
+                        f_code = "sign_up_success";
+                    }else {
+                        f_code = "sign_up_failed";
+                    }
+                    sendTransactionDetails(mobile, authKey,mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode
+                            ,bank_name,authCode, ipg_txn_id, merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2,udf3,udf4,udf5,signature);
                     for (int i = 0; i < resKey.length; i++)
                         Log.e(TAG, "  " + i + " resKey : " + resKey[i] + " resValue : " + resValue[i]);
                 }
@@ -355,6 +396,22 @@ public class OtpFragment extends BottomSheetDialogFragment {
     private String getCurrentTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
         return simpleDateFormat.format(new Date());
+    }
+
+    //Send transaction details
+    private void sendTransactionDetails(String session_id, String authKey, String mmp_txn, String mer_txn, String amount, String prob, String date, String bank_txn,
+                                        String f_code, String clientCode, String bank_name, String authCode, String ipg_txn_id, String merchant_id, String desc,
+                                        String discriminator, String udf9, String surcharge, String cardNumber, String udf1, String udf2, String udf3, String udf4, String udf5,
+                                        String signature){
+
+        mainViewModel.sendTranReport(session_id, authKey,mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode
+                ,bank_name,authCode, ipg_txn_id, merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2,udf3,udf4,udf5,signature).observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.e(TAG,s);
+            }
+        });
+
     }
 }
 

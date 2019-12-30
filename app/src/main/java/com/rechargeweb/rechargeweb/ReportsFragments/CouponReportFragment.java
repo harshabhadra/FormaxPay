@@ -54,7 +54,7 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
     private String fromString, toString;
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
-    private AlertDialog alertDialog;
+     AlertDialog couponAlertDialog;
 
     public CouponReportFragment() {
         // Required empty public constructor
@@ -107,6 +107,7 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
         simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         toString = simpleDateFormat.format(calendar.getTime());
+        fromString = toString;
         fromTextView.setText(toString);
         toTextView.setText(toString);
 
@@ -156,16 +157,14 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                alertDialog = createLoadingDialog(getContext());
-                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-
+                getCouponTransferReportByDate(fromString,toString);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getCouponTransferReportByDate(fromString,toString);
+
                     }
                 },2000);
 
@@ -174,16 +173,14 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                alertDialog = createLoadingDialog(getContext());
-                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-
+                getCouponTransferReportByDate(fromString,toString);
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getCouponTransferReportByDate(fromString,toString);
+
                     }
                 },2000);
             }
@@ -226,16 +223,17 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
     //Get coupon transfer report by date
     private void getCouponTransferReportByDate(String from, String to) {
 
+        loading.setVisibility(View.VISIBLE);
+        noRecordText.setVisibility(View.GONE);
         fromImageView.setEnabled(false);
         toImageView.setEnabled(false);
         Log.e(TAG,"Getting coupon report by date");
-
         allReportViewModel.getCouponReportListByDate(id, authKey, from, to).observe(this, new Observer<List<CouponReport>>() {
             @Override
             public void onChanged(List<CouponReport> couponReports) {
                 toImageView.setEnabled(true);
                 fromImageView.setEnabled(true);
-                alertDialog.dismiss();
+                loading.setVisibility(View.INVISIBLE);
                 if (couponReports != null) {
                     Log.e(TAG, "Coupon report is full");
                     for (int i = 0; i < couponReports.size(); i++) {

@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e0e0ee"
+        android:background="#f5f5f5"
         android:layout_gravity="center">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -69,19 +69,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fiveThouButton" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/hundredButton"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="+100"
-            app:backgroundTint="@color/white"
-            android:textColor="@color/green"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout_add_money"
-            app:layout_constraintTop_toBottomOf="@+id/textView81" />
+            app:layout_constraintTop_toBottomOf="@+id/thousandButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/thousandButton"
@@ -100,61 +88,33 @@
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:backgroundTint="@color/white"
+            android:layout_marginTop="16dp"
             android:text="+500"
             android:textColor="@color/green"
-            app:layout_constraintStart_toEndOf="@+id/hundredButton"
-            app:layout_constraintTop_toTopOf="@+id/hundredButton" />
+            app:backgroundTint="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout_add_money"
+            app:layout_constraintTop_toBottomOf="@+id/textView81" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/twoThouButton"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
             android:text="+2000"
-            style="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/green"
             app:backgroundTint="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/hundredButton"
-            app:layout_constraintStart_toStartOf="@+id/hundredButton"
-            app:layout_constraintTop_toBottomOf="@+id/hundredButton" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fiveThouButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="+5000"
-            android:textColor="@color/green"
-            style="@style/TextAppearance.AppCompat.Medium"
-            app:backgroundTint="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/fiveHunButton"
-            app:layout_constraintTop_toBottomOf="@+id/fiveHunButton" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/tenThouButton"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/white"
-            android:text="+10000"
-            android:textColor="@color/green"
-            app:layout_constraintStart_toStartOf="@+id/thousandButton"
-            app:layout_constraintTop_toBottomOf="@+id/thousandButton" />
+            app:layout_constraintStart_toEndOf="@+id/thousandButton"
+            app:layout_constraintTop_toTopOf="@+id/thousandButton" />
 
         <TextView
             android:id="@+id/textView81"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:text="Amount wil be instantly credited in your wallet"
-            app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/snackBarRed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout_add_money"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout_add_money" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

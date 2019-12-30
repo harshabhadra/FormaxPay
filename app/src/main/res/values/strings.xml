@@ -1,7 +1,7 @@
 <resources>
     <string name="my_app_name">Formax Pay</string>
     <!-- -->
-    <string name="auth_key">5!mk516*pgh154%$#$#@$</string>
+    <string name="auth_key"></string>
     <string name="token">gZuSjocItx5YtkPD3vDkGp2j8eQHsa</string>
 
     <string name="base_url">https://www.rechargewebs.com/web/api/</string>

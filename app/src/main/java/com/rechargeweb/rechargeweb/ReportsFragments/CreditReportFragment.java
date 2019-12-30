@@ -116,6 +116,7 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
         simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         toString = simpleDateFormat.format(calendar.getTime());
+        fromString = toString;
         fromTextView.setText(toString);
         toTextView.setText(toString);
 
@@ -165,34 +166,17 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
             fromString = simpleDateFormat.format(calendar.getTime());
             fromTextView.setText(fromString);
             if (!fromString.isEmpty() && !toString.isEmpty()) {
-                alertDialog = createLoadingDialog(getContext());
-                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getCreditReportByDate(fromString,toString);
-                    }
-                },2000);
-
+                getCreditReportByDate(fromString,toString);
             }
         } else {
             toString = simpleDateFormat.format(calendar.getTime());
             toTextView.setText(toString);
             if (!fromString.isEmpty() && !toString.isEmpty()){
-                alertDialog = createLoadingDialog(getContext());
-                alertDialog.show();
                 recyclerView.setVisibility(View.INVISIBLE);
                 noRecordText.setVisibility(View.INVISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getCreditReportByDate(fromString,toString);
-                    }
-                },2000);
+                getCreditReportByDate(fromString,toString);
             }
         }
     }
@@ -243,10 +227,9 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
             public void onChanged(List<Passbook> passbookList) {
                 fromImageView.setEnabled(true);
                 toImageView.setEnabled(true);
-                alertDialog.dismiss();
+                loading.setVisibility(View.VISIBLE);
                 if (passbookList != null) {
                     Log.e(TAG, "CreditReportFragment list is full");
-                    loading.setVisibility(View.GONE);
                     for (int i = 0; i < passbookList.size(); i++) {
                         if (passbookList.get(i).getTransaction_id().isEmpty()) {
                             recyclerView.setVisibility(View.GONE);

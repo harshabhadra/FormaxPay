@@ -73,4 +73,13 @@ public class MainViewModel extends ViewModel {
     public LiveData<List<PlanDetails>> getRechargePlans(String token, String type, String circleId, String optId) {
         return repository.getPlanDetails(token, type, circleId, optId);
     }
+
+    //Get Response message after sending transaction report
+    public LiveData<String>sendTranReport(String session_id, String authKey, String mmp_txn, String mer_txn, String amount, String prob, String date, String bank_txn,
+                                          String f_code, String clientCode, String bank_name, String authCode, String ipg_txn_id, String merchant_id, String desc,
+                                          String discriminator, String udf9, String surcharge, String cardNumber, String udf1, String udf2, String udf3, String udf4, String udf5,
+                                          String signature){
+        return repository.sendTranReport(session_id,authKey,mmp_txn,mer_txn,amount,prob,date,bank_txn,f_code,clientCode,bank_name,
+                authCode,ipg_txn_id,merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2, udf3, udf4, udf5, signature);
+    }
 }

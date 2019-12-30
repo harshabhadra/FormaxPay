@@ -110,6 +110,7 @@ public class AepsReportFragment extends Fragment implements DatePickerDialog.OnD
         simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         toString = simpleDateFormat.format(calendar.getTime());
+        fromString = toString;
         fromTextView.setText(toString);
         toTextView.setText(toString);
 

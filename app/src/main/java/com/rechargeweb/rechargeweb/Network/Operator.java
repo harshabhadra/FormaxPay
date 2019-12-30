@@ -234,4 +234,32 @@ public interface Operator {
     Call<FetchOperator>fetchOperator(@Query("apimember_id")String apimemberId,
                                      @Query("api_password")String apiPassword,
                                      @Query("Mobileno")String mobileNumber);
+
+    @POST("add_money")
+    @FormUrlEncoded
+    Call<String>sendTransactionDetails(@Field("user_id")String session_id,
+                                       @Field("auth_key")String authKey,
+                                       @Field("mmp_txn")String mmp_txn,
+                                       @Field("mer_txn")String mer_txn,
+                                       @Field("amt")String amount,
+                                       @Field("prob")String prob,
+                                       @Field("date")String date,
+                                       @Field("bank_txn")String bank_txn,
+                                       @Field("f_code")String f_code,
+                                       @Field("clientcode")String clientCode,
+                                       @Field("bank_name")String bank_name,
+                                       @Field("auth_code")String authCode,
+                                       @Field("ipg_txn_id")String ipg_txn_id,
+                                       @Field("merchant_id")String merchant_id,
+                                       @Field("desc")String desc,
+                                       @Field("discriminator")String discriminator,
+                                       @Field("udf9")String udf9,
+                                       @Field("surcharge")String surcharge,
+                                       @Field("CardNumber")String cardNumber,
+                                       @Field("udf1")String udf1,
+                                       @Field("udf2")String udf2,
+                                       @Field("udf3")String udf3,
+                                       @Field("udf4")String udf4,
+                                       @Field("udf5")String udf5,
+                                       @Field("signature")String signature);
 }

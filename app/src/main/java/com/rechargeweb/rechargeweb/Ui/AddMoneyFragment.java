@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -28,6 +30,7 @@ import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.AddMoneyTermsAdapters;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.R;
+import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.databinding.FragmentAddMoneyBinding;
 
 import java.text.SimpleDateFormat;
@@ -52,6 +55,10 @@ public class AddMoneyFragment extends Fragment{
     private static final int RC_PAYMENT_GATEWAY = 1;
     private AddMoneyTermsAdapters addMoneyTermsAdapters;
     private int addMoneyAmount;
+    private MainViewModel mainViewModel;
+
+    private String authKey,mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode,bank_name,
+            authCode,ipg_txn_id,merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2, udf3, udf4, udf5, signature;
 
     public AddMoneyFragment() {
         // Required empty public constructor
@@ -62,6 +69,13 @@ public class AddMoneyFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         activityAddMoneyBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_add_money,container,false);
+
+        //Initializing ViewModel class
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        //Initializing auth key
+        authKey = getResources().getString(R.string.auth_key);
+
         View view = activityAddMoneyBinding.getRoot();
 
         DummyData dummyData = new DummyData();
@@ -129,22 +143,6 @@ public class AddMoneyFragment extends Fragment{
             }
         });
 
-        //Setting on Click listener to preset amount buttons
-        activityAddMoneyBinding.hundredButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
-                if (amount.isEmpty()){
-                    activityAddMoneyBinding.addMoneyTextInput.setText("100");
-                }else {
-                    addMoneyAmount = Integer.parseInt(amount) + 100;
-                    if (addMoneyAmount <= 15000) {
-                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
-                    }
-                }
-            }
-        });
-
         activityAddMoneyBinding.fiveHunButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,36 +187,6 @@ public class AddMoneyFragment extends Fragment{
                 }
             }
         });
-
-        activityAddMoneyBinding.fiveThouButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
-                if (amount.isEmpty()){
-                    activityAddMoneyBinding.addMoneyTextInput.setText("5000");
-                }else {
-                    addMoneyAmount = Integer.parseInt(amount)+5000;
-                    if (addMoneyAmount <= 15000) {
-                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
-                    }
-                }
-            }
-        });
-
-        activityAddMoneyBinding.tenThouButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                amount = activityAddMoneyBinding.addMoneyTextInput.getText().toString().trim();
-                if (amount.isEmpty()){
-                    activityAddMoneyBinding.addMoneyTextInput.setText("10000");
-                }else {
-                    addMoneyAmount = Integer.parseInt(amount)+10000;
-                    if (addMoneyAmount <= 15000) {
-                        activityAddMoneyBinding.addMoneyTextInput.setText(String.valueOf(addMoneyAmount));
-                    }
-                }
-            }
-        });
         return view;
     }
 
@@ -235,6 +203,37 @@ public class AddMoneyFragment extends Fragment{
                 String[] resValue = data.getStringArrayExtra("responseValueArray");
                 if(resKey!=null &&resValue!=null)
                 {
+
+                    resdate = resValue[0];
+                    surcharge = resValue[1];
+                    cardNumber = resValue[2];
+                    prob = resValue[3];
+                    resclientCode = resValue[4];
+                    mmp_txn = resValue[5];
+                    signature = resValue[6];
+                    udf5 = resValue[7];
+                    resamount = resValue[8];
+                    udf9 = resValue[19];
+                    udf3 = resValue[10];
+                    merchant_id = resValue[11];
+                    udf4 = resValue[12];
+                    udf1 = resValue[13];
+                    udf2 = resValue[14];
+                    authCode = resValue[15];
+                    discriminator = resValue[16];
+                    mer_txn = resValue[17];
+                    bank_txn = resValue[18];
+                    ipg_txn_id = resValue[20];
+                    bank_name = resValue[21];
+                    desc = resValue[22];
+                    f_code = resValue[23];
+
+                    if (f_code.equals("success_00")){
+
+                        f_code = "Ok";
+                        sendTransactionDetails(session_id, authKey,mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode
+                                ,bank_name,authCode, ipg_txn_id, merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2,udf3,udf4,udf5,signature);
+                    }
                     for(int i=0; i<resKey.length; i++)
                         Log.e(TAG,"  "+i+" resKey : "+resKey[i]+" resValue : "+resValue[i]);
                 }
@@ -254,6 +253,22 @@ public class AddMoneyFragment extends Fragment{
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+    }
+
+    //Send transaction details
+    private void sendTransactionDetails(String session_id, String authKey, String mmp_txn, String mer_txn, String amount, String prob, String date, String bank_txn,
+                                        String f_code, String clientCode, String bank_name, String authCode, String ipg_txn_id, String merchant_id, String desc,
+                                        String discriminator, String udf9, String surcharge, String cardNumber, String udf1, String udf2, String udf3, String udf4, String udf5,
+                                        String signature){
+
+        mainViewModel.sendTranReport(session_id, authKey,mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode
+                ,bank_name,authCode, ipg_txn_id, merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2,udf3,udf4,udf5,signature).observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.e(TAG,s);
+            }
+        });
+
     }
 
     //Method to start payment Gateway
@@ -278,6 +293,31 @@ public class AddMoneyFragment extends Fragment{
         newPayIntent.putExtra("signature_response", "ba9dfcedd0c45dd02b");
         newPayIntent.putExtra("discriminator", "All");
         newPayIntent.putExtra("isLive", true);
+        startActivityForResult(newPayIntent, RC_PAYMENT_GATEWAY);
+    }
+
+    //Method to start payment Gateway
+    private void startDemoPaymentGateway() {
+        Intent newPayIntent=new Intent(getContext(), PayActivity.class);
+        newPayIntent.putExtra("merchantId", "197");
+//txnscamt Fixed. Must be 0
+        newPayIntent.putExtra("txnscamt", "0");
+        newPayIntent.putExtra("loginid","197" );
+        newPayIntent.putExtra("password", "Test@123");
+        newPayIntent.putExtra("prodid", "NSE");
+//txncurr Fixed. Must be �INR�
+        newPayIntent.putExtra("txncurr", "INR");
+        newPayIntent.putExtra("clientcode",encodeBase64 ("007"));
+        newPayIntent.putExtra("custacc","100000036600" );
+        newPayIntent.putExtra("channelid", "INT");
+//amt  Should be 2 decimal number i.e 1.00
+        newPayIntent.putExtra("amt","10.0" );
+        newPayIntent.putExtra("txnid", "022");
+        newPayIntent.putExtra("date", "01/10/2019 18:31:00");
+        newPayIntent.putExtra("signature_request","KEY123657234" );
+        newPayIntent.putExtra("signature_response","KEYRESP123657234" );
+        newPayIntent.putExtra("discriminator","All");
+        newPayIntent.putExtra("isLive",false);
         startActivityForResult(newPayIntent, RC_PAYMENT_GATEWAY);
     }
 

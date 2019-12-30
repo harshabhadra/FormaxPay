@@ -199,8 +199,20 @@ public class Repository {
     //Store DTH Customer information
     private MutableLiveData<DthCustomerInfo>dthCustomerInfoMutableLiveData = new MutableLiveData<>();
 
+    //Store response from transaction report send
+    private MutableLiveData<String>transactionReportMutableLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    public LiveData<String>sendTranReport(String session_id, String authKey, String mmp_txn, String mer_txn, String amount, String prob, String date, String bank_txn,
+                                          String f_code, String clientCode, String bank_name, String authCode, String ipg_txn_id, String merchant_id, String desc,
+                                          String discriminator, String udf9, String surcharge, String cardNumber, String udf1, String udf2, String udf3, String udf4, String udf5,
+                                          String signature){
+            sendAddMoneyReport(session_id,authKey,mmp_txn,mer_txn,amount,prob,date,bank_txn,f_code,clientCode,bank_name,
+                    authCode,ipg_txn_id,merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2, udf3, udf4, udf5, signature);
+            return transactionReportMutableLiveData;
     }
 
     //Get Dth Customer Information
@@ -2682,6 +2694,39 @@ public class Repository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
+            }
+        });
+    }
+
+    //Network request to get message after sending transaction report
+    private void sendAddMoneyReport(String session_id, String authKey, String mmp_txn, String mer_txn,
+                                    String amount, String prob, String date, String bank_txn, String f_code,
+                                    String clientCode, String bank_name, String authCode, String ipg_txn_id,
+                                    String merchant_id, String desc, String discriminator, String udf9, String surcharge,
+                                    String cardNumber, String udf1, String udf2, String udf3, String udf4, String udf5, String signature) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Operator.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Operator operator = retrofit.create(Operator.class);
+        Call<String>call = operator.sendTransactionDetails(session_id,authKey,mmp_txn,mer_txn,amount,prob,date,bank_txn,f_code,clientCode,bank_name,
+                authCode,ipg_txn_id,merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2, udf3, udf4, udf5, signature);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.e(TAG,"Response is: " + response.body());
+                if (response.body() != null && response.isSuccessful()){
+                    transactionReportMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Error sending details: " + t.getMessage());
+                transactionReportMutableLiveData.setValue(t.getMessage());
             }
         });
     }
