@@ -12,7 +12,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -23,6 +24,12 @@ android {
 
     dataBinding {
         enabled = true
+    }
+
+    externalNativeBuild{
+        cmake{
+            path "CMakeLists.txt"
+        }
     }
 }
 dependencies {

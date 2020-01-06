@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.DmtViewModel;
 import com.rechargeweb.rechargeweb.databinding.ActivityDmtBinding;
@@ -45,7 +46,7 @@ public class DmtActivity extends AppCompatActivity {
         }
         dmtBinding = DataBindingUtil.setContentView(this, R.layout.activity_dmt);
 
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
 
         //Initializing ViewModel Class
         dmtViewModel = ViewModelProviders.of(this).get(DmtViewModel.class);

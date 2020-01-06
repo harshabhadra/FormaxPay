@@ -44,6 +44,7 @@ import com.rechargeweb.rechargeweb.BottomSheetFrag.DTHSheetFragment;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.DthCustomerInfoBottomSheet;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.PostPaidSheet;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.FetchOperator;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Model.Prepaid;
@@ -82,7 +83,6 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
     private AlertDialog loadingDialog;
 
     String auth;
-    String token;
     String providerName;
     String providerId;
     String mobileNumber;
@@ -108,8 +108,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge);
 
-        auth = getResources().getString(R.string.auth_key);
-        token = getResources().getString(R.string.token);
+        auth = new Keys().apiKey();
 
         numberEditText = findViewById(R.id.mobile_number);
         amountEditText = findViewById(R.id.amount);

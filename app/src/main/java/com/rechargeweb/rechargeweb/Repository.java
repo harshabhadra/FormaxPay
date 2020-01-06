@@ -54,6 +54,13 @@ public class Repository {
 
     private static final String TAG = Repository.class.getSimpleName();
 
+    static {
+        System.loadLibrary("native-lib");
+    }
+
+    private String memberId = new Keys().memberId();
+    private String apiPassword = new Keys().apiPassword();
+
     private ApiService apiService = ApiUtills.getApiService();
 
     private OperatorServices operatorServices = OperatorUtil.getOperatorServices();
@@ -2487,7 +2494,7 @@ public class Repository {
                 .build();
 
         Operator api = retrofit.create(Operator.class);
-        Call<String>call = api.getPlanDetails("3368","12345",circleId,operatorId);
+        Call<String>call = api.getPlanDetails(memberId,apiPassword,circleId,operatorId);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

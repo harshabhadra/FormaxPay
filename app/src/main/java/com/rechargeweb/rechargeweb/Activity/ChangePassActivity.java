@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
@@ -51,7 +52,7 @@ public class ChangePassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pass);
 
-         auth = getResources().getString(R.string.auth_key);
+         auth = new Keys().apiKey();
         //Initializing Api services
         apiService = ApiUtills.getApiService();
 

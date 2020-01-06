@@ -35,6 +35,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BuyCouponBottomSheetFragment;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.Model.Credential;
 import com.rechargeweb.rechargeweb.R;
@@ -109,7 +110,7 @@ public class PanActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //Initializing session id and auth key
         session_id = getIntent().getStringExtra(Constants.SESSION_ID);
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
 
         if (intent.hasExtra(Constants.LOCATION_BUNDLE)){
 

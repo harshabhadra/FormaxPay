@@ -29,6 +29,7 @@ import com.atom.mpsdklibrary.PayActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.AddMoneyTermsAdapters;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.databinding.FragmentAddMoneyBinding;
@@ -74,7 +75,7 @@ public class AddMoneyFragment extends Fragment{
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         //Initializing auth key
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
 
         View view = activityAddMoneyBinding.getRoot();
 

@@ -49,6 +49,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.infideap.drawerbehavior.Advance3DDrawerLayout;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BankNameBottomFragment;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.Model.Details;
@@ -168,7 +169,7 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);
 
         //Initialzing auth key
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
 
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.SESSION_ID)) {

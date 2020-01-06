@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.rechargeweb.rechargeweb.Adapters.ReportPagerAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.SignUpLogIn.LogInFragment;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.SignUpLogIn.SignUpFragment;
@@ -19,13 +20,19 @@ import androidx.viewpager.widget.ViewPager;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static final String TAG = SignUpActivity.class.getSimpleName();
     ReportPagerAdapter reportPagerAdapter;
     private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+
+        Keys keys = new Keys();
+        String auth = keys.apiKey();
+        Log.e(TAG,"api key from c ++ is : " + auth);
         //Getting Intent
         Intent intent = getIntent();
         if (intent.hasExtra("logout")){

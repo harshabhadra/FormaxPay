@@ -37,6 +37,7 @@ import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
 import com.rechargeweb.rechargeweb.Activity.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
@@ -96,7 +97,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
 
 
         isLoading = false;
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 

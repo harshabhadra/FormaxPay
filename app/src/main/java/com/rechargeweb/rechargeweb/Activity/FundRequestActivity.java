@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BankNameBottomFragment;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.PaymentModeBottomSheet;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.R;
@@ -81,7 +82,7 @@ public class FundRequestActivity extends AppCompatActivity implements BankNameBo
         Intent intent = getIntent();
 
         session_id = intent.getStringExtra(Constants.SESSION_ID);
-        auth_key = getResources().getString(R.string.auth_key);
+        auth_key = new Keys().apiKey();
         wallet = "wallet_1";
 
         Calendar calendar = Calendar.getInstance();

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Profile;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
@@ -77,7 +78,7 @@ public class ProfileFragment extends Fragment {
         apiService = ApiUtills.getApiService();
 
         //Initializing Auth key
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
 
         //Getting session id and user_id
         HomeActivity activity = (HomeActivity) getActivity();

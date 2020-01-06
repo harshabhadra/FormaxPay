@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rechargeweb.rechargeweb.Activity.ReportActivity;
 import com.rechargeweb.rechargeweb.Adapters.CouponReportAdapter;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.CouponReport;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
@@ -66,7 +67,7 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
                              Bundle savedInstanceState) {
 
         //Initializing authKey
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
 
         //Initializing ViewModel Class
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);

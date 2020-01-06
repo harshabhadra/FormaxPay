@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.ViewModels.MainViewModel;
 import com.rechargeweb.rechargeweb.Model.Support;
 import com.rechargeweb.rechargeweb.R;
@@ -48,7 +49,7 @@ public class SupportActivity extends AppCompatActivity {
         billMailButton = false;
 
         //Auth key
-        auth_key = getResources().getString(R.string.auth_key);
+        auth_key = new Keys().apiKey();
 
         //Initializing MainViewModel class
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);

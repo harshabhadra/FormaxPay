@@ -24,6 +24,7 @@ import com.easypay.epmoney.epmoneyaeps.ui.activity.IntermidiateActivity;
 import com.easypay.epmoney.epmoneyaeps.utils.PaisaNikalConfig;
 import com.rechargeweb.rechargeweb.Checksum;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
 import com.rechargeweb.rechargeweb.databinding.ActivityFinoAepsBinding;
@@ -67,7 +68,7 @@ public class FinoAepsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fino_aeps);
 
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
 
         Intent intent = getIntent();
         if (intent.hasExtra(Constants.SESSION_ID)) {

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.rechargeweb.rechargeweb.Activity.ReportActivity;
 import com.rechargeweb.rechargeweb.Adapters.AepsReportAdapter;
 import com.rechargeweb.rechargeweb.AepsReport;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
 import com.tsongkha.spinnerdatepicker.DatePicker;
@@ -68,7 +69,7 @@ public class AepsReportFragment extends Fragment implements DatePickerDialog.OnD
                              Bundle savedInstanceState) {
 
         //Initializing authKey
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
 
         //Initializing ViewModel Class
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);

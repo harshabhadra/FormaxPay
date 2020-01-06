@@ -35,6 +35,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.rechargeweb.rechargeweb.BillPaymentViewModel;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.OperatorByStateSheet;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.BillPay;
 import com.rechargeweb.rechargeweb.Model.ElectricStatus;
 import com.rechargeweb.rechargeweb.Model.Prepaid;
@@ -107,7 +108,7 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                 Log.e(TAG, "null");
             }
         }
-        auth_key = getResources().getString(R.string.auth_key);
+        auth_key = new Keys().apiKey();
         checkLocationPermission();
 
         //Check which network is connected

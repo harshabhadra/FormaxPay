@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.FileUtils;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.UploadKycViewModel;
@@ -104,7 +105,7 @@ public class UploadKycActivity extends AppCompatActivity implements DatePickerDi
         month = Integer.parseInt(parts[1])-1;
         year = Integer.parseInt(parts[2]);
 
-        auth_key = getResources().getString(R.string.auth_key);
+        auth_key = new Keys().apiKey();
 
         //Initializing DataBinding
         uploadKycBinding = DataBindingUtil.setContentView(this,R.layout.activity_upload_kyc);

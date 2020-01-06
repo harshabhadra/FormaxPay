@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rechargeweb.rechargeweb.Activity.ReportActivity;
 import com.rechargeweb.rechargeweb.Adapters.PassbookAdapter;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.Passbook;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.PassBookViewModel;
@@ -73,7 +74,7 @@ public class PassbookFragment extends Fragment implements PassbookAdapter.OnPass
                              Bundle savedInstanceState) {
 
         //Initializing authKey
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
 
         //Initializing ViewModel Class
         passBookViewModel = ViewModelProviders.of(this).get(PassBookViewModel.class);

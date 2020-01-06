@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.Register;
 import com.rechargeweb.rechargeweb.Model.Validate;
 import com.rechargeweb.rechargeweb.R;
@@ -40,7 +41,7 @@ public class ValidateActivity extends AppCompatActivity {
         validateBinding = DataBindingUtil.setContentView(this,R.layout.activity_validate);
         dmtViewModel = ViewModelProviders.of(this).get(DmtViewModel.class);
 
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
         Intent intent = getIntent();
 
         if (intent.hasExtra(Constants.REMITTER_MOBILE)){

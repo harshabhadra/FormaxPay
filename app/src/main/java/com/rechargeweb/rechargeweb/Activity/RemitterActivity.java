@@ -27,6 +27,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.rechargeweb.rechargeweb.Adapters.BeneficiaryAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.AddBeneficiary;
 import com.rechargeweb.rechargeweb.Model.Beneficiary;
 import com.rechargeweb.rechargeweb.Model.Remitter;
@@ -71,7 +72,7 @@ public class RemitterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remitter);
 
-        auth = getResources().getString(R.string.auth_key);
+        auth = new Keys().apiKey();
 
         //Initializing ViewModel classes
         beneficiaryViewModel = ViewModelProviders.of(this).get(BeneficiaryViewModel.class);

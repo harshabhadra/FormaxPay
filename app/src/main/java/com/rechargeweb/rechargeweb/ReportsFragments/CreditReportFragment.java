@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.rechargeweb.rechargeweb.Activity.ReportActivity;
 import com.rechargeweb.rechargeweb.Adapters.PassbookAdapter;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.Passbook;
 import com.rechargeweb.rechargeweb.R;
 import com.rechargeweb.rechargeweb.ViewModels.AllReportViewModel;
@@ -73,7 +74,7 @@ public class CreditReportFragment extends Fragment implements DatePickerDialog.O
                              Bundle savedInstanceState) {
 
         //Initializing authKey
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
 
         //Initializing ViewModel Class
         allReportViewModel = ViewModelProviders.of(this).get(AllReportViewModel.class);

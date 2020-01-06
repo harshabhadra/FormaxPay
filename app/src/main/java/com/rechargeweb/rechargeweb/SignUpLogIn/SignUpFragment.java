@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.atom.mpsdklibrary.PayActivity;
+import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.OtpFragment;
@@ -72,7 +73,7 @@ public class SignUpFragment extends Fragment{
         apiService = ApiUtills.getApiService();
 
         //Initializing Auth key
-        authKey = getResources().getString(R.string.auth_key);
+        authKey = new Keys().apiKey();
 
 
         endProcess = false;
