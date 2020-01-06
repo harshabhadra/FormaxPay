@@ -173,9 +173,9 @@ public class BillPaymentActivity extends AppCompatActivity implements OperatorBy
                             if (electricStatus != null) {
 
                                 Log.e(TAG, "electric status is not null");
-                                if (electricStatus.getBillAmount() == null) {
+                                if (electricStatus.getStatus().equals("FAILED")) {
                                     Log.e(TAG, "Bill amount is null");
-                                    Toast.makeText(getApplicationContext(), electricStatus.getStatus(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), electricStatus.getMessage(), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(BillPaymentActivity.this, BillPaymentActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.putExtra(Constants.SESSION_ID, session_id);

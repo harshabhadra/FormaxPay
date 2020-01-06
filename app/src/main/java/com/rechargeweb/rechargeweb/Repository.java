@@ -1177,20 +1177,21 @@ public class Repository {
             @Override
             public void onResponse(Call<ElectricStatus> call, Response<ElectricStatus> response) {
 
+                Log.e(TAG,"Electric Bill status response: " + response.body().toString());
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.e(TAG, "Electric response success: " + response.body().toString());
-                    ElectricStatus electricStatus = new ElectricStatus(response.body().getStatus(), response.body().getCustomerId(),
-                            response.body().getCustomerName(), response.body().getBillNumber(), response.body().getBillDate(), response.body().getBillDueDate(),
-                            response.body().getBillPeriod(), response.body().getBillAmount(), response.body().getRefId(), response.body().getMessage());
+                        Log.e(TAG, "Electric response success: " + response.body().toString());
+                        ElectricStatus electricStatus = new ElectricStatus(response.body().getStatus(), response.body().getCustomerId(),
+                                response.body().getCustomerName(), response.body().getBillNumber(), response.body().getBillDate(), response.body().getBillDueDate(),
+                                response.body().getBillPeriod(), response.body().getBillAmount(), response.body().getRefId(), response.body().getMessage());
 
-                    electricStatusMutableLiveData.setValue(electricStatus);
-                }
+                        electricStatusMutableLiveData.setValue(electricStatus);
+                    }
             }
 
             @Override
             public void onFailure(Call<ElectricStatus> call, Throwable t) {
                 Log.e(TAG, "Electric response Failure: " + t.getMessage());
-                ElectricStatus electricStatus = new ElectricStatus(t.getMessage());
+                ElectricStatus electricStatus = new ElectricStatus("Unable To Fetch Details");
                 electricStatusMutableLiveData.setValue(electricStatus);
             }
         });

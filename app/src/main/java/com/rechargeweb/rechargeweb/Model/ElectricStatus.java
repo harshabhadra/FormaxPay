@@ -37,8 +37,8 @@ public class ElectricStatus {
     @Expose
     private String message;
 
-    public ElectricStatus(String status) {
-        this.status = status;
+    public ElectricStatus(String message) {
+        this.message = message;
     }
 
     public ElectricStatus(String status, String customerId, String customerName, String billNumber, String billDate, String billDueDate, String billPeriod, Integer billAmount, String refId, String message) {
