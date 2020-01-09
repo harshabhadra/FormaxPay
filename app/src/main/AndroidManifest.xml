@@ -26,9 +26,13 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme,android:allowBackup,android:icon,android:name,android:label">
-        <activity android:name=".Activity.IntroActivity"
+        <activity android:name=".Activity.AepsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.IntroActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.SignUpActivity"
             android:screenOrientation="portrait"
@@ -37,17 +41,6 @@
         <activity
             android:name=".Activity.ReportActivity"
             android:label="Transaction Reports"
-            android:parentActivityName=".Activity.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.FinoAepsActivity"
-            android:screenOrientation="portrait"
-            android:label="AEPS"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activity.UploadKycActivity"
-            android:label="KYC Details"
             android:parentActivityName=".Activity.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -70,8 +63,8 @@
             android:name=".Activity.PlansActivity"
             android:label="Search Plans"
             android:parentActivityName=".Activity.RechargeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.SupportActivity"
             android:screenOrientation="portrait"

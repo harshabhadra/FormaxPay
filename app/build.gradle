@@ -1,20 +1,31 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 android {
+    signingConfigs {
+        release {
+            storeFile file('E:\\FormaxPay\\Upload\\my-release-key.keystore')
+            storePassword '123456'
+            keyAlias = 'myKey'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 29
     defaultConfig {
         applicationId 'com.rechargeweb.rechargeweb'
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 10
-        versionName "3.0.6"
+        versionCode 11
+        versionName "3.0.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
         release {
+            debuggable true
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -26,11 +37,12 @@ android {
         enabled = true
     }
 
-    externalNativeBuild{
-        cmake{
+    externalNativeBuild {
+        cmake {
             path "CMakeLists.txt"
         }
     }
+    buildToolsVersion = '29.0.2'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,7 +70,7 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
     //SpinnerDatePicker
@@ -82,6 +94,12 @@ dependencies {
 
     //Firebase Remote config
     implementation 'com.google.firebase:firebase-config:19.1.0'
+
+    // (Recommended) Add the Google Analytics dependency.
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+
+    // Add the Firebase Crashlytics dependency.
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 

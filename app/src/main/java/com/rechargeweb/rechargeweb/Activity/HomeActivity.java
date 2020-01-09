@@ -38,7 +38,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,7 +49,6 @@ import com.infideap.drawerbehavior.Advance3DDrawerLayout;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BankNameBottomFragment;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Keys;
-import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
@@ -73,7 +71,6 @@ import java.util.Locale;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import mehdi.sakout.fancybuttons.FancyButton;
 
 public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHomeItemClickLisetener,
         LocationListener,
@@ -278,52 +275,11 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
                 startActivity(intent);
                 break;
             case "YBL AEPS":
-                View layout1 = getLayoutInflater().inflate(R.layout.loading_dialog, null);
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setView(layout1);
-                builder1.setCancelable(false);
 
-                final AlertDialog dialog1 = builder1.create();
-                dialog1.show();
-
-                String service_type2 = "YBL_AEPS";
-                allReportViewModel.aepsLogIn(session_id, service_type2, auth).observe(this, new Observer<AepsLogIn>() {
-                    @Override
-                    public void onChanged(AepsLogIn aepsLogIn) {
-                        dialog1.dismiss();
-                        if (aepsLogIn != null) {
-                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected") || aepsLogIn.getStatus().equals("REJECTED")) {
-                                Intent uploadKycIntent = new Intent(HomeActivity.this, UploadKycActivity.class);
-                                uploadKycIntent.putExtra(Constants.SESSION_ID, session_id);
-                                uploadKycIntent.putExtra(Constants.USER_ID, user_id);
-                                uploadKycIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
-                                uploadKycIntent.putExtra(Constants.AEPS_TYPE, service_type2);
-                                startActivity(uploadKycIntent);
-                            } else if (aepsLogIn.getStatus().equals("Processing") || aepsLogIn.getStatus().equals("PROCESSING")) {
-
-                                Intent uploadIntent = new Intent(HomeActivity.this, UploadKycActivity.class);
-                                uploadIntent.putExtra(Constants.SESSION_ID, session_id);
-                                uploadIntent.putExtra(Constants.USER_ID, user_id);
-                                uploadIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
-                                uploadIntent.putExtra(Constants.AEPS_TYPE, service_type2);
-                                startActivity(uploadIntent);
-                                finish();
-
-                            } else {
-                                agentCode = aepsLogIn.getAgentId();
-                                Log.e(TAG, "agernt Id: " + agentCode);
-                                if (!agentCode.isEmpty()) {
-
-                                    Intent finoIntent = new Intent(HomeActivity.this, FinoAepsActivity.class);
-                                    finoIntent.putExtra(Constants.SESSION_ID, session_id);
-                                    finoIntent.putExtra(Constants.USER_ID, user_id);
-                                    startActivity(finoIntent);
-                                }
-                            }
-                        }
-                    }
-                });
-
+                Intent aepsIntent = new Intent(HomeActivity.this, AepsActivity.class);
+                aepsIntent.putExtra(Constants.SESSION_ID,session_id);
+                aepsIntent.putExtra(Constants.USER_ID,user_id);
+                startActivity(aepsIntent);
                 break;
             default:
                 Toast.makeText(getApplicationContext(), "Coming Soon", Toast.LENGTH_LONG).show();

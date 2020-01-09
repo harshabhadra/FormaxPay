@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.crashlytics.android.Crashlytics;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Model.Post;
@@ -101,7 +102,6 @@ public class LogInFragment extends Fragment {
         fragmentLoginlayoutBinding.logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 InputMethodManager inputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (inputMethodManager != null){
                     inputMethodManager.hideSoftInputFromWindow(fragmentLoginlayoutBinding.logInButton.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);

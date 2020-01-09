@@ -25,20 +25,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.rechargeweb.rechargeweb.Activity.AepsActivity;
 import com.rechargeweb.rechargeweb.Activity.DmtActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
-import com.rechargeweb.rechargeweb.Activity.UploadKycActivity;
+import com.rechargeweb.rechargeweb.Adapters.AepsSliderAdapter;
 import com.rechargeweb.rechargeweb.Adapters.AllReportAdapter;
 import com.rechargeweb.rechargeweb.Adapters.DmtSliderAdapter;
 import com.rechargeweb.rechargeweb.Adapters.ItemAdapter;
 import com.rechargeweb.rechargeweb.Adapters.SliderAdapter;
-import com.rechargeweb.rechargeweb.Adapters.AepsSliderAdapter;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Constant.DummyData;
-import com.rechargeweb.rechargeweb.Activity.FinoAepsActivity;
 import com.rechargeweb.rechargeweb.Gist.StatefulRecyclerView;
 import com.rechargeweb.rechargeweb.Keys;
-import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
 import com.rechargeweb.rechargeweb.Network.ApiService;
@@ -164,7 +162,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 Fragment fragment = new AddMoneyFragment();
-                fragmentTransaction.replace(R.id.main_container,fragment);
+                fragmentTransaction.replace(R.id.main_container, fragment);
                 fragmentTransaction.commit();
                 activity.setFragment(fragment);
             }
@@ -176,7 +174,7 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 Fragment fragment = new AddMoneyFragment();
-                fragmentTransaction.replace(R.id.main_container,fragment);
+                fragmentTransaction.replace(R.id.main_container, fragment);
                 fragmentTransaction.commit();
                 activity.setFragment(fragment);
             }
@@ -205,46 +203,10 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
             @Override
             public void onClick(View v) {
 
-                loadingDialog = createAlertDialog(getContext());
-                loadingDialog.show();
-                String serviceType = "YBL_AEPS";
-                allReportViewModel.aepsLogIn(id, serviceType, authKey).observe(HomeFragment.this, new androidx.lifecycle.Observer<AepsLogIn>() {
-                    @Override
-                    public void onChanged(AepsLogIn aepsLogIn) {
-                        loadingDialog.dismiss();
-                        if (aepsLogIn != null) {
-                            if (aepsLogIn.getStatus().equals("") || aepsLogIn.getStatus().equals("Rejected")) {
-                                Intent uploadKycIntent = new Intent(getActivity(), UploadKycActivity.class);
-                                uploadKycIntent.putExtra(Constants.SESSION_ID, id);
-                                uploadKycIntent.putExtra(Constants.USER_ID, user_id);
-                                uploadKycIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
-                                uploadKycIntent.putExtra(Constants.AEPS_TYPE, serviceType);
-                                startActivity(uploadKycIntent);
-                            } else if (aepsLogIn.getStatus().equals("Processing")) {
-
-                                Intent uploadIntent = new Intent(getActivity(), UploadKycActivity.class);
-                                uploadIntent.putExtra(Constants.SESSION_ID, id);
-                                uploadIntent.putExtra(Constants.USER_ID, user_id);
-                                uploadIntent.putExtra(Constants.AEPS_STATUS, aepsLogIn);
-                                uploadIntent.putExtra(Constants.AEPS_TYPE, serviceType);
-                                startActivity(uploadIntent);
-                                getActivity().finish();
-
-                            } else {
-                                String agentCode = aepsLogIn.getAgentId();
-                                Log.e(TAG, "agernt Id: " + agentCode);
-                                if (!agentCode.isEmpty()) {
-
-                                    Intent finoIntent = new Intent(getActivity(), FinoAepsActivity.class);
-                                    finoIntent.putExtra(Constants.SESSION_ID, id);
-                                    finoIntent.putExtra(Constants.USER_ID, user_id);
-                                    startActivity(finoIntent);
-                                }
-                            }
-                        }
-                    }
-                });
-
+                Intent intent = new Intent(getActivity(), AepsActivity.class);
+                intent.putExtra(Constants.SESSION_ID, id);
+                intent.putExtra(Constants.USER_ID, user_id);
+                startActivity(intent);
             }
         });
         return view;
@@ -326,16 +288,4 @@ public class HomeFragment extends Fragment implements ItemAdapter.OnItemclickLis
     public interface OnHomeItemClickLisetener {
         void onHomeItemclick(Items items);
     }
-
-    //Create loading Dialog
-    private AlertDialog createAlertDialog(Context context) {
-
-        View layout = getLayoutInflater().inflate(R.layout.loading_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setCancelable(false);
-        builder.setView(layout);
-        return builder.create();
-    }
-
-
 }

@@ -387,7 +387,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             providerId = "1";
             Picasso.get().load(R.drawable.airtel).into(providerImage);
         } else if ("IDEA".equals(operatorName)) {
-            providerId = "3";
+            providerId = "5";
             Picasso.get().load(R.drawable.idea).into(providerImage);
         } else if ("VODAFONE".equals(operatorName)) {
             providerId = "2";
@@ -396,7 +396,7 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
             providerId = "4";
             Picasso.get().load(R.drawable.bsnl).into(providerImage);
         } else if ("RELIANCE JIO INFOCOMM LIMITED".equals(operatorName)) {
-            providerId = "6";
+            providerId = "8";
             Picasso.get().load(R.drawable.jio).into(providerImage);
         }
     }

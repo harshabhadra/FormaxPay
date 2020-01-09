@@ -44,7 +44,7 @@ public class Constants {
     public static final String MESSAGE = "message";
 
     public static final String AEPS_STATUS = "status";
-    public static final String AEPS_TYPE =  "aeps_type";
+    public static final String AEPS_TYPE =  "YBL_AEPS";
     public static final String PASSBOOK = "passbook";
 
     public static final String FIRST_TIME_USER = "first_time_user";
