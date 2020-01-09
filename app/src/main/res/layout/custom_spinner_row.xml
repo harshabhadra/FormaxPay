@@ -8,7 +8,7 @@
         android:id="@+id/ivFlag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@mipmap/airtel_logo" />
+        />
 
     <TextView
         android:id="@+id/tvName"

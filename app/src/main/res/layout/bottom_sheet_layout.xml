@@ -17,7 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="8dp"
-            tools:src="@mipmap/airtel_logo" />
+             />
 
         <TextView
             android:id="@+id/bottom_text"

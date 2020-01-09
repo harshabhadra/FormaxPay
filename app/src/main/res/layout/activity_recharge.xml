@@ -143,8 +143,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/provider_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/provider_name"
-            tools:src="@mipmap/airtel_logo" />
+            app:layout_constraintTop_toTopOf="@+id/provider_name" />
 
         <ProgressBar
             android:id="@+id/loading_indicator"

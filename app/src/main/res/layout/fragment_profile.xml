@@ -243,6 +243,7 @@
                             android:layout_height="wrap_content"
                             android:enabled="false"
                             android:maxLength="12"
+                            android:textColor="#000"
                             android:inputType="number"
                             android:hint="Aadhar Number" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -265,6 +266,7 @@
                             android:enabled="false"
                             android:inputType="text"
                             android:maxLines="1"
+                            android:textColor="#000"
                             android:hint="location" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
