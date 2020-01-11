@@ -32,7 +32,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         Keys keys = new Keys();
         String auth = keys.apiKey();
-        Log.e(TAG,"api key from c ++ is : " + auth);
         //Getting Intent
         Intent intent = getIntent();
         if (intent.hasExtra("logout")){

@@ -511,7 +511,7 @@ public class UploadKycFragment extends Fragment implements DatePickerDialog.OnDa
             //creating a file
             if (panUri != null) {
                 Picasso.get().load(panUri).placeholder(R.drawable.add_cred_img2).into(uploadKycBinding.kycPanImageView);
-                File file = new File(FileUtils.getPath(adharUri, getContext()));
+                File file = new File(FileUtils.getPath(panUri, getContext()));
                 panImageBody = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(panUri)), file);
             }
         }else if (resultCode == RESULT_CANCELED){

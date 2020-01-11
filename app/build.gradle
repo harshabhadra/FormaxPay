@@ -14,14 +14,14 @@ android {
         applicationId 'com.rechargeweb.rechargeweb'
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
-        versionName "3.0.7"
+        versionCode 12
+        versionName "3.0.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
         release {
-            debuggable true
+            debuggable false
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

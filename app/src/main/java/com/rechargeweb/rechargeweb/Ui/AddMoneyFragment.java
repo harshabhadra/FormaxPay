@@ -274,12 +274,16 @@ public class AddMoneyFragment extends Fragment{
 
     //Method to start payment Gateway
     private void startPaymentGateway(String pDatem, Double pAmount, String cusAcc,String id,String tranId) {
+
+        String merchantId = new Keys().merchantId();
+        String password = new Keys().payementGatePass();
+
         Intent newPayIntent = new Intent(getContext(), PayActivity.class);
-        newPayIntent.putExtra("merchantId", "98617");
+        newPayIntent.putExtra("merchantId", merchantId);
         //txnscamt Fixed. Must be 0
         newPayIntent.putExtra("txnscamt", "0");
-        newPayIntent.putExtra("loginid", "98617");
-        newPayIntent.putExtra("password", "074da5a7");
+        newPayIntent.putExtra("loginid", merchantId);
+        newPayIntent.putExtra("password", password);
         newPayIntent.putExtra("prodid", "FORMAX");
         //txncurr Fixed. Must be �INR�
         newPayIntent.putExtra("txncurr", "INR");

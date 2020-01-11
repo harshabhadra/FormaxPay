@@ -11,4 +11,8 @@ public class Keys {
     public native String memberId();
 
     public native String apiPassword();
+
+    public native String merchantId();
+
+    public native String payementGatePass();
 }
