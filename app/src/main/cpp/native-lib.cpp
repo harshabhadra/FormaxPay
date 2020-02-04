@@ -7,33 +7,33 @@
 extern "C" JNIEXPORT jstring
 JNICALL
 Java_com_rechargeweb_rechargeweb_Keys_apiKey(JNIEnv *env, jobject object) {
-    std::string api_key = "5!mk516*pgh154%$#$#@$";
+    std::string api_key = "";
     return env->NewStringUTF(api_key.c_str());
 }
 
 extern "C" JNIEXPORT jstring
 JNICALL
 Java_com_rechargeweb_rechargeweb_Keys_memberId(JNIEnv *env, jobject object) {
-    std::string member_id = "3368";
+    std::string member_id = "";
     return env->NewStringUTF(member_id.c_str());
 }
 
 extern "C" JNIEXPORT jstring
 JNICALL
 Java_com_rechargeweb_rechargeweb_Keys_apiPassword(JNIEnv *env, jobject object) {
-    std::string api_password = "12345";
+    std::string api_password = "";
     return env->NewStringUTF(api_password.c_str());
 }
 
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_rechargeweb_rechargeweb_Keys_merchantId(JNIEnv *env, jobject thiz) {
-    std::string merchantId = "98617";
+    std::string merchantId = "";
     return env->NewStringUTF(merchantId.c_str());}
 
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_rechargeweb_rechargeweb_Keys_payementGatePass(JNIEnv *env, jobject thiz) {
-    std::string pamentPassword = "074da5a7";
+    std::string pamentPassword = "";
     return env->NewStringUTF(pamentPassword.c_str());
 }
