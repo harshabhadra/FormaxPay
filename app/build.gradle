@@ -14,10 +14,13 @@ android {
         applicationId 'com.rechargeweb.rechargeweb'
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 12
-        versionName "3.0.8"
+        versionCode 15
+        versionName "3.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        ndk {
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -25,7 +28,13 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "DEBUG_MODE", "false"
             signingConfig signingConfigs.release
+        }
+        debug {
+            buildConfigField "String", "HOST", '"http://uat5yesmoney.easypay.co.in:5050/"'
+            buildConfigField "Boolean", "DEBUG_MODE", "true"
+            minifyEnabled false
         }
     }
     compileOptions {
@@ -42,6 +51,13 @@ android {
             path "CMakeLists.txt"
         }
     }
+
+    packagingOptions {
+        pickFirst  'org/bouncycastle/x509/CertPathReviewerMessages_de.properties'
+        pickFirst  'org/bouncycastle/x509/CertPathReviewerMessages.properties'
+        exclude 'AndroidManifest.xml'
+
+    }
     buildToolsVersion = '29.0.2'
 }
 dependencies {
@@ -55,7 +71,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //Lifecycle Aware components
-    def lifecycle_version = "2.1.0"
+    def lifecycle_version = "2.2.0"
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
@@ -66,6 +82,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:3.14.1"
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -82,10 +99,6 @@ dependencies {
     //Spin kit view progress bar
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-
     //Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 
@@ -101,8 +114,6 @@ dependencies {
     // Add the Firebase Crashlytics dependency.
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
-    implementation 'androidx.multidex:multidex:2.0.1'
-
     def room_version = "2.2.1"
 
     implementation "androidx.room:room-runtime:$room_version"
@@ -111,30 +122,15 @@ dependencies {
     //ViewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-
-    //Paisanikal
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.50'
-
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-
-    implementation 'org.greenrobot:eventbus:3.1.1'
-
-    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1@aar'
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
-    implementation 'com.budiyev.android:code-scanner:2.1.0'
-
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
-    //ImageCircleIamge
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
-    implementation 'com.datatheorem.android.trustkit:trustkit:1.0.2'
-    implementation project(path: ':epmoneyaeps-paisanikal')
+    //Aom
     implementation project(path: ':mpsdklibrary-release')
 
     //Image Slider
@@ -152,5 +148,36 @@ dependencies {
 
     // Lottie Animation Library
     implementation 'com.airbnb.android:lottie:3.3.1'
+
+    //Paisanikal
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.61"
+
+    //Serialization/Deserialization to convert gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    //ImageCircle
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1@aar'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+
+    implementation 'de.greenrobot:greendao:2.1.0'
+    implementation 'com.karumi:dexter:5.0.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.datatheorem.android.trustkit:trustkit:1.0.2'
+
+    implementation('ch.acra:acra:4.5.0') {
+        exclude group: 'org.json'
+    }
+    implementation project(path: ':epmoneylib-paisanikal')
+    releaseApi files('libs/finosdk_live.aar')
+    debugApi files('libs/finosdk_live.aar')
+
 }
 apply plugin: 'com.google.gms.google-services'

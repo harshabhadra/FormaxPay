@@ -50,6 +50,9 @@ public class Profile implements Parcelable {
     @SerializedName("gstin")
     @Expose
     private String gst_no;
+    @SerializedName("State")
+    @Expose
+    private String state;
 
 
     protected Profile(Parcel in) {
@@ -67,6 +70,7 @@ public class Profile implements Parcelable {
         status=in.readString();
         pan_no=in.readString();
         gst_no=in.readString();
+        state =in.readString();
     }
 
     public static final Creator<Profile> CREATOR = new Creator<Profile>() {
@@ -177,6 +181,14 @@ public class Profile implements Parcelable {
         return gst_no;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
     public int describeContents() {
         return hashCode();
@@ -198,5 +210,6 @@ public class Profile implements Parcelable {
         dest.writeString(status);
         dest.writeString(pan_no);
         dest.writeString(gst_no);
+        dest.writeString(state);
     }
 }

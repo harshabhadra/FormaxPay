@@ -255,6 +255,8 @@ public class ProfileFragment extends Fragment {
                         fragmentProfileBinding.profileTextInputLayoutPan.setError("Enter Valid PAN Number");
                     }else if (!gstNo.isEmpty() && !gstNoCheck(gstNo)){
                         fragmentProfileBinding.profileTextInputLayoutGst.setError("Enter Valid gst no");
+                    }else if (businessName.isEmpty()){
+                        fragmentProfileBinding.profileUserNameTv.setError("You must enter a name");
                     }
                     else {
                         fragmentProfileBinding.profilePanInput.setEnabled(false);

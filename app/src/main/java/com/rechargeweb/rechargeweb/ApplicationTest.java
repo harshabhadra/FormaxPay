@@ -1,8 +1,10 @@
 package com.rechargeweb.rechargeweb;
 
+import com.easypay.epmoney.epmoneylib.application.PaisaNikalApp;
 
-import com.easypay.epmoney.epmoneyaeps.application.PaisaNikalApp;
-
+/**
+ * Created by dhruv on 30-09-2019.
+ */
 public class ApplicationTest extends PaisaNikalApp {
 
     @Override
@@ -11,3 +13,4 @@ public class ApplicationTest extends PaisaNikalApp {
         PaisaNikalApp.init(this);
     }
 }
+

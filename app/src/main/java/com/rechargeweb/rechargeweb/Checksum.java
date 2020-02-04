@@ -1,7 +1,8 @@
 package com.rechargeweb.rechargeweb;
 
 
-import com.easypay.epmoney.epmoneyaeps.utils.Utility;
+
+import com.easypay.epmoney.epmoneylib.utils.Utility;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
@@ -27,7 +28,7 @@ public class Checksum {
         randomNumber = Utility.Companion.generateToken(15);
         System.out.println(currentTime);
         String data = agentCode.concat("|").concat(currentTime.toString()).concat("|").concat(randomNumber);
-        String secretKey = "f85acd0c3c";//aefc05467d
+        String secretKey = "f85acd0c3c";
         byte[] decodedKey = Hex.decodeHex(secretKey.toCharArray());
         SecretKeySpec keySpec = new SecretKeySpec(decodedKey, "HmacSHA512");
         Mac mac = Mac.getInstance("HmacSHA512");

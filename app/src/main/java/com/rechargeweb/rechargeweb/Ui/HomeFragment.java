@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rechargeweb.rechargeweb.Activity.AepsActivity;
+import com.rechargeweb.rechargeweb.Aeps.AepsActivity;
 import com.rechargeweb.rechargeweb.Activity.DmtActivity;
 import com.rechargeweb.rechargeweb.Activity.HomeActivity;
 import com.rechargeweb.rechargeweb.Adapters.AepsSliderAdapter;

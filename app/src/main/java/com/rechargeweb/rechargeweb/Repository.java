@@ -209,8 +209,28 @@ public class Repository {
     //Store response from transaction report send
     private MutableLiveData<String>transactionReportMutableLiveData = new MutableLiveData<>();
 
+    //Store Settlement response
+    private MutableLiveData<Settlement>settlementMutableLiveData = new MutableLiveData<>();
+
+    //Store Response after calling forgot password
+    private MutableLiveData<ForgetPassword>forgetPasswordMutableLiveData = new MutableLiveData<>();
+
     public static Repository getInstance() {
         return new Repository();
+    }
+
+    //Forget Password Method
+    public LiveData<ForgetPassword>getOtpForPassword(String authKey, String mobile){
+
+        forgetPasswordData(authKey,mobile);
+        return forgetPasswordMutableLiveData;
+    }
+
+    //Get Settlement response
+    public LiveData<Settlement>moveMoneytoBank(String session_id, String authKey, String tranMode, String amount){
+
+        moveToBank(session_id,authKey,tranMode,amount);
+        return settlementMutableLiveData;
     }
 
     public LiveData<String>sendTranReport(String session_id, String authKey, String mmp_txn, String mer_txn, String amount, String prob, String date, String bank_txn,
@@ -2735,6 +2755,51 @@ public class Repository {
 
                 Log.e(TAG,"Error sending details: " + t.getMessage());
                 transactionReportMutableLiveData.setValue(t.getMessage());
+            }
+        });
+    }
+
+    //Network call to move mone to bank
+    private void moveToBank(String session_id, String authKey, String tranMode, String amount) {
+
+        apiService.moveToBank(session_id,authKey,tranMode,amount).enqueue(new Callback<Settlement>() {
+            @Override
+            public void onResponse(Call<Settlement> call, Response<Settlement> response) {
+
+                Log.e(TAG,"Move to bank response: " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Move to bank response is succesfull");
+                    settlementMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Settlement> call, Throwable t) {
+
+                Log.e(TAG,"Move to Bank response is failure: " + t.getMessage());
+                settlementMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network call to get otp after forget password
+    private void forgetPasswordData(String authKey, String mobile) {
+
+        apiService.forgetPassword(authKey,mobile).enqueue(new Callback<ForgetPassword>() {
+            @Override
+            public void onResponse(Call<ForgetPassword> call, Response<ForgetPassword> response) {
+
+                Log.e(TAG,"Forget Password response is: " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Forget Password response is full: " + response.body().getMessage());
+                    forgetPasswordMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ForgetPassword> call, Throwable t) {
+
+                Log.e(TAG,"Forget Password response failure: " + t.getMessage());
             }
         });
     }

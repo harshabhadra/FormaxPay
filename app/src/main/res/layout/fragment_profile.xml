@@ -55,11 +55,15 @@
                     <EditText
                         android:id="@+id/profile_user_name_tv"
                         style="@style/TextAppearance.AppCompat.Large"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:inputType="text"
                         android:enabled="false"
+                        android:hint="Enter Name"
                         android:textColor="#000000"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/croissant_one"
@@ -221,8 +225,8 @@
                             android:layout_height="wrap_content"
                             android:enabled="false"
                             android:hint="State"
+                            android:text="@{profile.state}"
                             android:inputType="text"
-                            android:text="@{profile.location}"
                             android:textColor="#000000" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -266,6 +270,7 @@
                             android:enabled="false"
                             android:inputType="text"
                             android:maxLines="1"
+                            android:text="@{profile.location}"
                             android:textColor="#000"
                             android:hint="location" />
                     </com.google.android.material.textfield.TextInputLayout>

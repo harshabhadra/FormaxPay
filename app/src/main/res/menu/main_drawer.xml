@@ -22,6 +22,8 @@
             android:id="@+id/nav_fund_request"
             android:icon="@mipmap/fund_requesttwo"
             android:title="Fund Request" />
+        <item android:id="@+id/nav_move_money_to_bank"
+            android:title="Move Money to Bank"/>
         <item
             android:id="@+id/nav_passbook"
             android:icon="@mipmap/passbook_icontwo"

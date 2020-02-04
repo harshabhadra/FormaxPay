@@ -55,7 +55,7 @@ public class CouponReportFragment extends Fragment implements DatePickerDialog.O
     private String fromString, toString;
     private int dd, mm, yyyy;
     private boolean isFromDate, isTodate;
-     AlertDialog couponAlertDialog;
+    AlertDialog couponAlertDialog;
 
     public CouponReportFragment() {
         // Required empty public constructor

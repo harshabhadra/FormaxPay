@@ -1,6 +1,7 @@
 package com.rechargeweb.rechargeweb.Network;
 
 import com.rechargeweb.rechargeweb.AepsReport;
+import com.rechargeweb.rechargeweb.ForgetPassword;
 import com.rechargeweb.rechargeweb.Model.Coupon;
 import com.rechargeweb.rechargeweb.Model.Credential;
 import com.rechargeweb.rechargeweb.Model.Details;
@@ -10,6 +11,7 @@ import com.rechargeweb.rechargeweb.Model.Password;
 import com.rechargeweb.rechargeweb.Model.Post;
 import com.rechargeweb.rechargeweb.Model.SignUp;
 import com.rechargeweb.rechargeweb.Profile;
+import com.rechargeweb.rechargeweb.Settlement;
 import com.rechargeweb.rechargeweb.UpdateProfie;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<Password> resetPassword(@Field("user_id") String user_id);
 
-    @POST("profile?")
+    @POST("profile")
     @FormUrlEncoded
     Observable<Profile> getProfileDetails(@Field("session_id") String session_id,
                                           @Field("auth_key") String auth_key);
@@ -127,4 +129,16 @@ public interface ApiService {
                                      @Field("pan_no") String panNo,
                                      @Field("gstin") String gstNo,
                                      @Field("aadhar_no") String aadharNo);
+
+    @POST("move_to_bank")
+    @FormUrlEncoded
+    Call<Settlement>moveToBank(@Field("user_id")String session_id,
+                               @Field("auth_key")String auth_key,
+                               @Field("transfer_mode")String transferMode,
+                               @Field("amount")String amount);
+
+    @POST("forgot_password_otp")
+    @FormUrlEncoded
+    Call<ForgetPassword>forgetPassword(@Field("auth_key") String authKey,
+                                       @Field("mobile") String mobileNo);
 }

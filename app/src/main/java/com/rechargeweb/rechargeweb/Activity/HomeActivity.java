@@ -46,12 +46,14 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.infideap.drawerbehavior.Advance3DDrawerLayout;
+import com.rechargeweb.rechargeweb.Aeps.AepsActivity;
 import com.rechargeweb.rechargeweb.BottomSheetFrag.BankNameBottomFragment;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.Bank;
 import com.rechargeweb.rechargeweb.Model.Details;
 import com.rechargeweb.rechargeweb.Model.Items;
+import com.rechargeweb.rechargeweb.Ui.MoveMoneyToBankFragment;
 import com.rechargeweb.rechargeweb.Network.ApiService;
 import com.rechargeweb.rechargeweb.Network.ApiUtills;
 import com.rechargeweb.rechargeweb.R;
@@ -729,6 +731,9 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.OnHo
             case R.id.nav_bank_detials:
                 BankNameBottomFragment bankNameBottomFragment = new BankNameBottomFragment();
                 bankNameBottomFragment.show(getSupportFragmentManager(),bankNameBottomFragment.getTag());
+                break;
+            case R.id.nav_move_money_to_bank:
+                fragment = new MoveMoneyToBankFragment();
                 break;
         }
 

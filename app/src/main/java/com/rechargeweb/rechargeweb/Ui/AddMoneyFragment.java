@@ -202,38 +202,43 @@ public class AddMoneyFragment extends Fragment{
                 String message = data.getStringExtra("status");
                 String[] resKey = data.getStringArrayExtra("responseKeyArray");
                 String[] resValue = data.getStringArrayExtra("responseValueArray");
-                if(resKey!=null &&resValue!=null)
+                if(resKey!=null &&resValue != null)
                 {
 
-                    resdate = resValue[0];
-                    surcharge = resValue[1];
-                    cardNumber = resValue[2];
-                    prob = resValue[3];
-                    resclientCode = resValue[4];
-                    mmp_txn = resValue[5];
-                    signature = resValue[6];
-                    udf5 = resValue[7];
-                    resamount = resValue[8];
-                    udf9 = resValue[19];
-                    udf3 = resValue[10];
-                    merchant_id = resValue[11];
-                    udf4 = resValue[12];
-                    udf1 = resValue[13];
-                    udf2 = resValue[14];
-                    authCode = resValue[15];
-                    discriminator = resValue[16];
-                    mer_txn = resValue[17];
-                    bank_txn = resValue[18];
-                    ipg_txn_id = resValue[20];
-                    bank_name = resValue[21];
-                    desc = resValue[22];
-                    f_code = resValue[23];
+                    if (resValue.length == 24) {
+                        resdate = resValue[0];
+                        surcharge = resValue[1];
+                        cardNumber = resValue[2];
+                        prob = resValue[3];
+                        resclientCode = resValue[4];
+                        mmp_txn = resValue[5];
+                        signature = resValue[6];
+                        udf5 = resValue[7];
+                        resamount = resValue[8];
+                        udf9 = resValue[19];
+                        udf3 = resValue[10];
+                        merchant_id = resValue[11];
+                        udf4 = resValue[12];
+                        udf1 = resValue[13];
+                        udf2 = resValue[14];
+                        authCode = resValue[15];
+                        discriminator = resValue[16];
+                        mer_txn = resValue[17];
+                        bank_txn = resValue[18];
+                        ipg_txn_id = resValue[20];
+                        bank_name = resValue[21];
+                        desc = resValue[22];
+                        f_code = resValue[23];
 
-                    if (f_code.equals("success_00")){
+                        if (f_code.equals("success_00")) {
 
-                        f_code = "Ok";
-                        sendTransactionDetails(session_id, authKey,mmp_txn,mer_txn,resamount,prob,resdate,bank_txn,f_code,resclientCode
-                                ,bank_name,authCode, ipg_txn_id, merchant_id,desc,discriminator,udf9,surcharge,cardNumber,udf1,udf2,udf3,udf4,udf5,signature);
+                            f_code = "Ok";
+                            sendTransactionDetails(session_id, authKey, mmp_txn, mer_txn, resamount, prob, resdate, bank_txn, f_code, resclientCode
+                                    , bank_name, authCode, ipg_txn_id, merchant_id, desc, discriminator, udf9, surcharge, cardNumber, udf1, udf2, udf3, udf4, udf5, signature);
+                        }
+                    }
+                    else {
+                        Log.e(TAG,"Response length is : " + resValue.length);
                     }
                     for(int i=0; i<resKey.length; i++)
                         Log.e(TAG,"  "+i+" resKey : "+resKey[i]+" resValue : "+resValue[i]);

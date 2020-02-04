@@ -69,7 +69,7 @@ public class PaymentModeBottomSheet extends BottomSheetDialogFragment implements
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        clickListener = (OnPaymentClickListener) getActivity();
+        clickListener = (OnPaymentClickListener) context;
     }
 
     @Override

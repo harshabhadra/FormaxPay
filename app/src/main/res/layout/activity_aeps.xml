@@ -5,6 +5,6 @@
     android:id="@+id/aeps_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AepsActivity">
+    tools:context=".Aeps.AepsActivity">
 
 </FrameLayout>
