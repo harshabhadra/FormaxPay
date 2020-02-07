@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.atom.mpsdklibrary.PayActivity;
@@ -87,10 +88,10 @@ public class OtpFragment extends BottomSheetDialogFragment {
         otpLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.enter_otp_layout, container, false);
 
         //Initializing SignUpViewModel
-        signUpViewModel = ViewModelProviders.of(this).get(SignUpViewModel.class);
+        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
         //Initializing MainViewModel
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         //Initializing ApiServices
         apiService = ApiUtills.getApiService();
@@ -233,7 +234,7 @@ public class OtpFragment extends BottomSheetDialogFragment {
     //Get Otp
     private void getOtp(String auth, String mobile, String emailId) {
 
-        signUpViewModel.getOtp(auth, mobile, emailId).observe(this, new Observer<Otp>() {
+        signUpViewModel.getOtp(auth, mobile, emailId).observe(getViewLifecycleOwner(), new Observer<Otp>() {
             @Override
             public void onChanged(Otp otp) {
 

@@ -6,15 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,6 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.easypay.epmoney.epmoneylib.baseframework.model.PaisaNikalConfiguration;
 import com.easypay.epmoney.epmoneylib.baseframework.model.PaisaNikalRequest;
@@ -82,9 +80,9 @@ public class YblAepsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         //Initializing DataBinding
-        finoAepsBinding = DataBindingUtil.inflate(inflater, R.layout.activity_fino_aeps,container,false);
+        finoAepsBinding = DataBindingUtil.inflate(inflater, R.layout.activity_fino_aeps, container, false);
 
-        AepsActivity aepsActivity = (AepsActivity)getActivity();
+        AepsActivity aepsActivity = (AepsActivity) getActivity();
         session_id = aepsActivity.getSession_id();
         user_id = aepsActivity.getUser_id();
 
@@ -101,7 +99,7 @@ public class YblAepsFragment extends Fragment {
         isBalanceCheck = true;
 
         //Setting Up Tool Bar
-        ((AppCompatActivity)getActivity()).setSupportActionBar(finoAepsBinding.aepsToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(finoAepsBinding.aepsToolbar);
 
         //Choose what user want to do
         finoAepsBinding.balanceInfoTv.setOnClickListener(new View.OnClickListener() {
@@ -189,84 +187,82 @@ public class YblAepsFragment extends Fragment {
         });
 
         //On Submit button clicked
-        finoAepsBinding.finoSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        finoAepsBinding.finoSubmitButton.setOnClickListener(v -> {
 
-                if (!isBalanceCheck) {
-                    mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
-                    amount = finoAepsBinding.finoAmountTextInput.getText().toString().trim();
+            if (!isBalanceCheck) {
+                mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
+                amount = finoAepsBinding.finoAmountTextInput.getText().toString().trim();
 
-                    if (!amount.isEmpty() && isValidAmount(amount) && isValidMobile(mobileNumber)) {
-                        finoAepsBinding.finoAmountTextInput.getText().clear();
-                        finoAepsBinding.finoMobileNumberTextInput.getText().clear();
+                if (!amount.isEmpty() && isValidAmount(amount) && isValidMobile(mobileNumber)) {
+                    finoAepsBinding.finoAmountTextInput.getText().clear();
+                    finoAepsBinding.finoMobileNumberTextInput.getText().clear();
 
-                        withdrawalBuilder = new StringBuilder();
-                        withdrawalBuilder.append(PaisaNikalConfig.ApiTransactionId.YBL_AEPS__CASH_WITHDRAW);
-                        withdrawalBuilder.append(System.currentTimeMillis());
-                        orderId = withdrawalBuilder.toString();
+                    withdrawalBuilder = new StringBuilder();
+                    withdrawalBuilder.append(PaisaNikalConfig.ApiTransactionId.YBL_AEPS__CASH_WITHDRAW);
+                    withdrawalBuilder.append(System.currentTimeMillis());
+                    orderId = withdrawalBuilder.toString();
 
-                        View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setCancelable(false);
-                        builder.setView(view);
+                    View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(false);
+                    builder.setView(view);
 
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                        allReportViewModel.sendAepsDetails(session_id, auth, "AW", amount, orderId, mobileNumber).observe(getViewLifecycleOwner(), new Observer<String>() {
-                            @Override
-                            public void onChanged(String s) {
-                                dialog.dismiss();
-                                if (s.equals("Success")) {
-                                    cashWithDrawal(mobileNumber, amount);
-                                } else {
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    allReportViewModel.sendAepsDetails(session_id, auth, "AW", amount, orderId, mobileNumber).observe(getViewLifecycleOwner(),
+                            new Observer<String>() {
+                                @Override
+                                public void onChanged(String s) {
+                                    dialog.dismiss();
+                                    if (s.equals("Success")) {
+                                        cashWithDrawal(mobileNumber, amount);
+                                    } else {
 
-                                    Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
-                                    getActivity().finish();
+                                        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                                        getActivity().finish();
+                                    }
                                 }
+                            });
+                } else if (!isValidAmount(amount) || amount.isEmpty()) {
+                    finoAepsBinding.finoAmountLayout.setError("Enter Valid Amount");
+                } else if (!(isValidMobile(mobileNumber)) || mobileNumber.isEmpty()) {
+                    finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
+                }
+            } else {
+                mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
+
+                if (isValidMobile(mobileNumber) && (!mobileNumber.isEmpty())) {
+
+                    finoAepsBinding.finoMobileNumberTextInput.getText().clear();
+
+                    balanceBuilder = new StringBuilder();
+                    balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.YBL_AEPS__BALANCE_INQUIRY);
+                    balanceBuilder.append(System.currentTimeMillis());
+                    orderId = balanceBuilder.toString();
+
+                    Log.e(TAG, "Order Id: " + balanceBuilder.toString());
+
+                    View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setCancelable(false);
+                    builder.setView(view);
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    allReportViewModel.sendAepsDetails(session_id, auth, "AB", "0.00", orderId, mobileNumber).observe(getViewLifecycleOwner(), new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            dialog.dismiss();
+                            if (s.equals("Success")) {
+                                checkBalance(mobileNumber);
+                            } else {
+                                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+                                getActivity().finish();
                             }
-                        });
-                    } else if (!isValidAmount(amount)|| amount.isEmpty()){
-                        finoAepsBinding.finoAmountLayout.setError("Enter Valid Amount");
-                    }else if (!(isValidMobile(mobileNumber)) || mobileNumber.isEmpty()){
-                        finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
-                    }
+                        }
+                    });
                 } else {
-                    mobileNumber = finoAepsBinding.finoMobileNumberTextInput.getText().toString().trim();
-
-                    if (isValidMobile(mobileNumber) && (!mobileNumber.isEmpty())) {
-
-                        finoAepsBinding.finoMobileNumberTextInput.getText().clear();
-
-                        balanceBuilder = new StringBuilder();
-                        balanceBuilder.append(PaisaNikalConfig.ApiTransactionId.YBL_AEPS__BALANCE_INQUIRY);
-                        balanceBuilder.append(System.currentTimeMillis());
-                        orderId = balanceBuilder.toString();
-
-                        Log.e(TAG, "Order Id: " + balanceBuilder.toString());
-
-                        View view = getLayoutInflater().inflate(R.layout.loading_dialog, null);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setCancelable(false);
-                        builder.setView(view);
-
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                        allReportViewModel.sendAepsDetails(session_id, auth, "AB", "0.00", orderId, mobileNumber).observe(getViewLifecycleOwner(), new Observer<String>() {
-                            @Override
-                            public void onChanged(String s) {
-                                dialog.dismiss();
-                                if (s.equals("Success")) {
-                                    checkBalance(mobileNumber);
-                                } else {
-                                    Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
-                                    getActivity().finish();
-                                }
-                            }
-                        });
-                    }else {
-                        finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
-                    }
+                    finoAepsBinding.finoMobileNumberLayout.setError("Enter Valid Mobile Number");
                 }
             }
         });
@@ -363,7 +359,7 @@ public class YblAepsFragment extends Fragment {
         } else if (requestCode == CODE_MICRO_TRANSACTION && resultCode == Activity.RESULT_CANCELED) {
             //handler for user canceled
             Toast.makeText(getContext(), "Request has been canceled by user", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             getActivity().finish();
         }
     }

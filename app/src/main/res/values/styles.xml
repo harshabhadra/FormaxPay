@@ -55,7 +55,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <!-- reference our hint & error styles -->
         <item name="hintTextAppearance">@style/HintText</item>
         <item name="errorTextAppearance">@style/ErrorText</item>
@@ -64,6 +64,7 @@
         <item name="colorControlNormal">#00838f</item>
         <item name="colorControlActivated">#00838f</item>
         <item name="colorControlHighlight">@color/green</item>
+        <item name="boxBackgroundColor">@android:color/white</item>
     </style>
 
     <style name="CategoryTab" parent="Widget.Design.TabLayout">
@@ -90,5 +91,9 @@
     <style name="AppModalStyle"
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="ForgetPasswordButton" parent="Widget.MaterialComponents.Button">
+
     </style>
 </resources>

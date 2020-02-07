@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.Password;
@@ -35,7 +36,7 @@ public class ChangePassActivity extends AppCompatActivity {
 
     private static final String TAG = ChangePassActivity.class.getSimpleName();
 
-    EditText cureentPass, newPass, confirmNewPass;
+    TextInputEditText cureentPass, newPass, confirmNewPass;
     Button changePasswordButton;
 
     String pass, newP, conNewP;

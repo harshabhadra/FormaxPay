@@ -217,6 +217,8 @@ public class RechargeActivity extends AppCompatActivity implements BottomSheetFr
                     } else {
                         mobileNumber = s.toString().trim();
                     }
+                }else {
+                    mobileNumber = s.toString().trim();
                 }
             }
         });

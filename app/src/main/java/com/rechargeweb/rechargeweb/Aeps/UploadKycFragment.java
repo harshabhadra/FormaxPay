@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.Editable;
@@ -119,7 +120,7 @@ public class UploadKycFragment extends Fragment implements DatePickerDialog.OnDa
         service_type = Constants.AEPS_TYPE;
 
         //Initializing ViewModel
-        uploadKycViewModel = ViewModelProviders.of(this).get(UploadKycViewModel.class);
+        uploadKycViewModel = new ViewModelProvider(this).get(UploadKycViewModel.class);
 
         //Setting up toolbar as Support Action Bar
         ((AppCompatActivity)getActivity()).setSupportActionBar(uploadKycBinding.kycToolbar);
@@ -440,7 +441,8 @@ public class UploadKycFragment extends Fragment implements DatePickerDialog.OnDa
                     adharNo = uploadKycBinding.kycAadhaarInputText.getText().toString();
                     panNo = uploadKycBinding.kycPanNumberInputText.getText().toString();
 
-                    uploadKycViewModel.submitKyc(session_id,auth_key,name,shopName,dob,email,address,pincode,state,mobile,city,adharNo,panNo, aadharImageBody, panImageBody,service_type)
+                    uploadKycViewModel.submitKyc(session_id,auth_key,name,shopName,dob,email,address,pincode
+                            ,state,mobile,city,adharNo,panNo, aadharImageBody, panImageBody,service_type)
                             .observe(getViewLifecycleOwner(), new Observer<String>() {
                                 @Override
                                 public void onChanged(String s) {

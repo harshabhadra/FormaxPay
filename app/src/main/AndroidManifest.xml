@@ -21,11 +21,12 @@
         android:label="@string/my_app_name"
         android:roundIcon="@mipmap/formax_round_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:name=".ApplicationTest"
-        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:label,android:theme,android:allowBackup,android:name,android:icon,android:roundIcon">
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security"
+        tools:replace="android:label,android:theme,android:allowBackup,android:name,android:icon,android:roundIcon,android:networkSecurityConfig">
         <activity android:name=".Aeps.AepsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>

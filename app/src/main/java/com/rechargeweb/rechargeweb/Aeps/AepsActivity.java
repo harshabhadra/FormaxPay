@@ -10,15 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.rechargeweb.rechargeweb.Constant.Constants;
 import com.rechargeweb.rechargeweb.Keys;
 import com.rechargeweb.rechargeweb.Model.AepsLogIn;
 import com.rechargeweb.rechargeweb.R;
-import com.rechargeweb.rechargeweb.Aeps.UploadKycFragment;
 import com.rechargeweb.rechargeweb.ViewModels.AepsViewModel;
-import com.rechargeweb.rechargeweb.Aeps.YblAepsFragment;
 
 public class AepsActivity extends AppCompatActivity {
 

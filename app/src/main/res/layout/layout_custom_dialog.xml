@@ -34,10 +34,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/colorAccent"
                 android:enabled="false"
+                app:backgroundTint="@color/colorAccent"
                 android:text="Submit"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
 
         <LinearLayout
@@ -76,10 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/colorAccent"
                 android:enabled="false"
+                app:backgroundTint="@color/colorAccent"
+                android:textColor="#FFFFFF"
                 android:text="Submit"
-                android:textColor="#FFFFFF" />
+           />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -122,7 +123,7 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fp_pass_word_submit_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

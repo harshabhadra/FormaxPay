@@ -29,9 +29,6 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-
-        Keys keys = new Keys();
-        String auth = keys.apiKey();
         //Getting Intent
         Intent intent = getIntent();
         if (intent.hasExtra("logout")){

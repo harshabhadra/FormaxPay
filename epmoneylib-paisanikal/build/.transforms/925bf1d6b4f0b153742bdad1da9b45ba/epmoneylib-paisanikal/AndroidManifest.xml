@@ -15,9 +15,7 @@
 
     <application
         android:name="com.easypay.epmoney.epmoneylib.application.PaisaNikalApp"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/PaisaNikalAppTheme"
-        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name" >
         <activity

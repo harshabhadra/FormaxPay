@@ -11,4 +11,5 @@
     <color name="green">#009624</color>
     <color name="signUpAccent">#8eacbb</color>
     <color name="signUpPrimary">#607d8b</color>
+    <color name="edit_box_background_color">#eeeeee</color>
 </resources>

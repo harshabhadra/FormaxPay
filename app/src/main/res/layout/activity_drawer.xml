@@ -14,7 +14,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/main_drawer" />
+        app:menu="@menu/main_drawer"
+        app:itemIconTint="@color/colorPrimaryDark"/>
 
     <include layout="@layout/app_bar_main" />
 </com.infideap.drawerbehavior.Advance3DDrawerLayout>

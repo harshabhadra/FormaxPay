@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/current_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="@+id/current_pass_layout"
         app:layout_constraintTop_toBottomOf="@+id/current_pass_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/new_password"
             android:inputType="textPassword"
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="@+id/new_pass_layout"
         app:layout_constraintTop_toBottomOf="@+id/new_pass_layout">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/confirm_new_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
